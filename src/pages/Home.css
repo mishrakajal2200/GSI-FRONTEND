@@ -1,0 +1,30 @@
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px;
+    gap: 15px;
+    scroll-behavior: smooth;
+  }
+  
+  .scroll-img {
+    width: 200px;       /* Fixed width */
+    height: 200px;      /* Fixed height */
+    object-fit: cover;  /* Ensures image fills the space */
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  
+  /* Optional: Custom scrollbar (Webkit browsers like Chrome) */
+  .scroll-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .scroll-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
