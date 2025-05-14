@@ -156,7 +156,7 @@ const ContactUs = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("gsi-backend-production-244c.up.railway.app/api/contact", {
+      const response = await fetch("https://gsi-backend-1.onrender.com/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

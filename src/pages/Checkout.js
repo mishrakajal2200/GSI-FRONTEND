@@ -91,7 +91,7 @@ const handleCODPayment = async () => {
   console.log("Payload being sent:", payload);
 
   try {
-    const res = await fetch("gsi-backend-production-244c.up.railway.app/api/payment/place-order", {
+    const res = await fetch("https://gsi-backend-1.onrender.com/api/payment/place-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -126,7 +126,7 @@ const handleCODPayment = async () => {
 
   const handlePayment = async () => {
     try {
-      const res = await fetch("gsi-backend-production-244c.up.railway.app/api/payment/create-order", {
+      const res = await fetch("https://gsi-backend-1.onrender.com/api/payment/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

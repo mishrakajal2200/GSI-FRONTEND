@@ -10,7 +10,7 @@ const SearchResults = () => {
     if (!query.trim()) return;
 
     try {
-      const res = await axios.get(`gsi-backend-production-244c.up.railway.app/api/products/search?query=${query}`);
+      const res = await axios.get(`https://gsi-backend-1.onrender.com/api/products/search?query=${query}`);
       setResults(res.data);
       console.log(res.data); // You can display results in a dropdown or on a new page
     } catch (err) {

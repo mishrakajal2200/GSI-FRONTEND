@@ -47,8 +47,8 @@ const Shop = () => {
     const fetchFilters = async () => {
       try {
         const [brandRes, categoryRes] = await Promise.all([
-          axios.get("gsi-backend-production-244c.up.railway.app/api/filters/brands"),
-          axios.get("gsi-backend-production-244c.up.railway.app/api/filters/categories"),
+          axios.get("https://gsi-backend-1.onrender.com/api/filters/brands"),
+          axios.get("https://gsi-backend-1.onrender.com/api/filters/categories"),
         ]);
         console.log("Brand response:", brandRes.data);
         console.log("Category response:", categoryRes.data);
@@ -84,7 +84,7 @@ const Shop = () => {
         try {
           const brandQuery = selectedBrands.join(",");
           const categoryQuery = selectedCategories.join(",");
-          const res = await axios.get("gsi-backend-production-244c.up.railway.app/api/getproducts/products", {
+          const res = await axios.get("https://gsi-backend-1.onrender.com/api/getproducts/products", {
             params: {
               brands: brandQuery,
               categories: categoryQuery,

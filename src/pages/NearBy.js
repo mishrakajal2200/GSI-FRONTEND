@@ -6,7 +6,7 @@ const NearBy = () => {
   useEffect(() => {
     const fetchShops = async () => {
       try {
-        const res = await fetch("gsi-backend-production-244c.up.railway.app/api/nearby/shops");
+        const res = await fetch("https://gsi-backend-1.onrender.com/api/nearby/shops");
         const data = await res.json();
         setShops(data);
       } catch (err) {

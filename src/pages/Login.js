@@ -143,7 +143,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('gsi-backend-production-244c.up.railway.app/api/auth/login', { email, password });
+      const response = await axios.post('https://gsi-backend-1.onrender.com/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
       toast.success('Login successful!');
       setTimeout(() => navigate('/'), 2000);

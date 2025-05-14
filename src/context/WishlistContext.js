@@ -179,7 +179,7 @@ export const WishlistProvider = ({ children }) => {
 
   const getWishlist = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/wishlist/getwishlist', {
+      const res = await axios.get('https://gsi-backend-1.onrender.com/api/wishlist/getwishlist', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWishlist(res.data.wishlist);
@@ -191,7 +191,7 @@ export const WishlistProvider = ({ children }) => {
   const addToWishlist = async (productId) => {
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/wishlist/add',
+        'https://gsi-backend-1.onrender.com/api/wishlist/add',
         { productId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -204,7 +204,7 @@ export const WishlistProvider = ({ children }) => {
   const removeFromWishlist = async (productId) => {
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/wishlist/remove/${productId}`,
+        `https://gsi-backend-1.onrender.com/api/wishlist/remove/${productId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setWishlist(res.data.wishlist);
@@ -216,7 +216,7 @@ export const WishlistProvider = ({ children }) => {
   const moveToCart = async (productId) => {
     try {
       const res = await axios.post(
-        `gsi-backend-production-244c.up.railway.app/api/wishlist/movetocart/${productId}`, // ✅ Using URL param
+        `https://gsi-backend-1.onrender.com/api/wishlist/movetocart/${productId}`, // ✅ Using URL param
         {}, // ✅ No productId needed in body now
         {
           headers: { Authorization: `Bearer ${token}` },

@@ -78,7 +78,7 @@ const handleMoveToCart = (item) => {
 
 const handleApplyCoupon = async () => {
   try {
-    const res = await axios.post('gsi-backend-production-244c.up.railway.app/api/cart/apply-coupon', { code: couponCode });
+    const res = await axios.post('https://gsi-backend-1.onrender.com/api/cart/apply-coupon', { code: couponCode });
     setDiscountedCart(res.data); // e.g., updated cart with discount
     alert("Coupon applied!");
   } catch (err) {

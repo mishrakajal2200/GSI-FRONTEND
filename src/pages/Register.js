@@ -173,7 +173,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('gsi-backend-production-244c.up.railway.app/api/auth/signup', { name, email, password });
+      const response = await axios.post('https://gsi-backend-1.onrender.com/api/auth/signup', { name, email, password });
       toast.success(response.data.message || 'Signup successful!');
       setTimeout(() => navigate('/login'), 2000);
     } catch (error) {

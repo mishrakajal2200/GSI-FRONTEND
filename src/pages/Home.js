@@ -20,7 +20,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('gsi-backend-production-244c.up.railway.app/api/products');
+        const res = await axios.get('https://gsi-backend-1.onrender.com/api/products');
         setProducts(res.data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
