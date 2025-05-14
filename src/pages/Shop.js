@@ -30,7 +30,7 @@ const Shop = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-
+   const apiUrl = process.env.REACT_APP_API_URL;
   const {cart, addToCart } = useCart();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
@@ -47,7 +47,7 @@ const Shop = () => {
     const fetchFilters = async () => {
       try {
         const [brandRes, categoryRes] = await Promise.all([
-          axios.get("gsi-backend-production-244c.up.railway.app/api/filters/brands"),
+          axios.get(`${apiUrl}/api/filters/brands`),
           axios.get("gsi-backend-production-244c.up.railway.app/api/filters/categories"),
         ]);
         console.log("Brand response:", brandRes.data);
