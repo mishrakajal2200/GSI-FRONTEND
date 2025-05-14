@@ -84,7 +84,7 @@ const Shop = () => {
         try {
           const brandQuery = selectedBrands.join(",");
           const categoryQuery = selectedCategories.join(",");
-          const res = await axios.get("http://localhost:5000/api/getproducts/products", {
+          const res = await axios.get("gsi-backend-production-244c.up.railway.app/api/getproducts/products", {
             params: {
               brands: brandQuery,
               categories: categoryQuery,
