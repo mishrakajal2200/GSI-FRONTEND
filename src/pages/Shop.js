@@ -30,7 +30,7 @@ const Shop = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-   const apiUrl = process.env.REACT_APP_API_URL;
+   
   const {cart, addToCart } = useCart();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
@@ -117,7 +117,6 @@ const Shop = () => {
   }
 
   addToCart(product);
-  navigate("/cart");
 };
 
 
@@ -127,7 +126,6 @@ const Shop = () => {
       navigate("/login");
     } else {
       toggleWishlist(productId);
-      navigate("/wishlist");
     }
   }
 
@@ -333,9 +331,7 @@ const Shop = () => {
           <div className="flex items-center gap-2 mb-3">
             <span className="text-purple-600 text-lg font-bold">₹{product.price}</span>
             <span className="text-gray-400 text-sm line-through">₹{product.mrp}</span>
-            <span className="text-green-600 text-sm font-semibold">
-              {Math.round(((product.mrp - product.price) / product.mrp) * 100)}% off
-            </span>
+           
           </div>
         </div>
 
