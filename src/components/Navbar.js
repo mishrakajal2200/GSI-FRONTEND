@@ -137,80 +137,83 @@ const Navbar = () => {
           </Link>
 
           {user ? (
-            <>
-              <Link
-                to="/wishlist"
-                className="relative text-white hover:text-gray-300"
-              >
-                <FaHeart className="text-xl" />
-                {wishlist?.length > 0 &&(
-                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {wishlist.length}
-                  </span>
-                )}
-              </Link>
+          <>
+            {/* Wishlist */}
+            <Link to="/wishlist" className="relative text-white hover:text-gray-200">
+              <FaHeart className="text-xl" />
+              {Array.isArray(wishlist) && wishlist.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
 
-              <Link
-                to="/cart"
-                className="relative text-white hover:text-gray-300"
-              >
-                <FaShoppingCart className="text-xl" />
-                {cart.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cart.length}
-                  </span>
-                )}
-              </Link>
+            {/* Cart */}
+            <Link to="/cart" className="relative text-white hover:text-gray-200">
+              <FaShoppingCart className="text-xl" />
+              {Array.isArray(cart) && cart.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cart.length}
+                </span>
+              )}
+            </Link>
 
-              {/* Profile Dropdown */}
-              <div className="relative group">
-                <button className="flex items-center text-white hover:text-gray-300 focus:outline-none">
-                  <FaUser className="text-xl" />
-                  <IoIosArrowDown className="ml-1" />
+            {/* Profile Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center text-white hover:text-gray-200 focus:outline-none">
+                <FaUser className="text-xl" />
+                <IoIosArrowDown className="ml-1" />
+              </button>
+              <div className="absolute right-0 mt-2 w-44 bg-white text-black border rounded shadow-lg z-50 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
+                <Link
+                  to="/profile"
+                  className="block px-4 py-2 hover:bg-indigo-100"
+                >
+                  My Profile
+                </Link>
+                <Link
+                  to="/orders"
+                  className="block px-4 py-2 hover:bg-indigo-100"
+                >
+                  My Orders
+                </Link>
+                <Link
+                  to="/address"
+                  className="block px-4 py-2 hover:bg-indigo-100"
+                >
+                  Saved Address
+                </Link>
+                <Link
+                  to="/contact"
+                  className="block px-4 py-2 hover:bg-indigo-100"
+                >
+                  Contact Us
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 hover:bg-indigo-100 text-red-600"
+                >
+                  Logout
                 </button>
-
-                <div className="absolute right-0 mt-2 w-44 bg-white text-black border rounded shadow-lg z-50 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
-                  <Link
-                    to="/profile"
-                    className="block px-4 py-2 border-b-2 border-transparent hover:border-blue-500 hover:bg-indigo-100 transition-all duration-150"
-                  >
-                    My Profile
-                  </Link>
-                  <Link
-                    to="/orders"
-                    className="block px-4 py-2 border-b-2 border-transparent hover:border-blue-500 hover:bg-indigo-100 transition-all duration-150"
-                  >
-                    My Orders
-                  </Link>
-                  <Link
-                    to="/address"
-                    className="block px-4 py-2 border-b-2 border-transparent hover:border-blue-500 hover:bg-indigo-100 transition-all duration-150"
-                  >
-                    Saved Address
-                  </Link>
-                  <Link
-                    to="/contact"
-                    className="block px-4 py-2 border-b-2 border-transparent hover:border-blue-500 hover:bg-indigo-100 transition-all duration-150"
-                  >
-                    Contact Us
-                  </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 hover:bg-indigo-100 text-red-600"
-                  >
-                    Logout
-                  </button>
-                </div>
               </div>
-            </>
-          ) : (
+            </div>
+          </>
+        ) : (
+          <>
             <Link
               to="/login"
-              className="bg-blue-600 text-white px-4 py-1.5 rounded hover:bg-blue-700"
+              className="bg-white text-indigo-600 px-4 py-1.5 rounded hover:bg-gray-100"
             >
               Login
             </Link>
-          )}
+            <Link
+              to="/signup"
+              className="border border-white text-white px-4 py-1.5 rounded hover:bg-white hover:text-indigo-600"
+            >
+              Sign Up
+            </Link>
+          </>
+        )}
         </div>
 
         {/* Mobile Menu Button */}
