@@ -279,23 +279,7 @@ const Home = () => {
       </section>
 
       {/* Why Shop With Us */}
-      {/* <section className="py-12 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100">
-        <h2 className="text-3xl font-bold text-center mb-8">Why Shop With Us</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto px-4 text-center">
-          <div className="p-6 bg-white rounded-xl shadow">
-            <h3 className="font-bold text-lg mb-2">Free Shipping</h3>
-            <p>No delivery charge on orders above ₹499</p>
-          </div>
-          <div className="p-6 bg-white rounded-xl shadow">
-            <h3 className="font-bold text-lg mb-2">24/7 Support</h3>
-            <p>We’re always here to help you</p>
-          </div>
-          <div className="p-6 bg-white rounded-xl shadow">
-            <h3 className="font-bold text-lg mb-2">Secure Payment</h3>
-            <p>100% secure and trusted payment gateway</p>
-          </div>
-        </div>
-      </section> */}
+     
       <section className="py-16 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100">
   <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-12">
     Why Shop With Us
@@ -327,11 +311,18 @@ const Home = () => {
   <h2 className="text-3xl font-bold text-center mb-8">Popular Brands</h2>
   <div className="max-w-6xl mx-auto px-4">
     <Slider {...brandSettings}>
-      {brands.map((logo, idx) => (
-        <div key={idx} className="flex justify-center">
-          <img src={logo} alt="brand" className="lg:w-52 w-32 h-20 object-contain" />
-        </div>
-      ))}
+    {brands.map((logo, idx) => (
+      <div
+        key={idx}
+        className=" p-6 flex justify-center items-center hover:shadow-2xl transition-transform transform hover:-translate-y-1"
+      >
+        <img
+          src={logo}
+          alt="brand"
+          className="lg:w-52 w-32 h-20 object-contain"
+        />
+      </div>
+    ))}
     </Slider>
   </div>
 </section>
