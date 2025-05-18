@@ -144,7 +144,7 @@
 // export default Home;
 
 
-import React from 'react';
+
 import { Link, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { ToastContainer } from 'react-toastify';
