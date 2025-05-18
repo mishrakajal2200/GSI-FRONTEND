@@ -124,7 +124,7 @@
 // export default WishlistPage;
 
 
-import React from 'react';
+
 import { useWishlist } from '../context/WishlistContext';
 import { FaTrash, FaShoppingCart } from 'react-icons/fa';
 
