@@ -184,7 +184,7 @@ const OrderHistory = () => {
     const fetchOrders = async () => {
       try {
         const { data } = await axios.get(
-          'https://gsi-backend-production.up.railway.app/api/payment/get-orders',
+          '/api/payment/get-orders',
           { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
         );
         setOrders(data);
