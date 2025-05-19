@@ -489,7 +489,7 @@ const Navbar = () => {
                   <Link to="/profile" className="block px-4 py-2 hover:bg-indigo-100">
                     My Profile
                   </Link>
-                  <Link to="/orders" className="block px-4 py-2 hover:bg-indigo-100">
+                  <Link to="/my-orders" className="block px-4 py-2 hover:bg-indigo-100">
                     My Orders
                   </Link>
                   <Link to="/address" className="block px-4 py-2 hover:bg-indigo-100">

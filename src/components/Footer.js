@@ -35,7 +35,7 @@ function Footer() {
             <li><a href="/login" className="hover:text-white transition">Login</a></li>
             <li><a href="/register" className="hover:text-white transition">Register</a></li>
             <li><a href="/wishlist" className="hover:text-white transition">Wishlist</a></li>
-            <li><a href="/orders" className="hover:text-white transition">Order History</a></li>
+            <li><a href="/my-orders" className="hover:text-white transition">Order History</a></li>
           </ul>
         </div>
 

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Truck, Clock, DollarSign, MapPin, Globe, HelpCircle } from 'lucide-react';
 
 const InfoCard = ({ icon: Icon, title, children }) => (

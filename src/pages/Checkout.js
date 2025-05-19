@@ -111,7 +111,7 @@ const handleCODPayment = async () => {
     if (data.success) {
       toast.success("Order placed successfully! You'll pay cash on delivery.");
       setTimeout(() => {
-        window.location.href = "/orders";
+        window.location.href = "/my-orders";
       }, 1500);
     } else {
       toast.error(data.message || "There was an error placing your order.");
