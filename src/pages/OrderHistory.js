@@ -279,21 +279,27 @@ const OrderHistory = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const { data } = await axios.get('/api/payment/get-orders', {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
-        console.log("Fetched data:", data); // Debug log
-        setOrders(data.orders || []); // ✅ Fixed: Extract orders array
-      } catch (err) {
-        console.error('Error fetching orders:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchOrders();
-  }, []);
+  const fetchOrders = async () => {
+    try {
+      const { data } = await axios.get('/api/payment/get-orders', {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+
+      console.log("Fetched data:", data);
+
+      // Use based on response structure
+      // If `data` is an array:
+      setOrders(Array.isArray(data) ? data : data.orders || []);
+
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchOrders();
+}, []);
+
 
   if (loading) return <p className="text-center mt-20">Loading orders...</p>;
 
