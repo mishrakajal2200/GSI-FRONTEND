@@ -33,7 +33,7 @@ function Footer() {
           <h3 className="text-lg font-semibold mb-4 text-white uppercase tracking-wide">My Account</h3>
           <ul className="space-y-2 text-sm">
             <li><a href="/login" className="hover:text-white transition">Login</a></li>
-            <li><a href="/register" className="hover:text-white transition">Register</a></li>
+            <li><a href="/signup" className="hover:text-white transition">Register</a></li>
             <li><a href="/wishlist" className="hover:text-white transition">Wishlist</a></li>
             <li><a href="/my-orders" className="hover:text-white transition">Order History</a></li>
           </ul>
