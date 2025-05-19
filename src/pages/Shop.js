@@ -375,7 +375,7 @@ function useQuery() {
 }
 
 const Shop = () => {
-  const [sortOption, setSortOption] = useState("");
+  const [sortOption] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [products, setProducts] = useState([]);

@@ -16,7 +16,7 @@ const CartPage = () => {
   const [savedItems, setSavedItems] = useState([]);
 
 const [couponCode, setCouponCode] = useState('');
-const [discountedCart, setDiscountedCart] = useState(null);
+const [setDiscountedCart] = useState(null);
  const [showModal, setShowModal] = useState(false);
  const navigate = useNavigate();
   const totalPrice = cart.reduce((sum, item) => {
