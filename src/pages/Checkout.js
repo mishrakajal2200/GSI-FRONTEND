@@ -24,37 +24,6 @@ const Checkout = () => {
     postalCode: "",
   });
 
-//   const handleCODPayment = async () => {
-//   // Check if any shipping field is empty
-//   const isAnyFieldEmpty = Object.values(shippingInfo).some((value) => value.trim() === "");
-
-//   if (isAnyFieldEmpty) {
-//     toast.error("Please fill out all shipping information before placing an order.");
-//     return;
-//   }
-
-//   try {
-//     const res = await fetch("http://localhost:5000/api/payment/place-order", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         amount: totalPrice,
-//         paymentMethod: "COD",
-//         shippingInfo,
-//         cartItems,
-//       }),
-//     });
-//     const data = await res.json();
-//     if (data.success) {
-//      toast.success("Order placed successfully! You'll pay cash on delivery.");
-//     } else {
-//      toast.error("There was an error placing your order.");
-//     }
-//   } catch (error) {
-//     console.log("Error placing COD order:", error);
-//     toast.error("Error placing the order. Try again!");
-//   }
-// };
 
 const handleCODPayment = async () => {
   // Log shippingInfo for debugging
@@ -111,7 +80,7 @@ const handleCODPayment = async () => {
     if (data.success) {
       toast.success("Order placed successfully! You'll pay cash on delivery.");
       setTimeout(() => {
-        window.location.href = "/my-orders";
+        window.location.href = "/orders";
       }, 1500);
     } else {
       toast.error(data.message || "There was an error placing your order.");
