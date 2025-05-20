@@ -127,7 +127,7 @@ const handlePayment = async () => {
       },
       prefill: {
         name: shippingInfo.fullName,
-        email: "kajal@example.com",
+        email: shippingInfo.email,
         contact: shippingInfo.phone,
       },
       theme: { color: "#6366F1" },
