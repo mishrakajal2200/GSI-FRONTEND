@@ -116,22 +116,22 @@ const handlePayment = async () => {
     const data = await res.json();
 
     const options = {
-      key: data.key,
-      amount: data.amount,
-      currency: data.currency,
-      name: "GSI Enterprises",
-      description: "Order Payment",
-      order_id: data.id,
-      handler: function (response) {
-        alert("Payment Successful!");
-      },
-      prefill: {
-        name: shippingInfo.fullName,
-        email: shippingInfo.email,
-        contact: shippingInfo.phone,
-      },
-      theme: { color: "#6366F1" },
-    };
+  key: data.key,                  // ✅ okay if `data.key` exists
+  amount: data.amount,
+  currency: data.currency,
+  name: "GSI Enterprises",
+  description: "Order Payment",
+  order_id: data.orderId,         // 🔁 fix this line
+  handler: function (response) {
+    alert("Payment Successful!");
+  },
+  prefill: {
+    name: shippingInfo.fullName,
+    email: shippingInfo.email,
+    contact: shippingInfo.phone,
+  },
+  theme: { color: "#6366F1" },
+};
 
     const rzp = new window.Razorpay(options);
     rzp.open();
