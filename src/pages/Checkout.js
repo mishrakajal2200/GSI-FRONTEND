@@ -91,13 +91,16 @@ const handleCODPayment = async () => {
   }
 };
 
+const token = localStorage.getItem("token"); // or get from Redux, etc.
 
-
-  const handlePayment = async () => {
+const handlePayment = async () => {
   try {
     const res = await fetch("https://gsi-backend-1.onrender.com/api/payment/create-order", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         amount: totalPrice,
         shippingInfo,
@@ -105,10 +108,15 @@ const handleCODPayment = async () => {
       }),
     });
 
+    if (res.status === 401) {
+      alert("You must be logged in to make a payment.");
+      return;
+    }
+
     const data = await res.json();
 
     const options = {
-      key: data.key, // use dynamic key from backend
+      key: data.key,
       amount: data.amount,
       currency: data.currency,
       name: "GSI Enterprises",
@@ -116,7 +124,6 @@ const handleCODPayment = async () => {
       order_id: data.id,
       handler: function (response) {
         alert("Payment Successful!");
-        // optionally send payment id to backend
       },
       prefill: {
         name: shippingInfo.fullName,
@@ -133,6 +140,9 @@ const handleCODPayment = async () => {
     alert("Something went wrong. Try again later.");
   }
 };
+
+
+  
 
 
   return (
