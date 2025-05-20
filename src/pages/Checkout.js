@@ -93,105 +93,47 @@ const handleCODPayment = async () => {
 
 
 
-  // const handlePayment = async () => {
-  //   try {
-  //     const res = await fetch("https://gsi-backend-1.onrender.com/api/payment/create-order", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         amount: totalPrice,
-  //         shippingInfo,
-  //         cartItems,
-  //       }),
-  //     });
-
-  //     const data = await res.json();
-
-  //     const options = {
-  //       key: "rzp_test_YourKeyHere", // replace with your real Razorpay key
-  //       amount: data.amount,
-  //       currency: data.currency,
-  //       name: "Your Store",
-  //       description: "Order Payment",
-  //       order_id: data.id,
-  //       handler: function (response) {
-  //         alert("Payment Successful!");
-  //         // optionally: send response.razorpay_payment_id to backend
-  //       },
-  //       prefill: {
-  //         name: shippingInfo.fullName,
-  //         email: "kajal@example.com",
-  //         contact: shippingInfo.phone,
-  //       },
-  //       theme: { color: "#6366F1" },
-  //     };
-
-  //     const rzp = new window.Razorpay(options);
-  //     rzp.open();
-  //   } catch (error) {
-  //     console.error("Payment Error:", error);
-  //     alert("Something went wrong. Try again later.");
-  //   }
-  // };
-const handlePayment = async () => {
+  const handlePayment = async () => {
   try {
-    // 1. Get JWT token (you must have stored it during login)
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      alert("Please log in to proceed with the payment.");
-      return;
-    }
-
-    // 2. Make request to backend to create Razorpay order
     const res = await fetch("https://gsi-backend-1.onrender.com/api/payment/create-order", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // ✅ Send token to backend
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        amount: totalPrice,      // Amount in paisa (e.g., 50000 = ₹500)
-        shippingInfo,            // Shipping info object
-        cartItems,               // List of cart items
+        amount: totalPrice,
+        shippingInfo,
+        cartItems,
       }),
     });
 
     const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to create Razorpay order");
-    }
-
-    // 3. Razorpay options
     const options = {
-      key: "rzp_test_YourKeyHere", // ✅ Replace with your Razorpay test/live key
-      amount: data.amount,          // Amount in paisa
-      currency: data.currency,      // Usually "INR"
-      name: "Your Store",
+      key: data.key, // use dynamic key from backend
+      amount: data.amount,
+      currency: data.currency,
+      name: "GSI Enterprises",
       description: "Order Payment",
-      order_id: data.orderId,       // From backend
+      order_id: data.id,
       handler: function (response) {
-        // Optional: Confirm payment with backend
         alert("Payment Successful!");
-        console.log("Payment response:", response);
+        // optionally send payment id to backend
       },
       prefill: {
         name: shippingInfo.fullName,
-        email: "kajal@example.com",   // Or fetch from user data
+        email: "kajal@example.com",
         contact: shippingInfo.phone,
       },
       theme: { color: "#6366F1" },
     };
 
-    // 4. Open Razorpay checkout
     const rzp = new window.Razorpay(options);
     rzp.open();
   } catch (error) {
     console.error("Payment Error:", error);
-    alert(error.message || "Something went wrong. Try again later.");
+    alert("Something went wrong. Try again later.");
   }
 };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-purple-100 to-indigo-100 px-4 py-10">
