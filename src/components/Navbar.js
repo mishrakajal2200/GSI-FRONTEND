@@ -91,7 +91,7 @@ const Navbar = () => {
           <img
             src="/images/bhumi.png"
             alt="Logo"
-            className="h-9 cursor-pointer rounded-md"
+            className="h-12 cursor-pointer rounded-md"
             onClick={() => navigate("/")}
           />
 
