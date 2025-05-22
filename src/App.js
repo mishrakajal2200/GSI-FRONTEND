@@ -26,6 +26,7 @@ import SavedAddressesPage from './pages/SavedAddressesPage.js';
 
 
 import TermsAndConditions from './pages/TermsConditions.js';
+import AdminLogin from './pages/AdminLogin.js';
 // import DashboardLayoutBasic from './pages/DashboardLayoutBasic.js';
 
 
@@ -58,7 +59,7 @@ function App() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/returns" element={<ReturnExchangePolicy />} />
             <Route path="/companyinfo" element={<CompanyInfo />} />
-           
+            <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/trackorder" element={<TrackOrder />} />
             <Route path="/shipinginfo" element={<ShippingInfo />} />
             <Route path="/faq" element={<FAQPage />} />
