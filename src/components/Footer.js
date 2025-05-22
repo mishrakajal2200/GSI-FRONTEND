@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaCcVisa, FaCcMastercard } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
@@ -91,7 +92,7 @@ function Footer() {
         <p className="mt-4 text-xs text-gray-500">
           &copy; {new Date().getFullYear()} GSI Enterprises Store. All rights reserved.
         </p>
-        <p className="text-xs text-gray-500">Designed with ❤️ by Kajal Mishra</p>
+        <p className="text-xs text-gray-500">Designed with ❤️ by Kajal Mishra<Link to='/dashboard'>dash</Link></p>
       </div>
     </footer>
   );
