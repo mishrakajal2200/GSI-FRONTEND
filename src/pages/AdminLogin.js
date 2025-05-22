@@ -11,7 +11,7 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch('https://gsi-backend-1.onrender.com/api/auth/admin/login', {
+      const res = await fetch('https://gsi-backend-1.onrender.com/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
