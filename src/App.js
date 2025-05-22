@@ -27,6 +27,8 @@ import SavedAddressesPage from './pages/SavedAddressesPage.js';
 
 import TermsAndConditions from './pages/TermsConditions.js';
 import AdminLogin from './pages/AdminLogin.js';
+import AdminLogout from './pages/AdminLogout.js';
+import Dashboard from './pages/Dashboard.js';
 // import DashboardLayoutBasic from './pages/DashboardLayoutBasic.js';
 
 
@@ -54,17 +56,18 @@ function App() {
             <Route path="/orders" element={<OrderHistory />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order-confirm" element={<OrderConfirm />} />
-      
             <Route path="/nearby-shops" element={<NearBy />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/returns" element={<ReturnExchangePolicy />} />
             <Route path="/companyinfo" element={<CompanyInfo />} />
             <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/logout" element={<AdminLogout />} />
             <Route path="/trackorder" element={<TrackOrder />} />
             <Route path="/shipinginfo" element={<ShippingInfo />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/address" element={<SavedAddressesPage />} />
             <Route path="/terms" element={<TermsAndConditions />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             {/* <Route path="/dashboard" element={<DashboardLayoutBasic />} /> */}
             {/* Protected Routes */}
             <Route
