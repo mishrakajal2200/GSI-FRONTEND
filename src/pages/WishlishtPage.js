@@ -42,7 +42,7 @@ const WishlistPage = () => {
         className="flex items-center gap-1 text-sm text-blue-600 hover:underline"
         title="Move to Cart"
         onClick={() => moveToCart(item._id)}
-      >
+      >  
         <FaShoppingCart />
         Move to Cart
       </button>

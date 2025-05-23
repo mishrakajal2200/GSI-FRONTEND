@@ -176,7 +176,6 @@ export const WishlistProvider = ({ children }) => {
   const moveToCart = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-
       const res = await axios.patch(
         `https://gsi-backend-1.onrender.com/api/wishlist/move/${productId}`,
         {},
@@ -186,8 +185,8 @@ export const WishlistProvider = ({ children }) => {
       );
 
       setWishlist(res.data.wishlist);
-      setCart(res.data.cart); // ✅ update cart from context
-      navigate("/cart"); // ✅ move to cart page
+      setCart(res.data.cart);
+      navigate("/cart");
     } catch (err) {
       console.error("Error moving item to cart:", err.response?.data || err.message);
     }
