@@ -10,6 +10,7 @@ import { SearchProvider } from './context/SearchContext.js';
 import { OrderProvider } from './context/OrderContext.js'; // ✅ Import OrderProvider
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
  

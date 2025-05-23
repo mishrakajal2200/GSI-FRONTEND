@@ -26,6 +26,7 @@ import SavedAddressesPage from './pages/SavedAddressesPage.js';
 
 
 import TermsAndConditions from './pages/TermsConditions.js';
+import { useEffect } from 'react';
 
 
 // ✅ ProtectedRoute Component
@@ -35,6 +36,18 @@ const ProtectedRoute = ({ element }) => {
 };
 
 function App() {
+  useEffect(() => {
+    // Check if the user has visited before
+    const isFirstVisit = localStorage.getItem('hasVisitedBefore');
+
+    if (!isFirstVisit) {
+      // Clear everything on first visit
+      localStorage.clear();
+
+      // Set flag so it doesn't clear again on next visits
+      localStorage.setItem('hasVisitedBefore', 'true');
+    }
+  }, []);
   return (
     <SearchProvider>
       <Router>
