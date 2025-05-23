@@ -173,24 +173,44 @@ export const WishlistProvider = ({ children }) => {
 };
 
   // Move to cart
-  const moveToCart = async (productId) => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.patch(
-        `https://gsi-backend-1.onrender.com/api/wishlist/move/${productId}`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+  // const moveToCart = async (productId) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     const res = await axios.patch(
+  //       `https://gsi-backend-1.onrender.com/api/wishlist/move/${productId}`,
+  //       {},
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     );
 
-      setWishlist(res.data.wishlist);
-      setCart(res.data.cart);
-      navigate("/cart");
-    } catch (err) {
-      console.error("Error moving item to cart:", err.response?.data || err.message);
-    }
-  };
+  //     setWishlist(res.data.wishlist);
+  //     setCart(res.data.cart);
+  //     navigate("/cart");
+  //   } catch (err) {
+  //     console.error("Error moving item to cart:", err.response?.data || err.message);
+  //   }
+  // };
+const moveToCart = async (productId) => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.patch(
+      `https://gsi-backend-1.onrender.com/api/wishlist/move/${productId}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    // ✅ Safely update
+    setWishlist(res.data?.wishlist || []);
+    setCart(res.data?.cart || []);
+    navigate("/cart");
+
+  } catch (err) {
+    console.error("Error moving item to cart:", err.response?.data || err.message);
+  }
+};
 
   return (
     <WishlistContext.Provider
