@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 
 
 import { createContext, useContext, useEffect, useState } from "react";
@@ -75,10 +76,13 @@ const removeFromWishlist = async (productId) => {
       }
     );
     setWishlist(res.data.wishlist);
+    setCart(res.data.cart); // If using context
+    navigate("/cart"); // <--- move to cart page
   } catch (err) {
     console.error("Error moving item to cart:", err);
   }
 };
+
 
   return (
     <WishlistContext.Provider
