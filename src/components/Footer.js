@@ -92,7 +92,7 @@ function Footer() {
         <p className="mt-4 text-xs text-gray-500">
           &copy; {new Date().getFullYear()} GSI Enterprises Store. All rights reserved.
         </p>
-        <p className="text-xs text-gray-500">Designed with ❤️ by Kajal Mishra<Link to='/dashboard' className='text-red-300'>dash</Link></p>
+        <p className="text-xs text-gray-500">Designed with ❤️ by Kajal Mishra</p>
       </div>
     </footer>
   );
