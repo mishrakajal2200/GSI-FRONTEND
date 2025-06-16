@@ -159,7 +159,8 @@ export const CartProvider = ({ children }) => {
 
   // 🧮 Total items
   
-  const totalItems = cart.filter(item => item).length;
+  // const totalItems = cart.filter(item => item).length;
+const totalItems = (cart || []).filter(item => item).length;
 
   return (
     <CartContext.Provider
