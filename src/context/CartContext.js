@@ -38,7 +38,7 @@ export const CartProvider = ({ children }) => {
   const token = localStorage.getItem("token");
   try {
     await axios.post(
-      "https://gsi-backend-1.onrender.com/api/cart/add",
+      "/api/cart/add",
       { productId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -64,7 +64,7 @@ export const CartProvider = ({ children }) => {
 
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.delete(`https://gsi-backend-1.onrender.com/api/cart/remove/${productId}`,{
+    const res = await axios.delete(`/api/cart/remove/${productId}`,{
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -84,7 +84,7 @@ export const CartProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // or however you store it
   
       const res = await axios.patch(
-        `https://gsi-backend-1.onrender.com/api/cart/increase/${productId}`,
+        `/api/cart/increase/${productId}`,
         {},
         {
           headers: {
@@ -106,7 +106,7 @@ export const CartProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // or however you store it
   
       const res = await axios.patch(
-        `https://gsi-backend-1.onrender.com/api/cart/decrease/${productId}`,
+        `/api/cart/decrease/${productId}`,
         {},
         {
           headers: {

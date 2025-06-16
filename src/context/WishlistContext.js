@@ -34,7 +34,7 @@ export const WishlistProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "https://gsi-backend-1.onrender.com/api/wishlist/add",
+        "/api/wishlist/add",
         { productId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -49,7 +49,7 @@ const removeFromWishlist = async (productId) => {
   try {
     const token = localStorage.getItem("token");
     const res = await axios.delete(
-      `https://gsi-backend-1.onrender.com/api/wishlist/remove/${productId}`,
+      `/api/wishlist/remove/${productId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -70,7 +70,7 @@ const removeFromWishlist = async (productId) => {
     const token = localStorage.getItem("token");
 
     const res = await axios.patch(
-      `https://gsi-backend-1.onrender.com/api/wishlist/move/${productId}`,
+      `/api/wishlist/move/${productId}`,
       {},
       {
         headers: {
