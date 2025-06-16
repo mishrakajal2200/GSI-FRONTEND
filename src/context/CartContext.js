@@ -14,7 +14,7 @@ export const CartProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
   
-      const res = await axios.get("https://www.gsienterprises.com/api/cart/getcart", {
+      const res = await axios.get("/api/cart/getcart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,7 +38,7 @@ export const CartProvider = ({ children }) => {
   const token = localStorage.getItem("token");
   try {
     await axios.post(
-      "https://www.gsienterprises.com/api/cart/add",
+      "/api/cart/add",
       { productId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -64,7 +64,7 @@ export const CartProvider = ({ children }) => {
 
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.delete(`https://www.gsienterprises.com/api/cart/remove/${productId}`,{
+    const res = await axios.delete(`/api/cart/remove/${productId}`,{
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -84,7 +84,7 @@ export const CartProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // or however you store it
   
       const res = await axios.patch(
-        `https://www.gsienterprises.com/api/cart/increase/${productId}`,
+        `/api/cart/increase/${productId}`,
         {},
         {
           headers: {
@@ -106,7 +106,7 @@ export const CartProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // or however you store it
   
       const res = await axios.patch(
-        `https://www.gsienterprises.com/api/cart/decrease/${productId}`,
+        `/api/cart/decrease/${productId}`,
         {},
         {
           headers: {
@@ -139,7 +139,7 @@ export const CartProvider = ({ children }) => {
   // 🔁 Move from Wishlist to Cart
   const handleMoveToCart = async (productId) => {
     try {
-      const res = await axios.patch(`https://www.gsienterprises.com/api/cart/move/${productId}`);
+      const res = await axios.patch(`/api/cart/move/${productId}`);
       setCart(res.data.cart);
       setSavedItems(res.data.savedItems);
     } catch (err) {
@@ -150,7 +150,7 @@ export const CartProvider = ({ children }) => {
   // 🧹 Clear Entire Cart
   const clearCart = async () => {
     try {
-      const res = await axios.delete("https://www.gsienterprises.com/api/cart");
+      const res = await axios.delete("/api/cart");
       setCart(res.data.cart);
     } catch (err) {
       console.error("Error clearing cart:", err);
