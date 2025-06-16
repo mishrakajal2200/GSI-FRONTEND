@@ -14,7 +14,7 @@ export const WishlistProvider = ({ children }) => {
   const fetchWishlist = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("https://gsi-backend-1.onrender.com/api/wishlist/getWishlist", {
+      const res = await axios.get("/api/wishlist/getWishlist", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

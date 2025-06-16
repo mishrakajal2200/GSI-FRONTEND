@@ -14,7 +14,7 @@ export const CartProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
   
-      const res = await axios.get("https://gsi-backend-1.onrender.com/api/cart/getcart", {
+      const res = await axios.get("/api/cart/getcart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
