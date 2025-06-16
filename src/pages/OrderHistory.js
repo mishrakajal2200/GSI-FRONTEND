@@ -14,7 +14,7 @@ const OrderHistory = () => {
     const fetchOrders = async () => {
       try {
         const { data } = await axios.get(
-          "https://gsi-backend-1.onrender.com/api/payment/get-orders",
+          "https://www.gsienterprises.com/api/payment/get-orders",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -69,7 +69,7 @@ const Profile = () => {
     }
     
     try {
-      const res = await axios.get("https://gsi-backend-1.onrender.com/api/auth/profile/getprofile", {
+      const res = await axios.get("https://www.gsienterprises.com/api/auth/profile/getprofile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

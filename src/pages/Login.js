@@ -19,7 +19,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('https://gsi-backend-1.onrender.com/api/auth/login', { email, password });
+      const response = await axios.post('https://www.gsienterprises.com/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
       toast.success('Login successful!');
       setTimeout(() => navigate('/'), 2000);
