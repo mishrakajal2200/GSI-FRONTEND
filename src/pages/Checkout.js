@@ -60,7 +60,7 @@ const handleCODPayment = async () => {
   console.log("Payload being sent:", payload);
 
   try {
-    const res = await fetch("/api/payment/place-order", {
+    const res = await fetch("https://www.gsienterprises.com/api/payment/place-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +95,7 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 
 const handlePayment = async () => {
   try {
-    const res = await fetch("/api/payment/create-order", {
+    const res = await fetch("https://www.gsienterprises.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
