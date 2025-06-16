@@ -139,7 +139,7 @@ export const CartProvider = ({ children }) => {
   // 🔁 Move from Wishlist to Cart
   const handleMoveToCart = async (productId) => {
     try {
-      const res = await axios.patch(`https://gsi-backend-1.onrender.com/api/cart/move/${productId}`);
+      const res = await axios.patch(`/api/cart/move/${productId}`);
       setCart(res.data.cart);
       setSavedItems(res.data.savedItems);
     } catch (err) {
@@ -150,7 +150,7 @@ export const CartProvider = ({ children }) => {
   // 🧹 Clear Entire Cart
   const clearCart = async () => {
     try {
-      const res = await axios.delete("https://gsi-backend-1.onrender.com/api/cart");
+      const res = await axios.delete("/api/cart");
       setCart(res.data.cart);
     } catch (err) {
       console.error("Error clearing cart:", err);
@@ -158,7 +158,7 @@ export const CartProvider = ({ children }) => {
   };
 
   // 🧮 Total items
-  // const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  
   const totalItems = cart.filter(item => item).length;
 
   return (
