@@ -7,7 +7,7 @@ const SubscribeSection = () => {
 
   const handleSubscribe = async () => {
     try {
-      const res = await axios.post('https://www.gsienterprises.com/api/subs/subscribe', { email });
+      const res = await axios.post('/api/subs/subscribe', { email });
       setMessage(res.data.message);
       setEmail('');
     } catch (err) {
