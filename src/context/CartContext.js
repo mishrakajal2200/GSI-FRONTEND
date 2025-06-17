@@ -14,7 +14,7 @@ export const CartProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
   
-      const res = await axios.get("/api/cart/getcart", {
+      const res = await axios.get("https://www.gsienterprises.com/api/cart/getcart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,7 +38,7 @@ export const CartProvider = ({ children }) => {
   const token = localStorage.getItem("token");
   try {
     await axios.post(
-      "/api/cart/add",
+      "https://www.gsienterprises.com/api/cart/add",
       { productId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -64,7 +64,7 @@ export const CartProvider = ({ children }) => {
 
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.delete(`/api/cart/remove/${productId}`,{
+    const res = await axios.delete(`https://www.gsienterprises.com/api/cart/remove/${productId}`,{
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -84,7 +84,7 @@ export const CartProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // or however you store it
   
       const res = await axios.patch(
-        `/api/cart/increase/${productId}`,
+        `https://www.gsienterprises.com/api/cart/increase/${productId}`,
         {},
         {
           headers: {
@@ -106,7 +106,7 @@ export const CartProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // or however you store it
   
       const res = await axios.patch(
-        `/api/cart/decrease/${productId}`,
+        `https://www.gsienterprises.com/api/cart/decrease/${productId}`,
         {},
         {
           headers: {
@@ -139,7 +139,7 @@ export const CartProvider = ({ children }) => {
   // 🔁 Move from Wishlist to Cart
   const handleMoveToCart = async (productId) => {
     try {
-      const res = await axios.patch(`/api/cart/move/${productId}`);
+      const res = await axios.patch(`https://www.gsienterprises.com/api/cart/move/${productId}`);
       setCart(res.data.cart);
       setSavedItems(res.data.savedItems);
     } catch (err) {
