@@ -18,6 +18,7 @@ export const CartProvider = ({ children }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials:true
       });
   
       setCart(res.data.cart);
@@ -38,9 +39,12 @@ export const CartProvider = ({ children }) => {
   const token = localStorage.getItem("token");
   try {
     await axios.post(
-      "https://www.gsienterprises.com/api/cart/add",
+      "https://www.gsienterprises.com/api/cart/add",{
+         withCredentials:true
+      },
       { productId },
-      { headers: { Authorization: `Bearer ${token}` } }
+      { headers: { Authorization: `Bearer ${token}` } },
+     
     );
     fetchCartData(); // <-- refresh cart after adding
   } catch (err) {
@@ -68,6 +72,7 @@ export const CartProvider = ({ children }) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      withCredentials:true
     });
     
     // ✅ Use the response to update your cart state
@@ -85,7 +90,7 @@ export const CartProvider = ({ children }) => {
   
       const res = await axios.patch(
         `https://www.gsienterprises.com/api/cart/increase/${productId}`,
-        {},
+        {withCredentials:true},
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -107,7 +112,7 @@ export const CartProvider = ({ children }) => {
   
       const res = await axios.patch(
         `https://www.gsienterprises.com/api/cart/decrease/${productId}`,
-        {},
+        {withCredentials:true},
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -139,7 +144,9 @@ export const CartProvider = ({ children }) => {
   // 🔁 Move from Wishlist to Cart
   const handleMoveToCart = async (productId) => {
     try {
-      const res = await axios.patch(`https://www.gsienterprises.com/api/cart/move/${productId}`);
+      const res = await axios.patch(`https://www.gsienterprises.com/api/cart/move/${productId}`,{
+        withCredentials:true
+      });
       setCart(res.data.cart);
       setSavedItems(res.data.savedItems);
     } catch (err) {

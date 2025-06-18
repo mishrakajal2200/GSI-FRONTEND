@@ -18,6 +18,7 @@ export const WishlistProvider = ({ children }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials:true
       });
       setWishlist(res.data.wishlist);
     } catch (err) {
@@ -35,6 +36,7 @@ export const WishlistProvider = ({ children }) => {
       const token = localStorage.getItem("token");
       await axios.post(
         "https://www.gsienterprises.com/api/wishlist/add",
+        {withCredentials:true},
         { productId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -52,6 +54,9 @@ const removeFromWishlist = async (productId) => {
       `https://www.gsienterprises.com/api/wishlist/remove/${productId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
+      },
+      {
+        withCredentials:true
       }
     );
 
@@ -71,7 +76,7 @@ const removeFromWishlist = async (productId) => {
 
     const res = await axios.patch(
       `https://www.gsienterprises.com/api/wishlist/move/${productId}`,
-      {},
+      {withCredentials:true},
       {
         headers: {
           Authorization: `Bearer ${token}`,
