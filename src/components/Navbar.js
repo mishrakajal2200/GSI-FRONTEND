@@ -26,24 +26,49 @@ const Navbar = () => {
 
   const toggleNav = () => setIsNavOpen(!isNavOpen);
 
-  const handleLogout = () => {
-    console.log("Logged out");
+  // const handleLogout = () => {
+  //   console.log("Logged out");
 
-    const user = JSON.parse(localStorage.getItem("user"));
-    const userId = user?._id || user?.email;
+  //   const user = JSON.parse(localStorage.getItem("user"));
+  //   const userId = user?._id || user?.email;
 
-    if (userId && cart) {
-      localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
-    }
+  //   if (userId && cart) {
+  //     localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+  //   }
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("user");
 
-    clearCart && clearCart();
-    setUser && setUser(null);
+  //   clearCart && clearCart();
+  //   setUser && setUser(null);
 
-    navigate("/login");
-  };
+  //   navigate("/login");
+  // };
+const handleLogout = () => {
+  console.log("Logged out");
+
+  // Get user from localStorage or state
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const userId = storedUser?._id || storedUser?.email;
+
+  // Save the cart before logout (optional)
+  if (userId && cart?.length) {
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+  }
+
+  // Remove user data from localStorage
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+
+  // Clear cart from context or state
+  if (typeof clearCart === "function") clearCart();
+
+  // Clear user from context or state
+  if (typeof setUser === "function") setUser(null);
+
+  // Redirect to login page
+  navigate("/login");
+};
 
   const handleSearch = async (e) => {
   e.preventDefault();
