@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaBars,
@@ -26,6 +26,7 @@ const Navbar = () => {
 
   const toggleNav = () => setIsNavOpen(!isNavOpen);
 
+ 
   // const handleLogout = () => {
   //   console.log("Logged out");
 
@@ -51,6 +52,11 @@ const handleLogout = () => {
   navigate("/login");
 };
 
+
+useEffect(() => {
+  const storedUser = localStorage.getItem("user");
+  setUser(storedUser ? JSON.parse(storedUser) : null);
+}, [setUser]);
 
   const handleSearch = async (e) => {
   e.preventDefault();
