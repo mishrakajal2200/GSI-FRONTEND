@@ -343,62 +343,59 @@ const Shop = () => {
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
-              {products.map((product) => (
-                <div
-                  key={product._id}
-                  className="flex flex-col bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 group h-full"
-                >
-                  {/* Image Section */}
-                  <div className="relative overflow-hidden rounded-t-2xl">
-                    {/* <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
-                    /> */}
-                    <img
-  src={
-    product.image ||
-    (product.variants?.[0]?.images?.[0]) || // fallback to first variant image
-    "/fallback.jpg" // fallback if no image at all
-  }
-  alt={product.name}
-  className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
-/>
-                    <button
-                      className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition"
-                      onClick={() => handleWishlistClick(product._id)}
-                    >
-                      {isInWishlist(product) ? <FaHeart /> : <FaRegHeart />}
-                    </button>
-                  </div>
+  {products.map((product) => {
+    const fallbackImage = product.variants?.[0]?.image?.[0] || "/default-image.jpg";
+    const productImage = product.image || fallbackImage;
+    const productPrice = product.price || product.variants?.[0]?.price || "N/A";
 
-                  {/* Info Section */}
-                  <div className="flex flex-col justify-between flex-grow p-4">
-                    <div>
-                      <h4 className="text-lg font-bold text-gray-800 mb-1">{product.name}</h4>
-                      <p className="text-gray-600 text-sm mb-2 line-clamp-2">{product.description}</p>
+    return (
+      <div
+        key={product._id}
+        className="flex flex-col bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 group h-full"
+      >
+        {/* Image Section */}
+        <div className="relative overflow-hidden rounded-t-2xl">
+          <img
+            src={productImage}
+            alt={product.name}
+            className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+          <button
+            className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition"
+            onClick={() => handleWishlistClick(product._id)}
+          >
+            {isInWishlist(product) ? <FaHeart /> : <FaRegHeart />}
+          </button>
+        </div>
 
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="text-purple-600 text-lg font-bold">₹{product.price}</span>
-                        <span className="text-gray-400 text-sm line-through">₹{product.mrp}</span>
+        {/* Info Section */}
+        <div className="flex flex-col justify-between flex-grow p-4">
+          <div>
+            <h4 className="text-lg font-bold text-gray-800 mb-1">{product.name}</h4>
+            <p className="text-gray-600 text-sm mb-2 line-clamp-2">{product.description}</p>
 
-                      </div>
-                    </div>
-
-                    {/* Add to Cart */}
-                    <button
-                      className="mt-4 bg-purple-600 w-full text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      <HiOutlineShoppingBag className="inline-block mr-1" />
-                      Add to Cart
-                    </button>
-                  </div>
-                </div>
-              ))}
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-purple-600 text-lg font-bold">₹{productPrice}</span>
+              <span className="text-gray-400 text-sm line-through">₹{product.mrp}</span>
             </div>
+          </div>
+
+          {/* Add to Cart */}
+          <button
+            className="mt-4 bg-purple-600 w-full text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition"
+            onClick={() => handleAddToCart(product)}
+          >
+            <HiOutlineShoppingBag className="inline-block mr-1" />
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    );
+  })}
+</div>
 
 
+            
           </section>
         </div>
       </div>
