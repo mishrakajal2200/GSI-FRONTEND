@@ -344,9 +344,11 @@ const Shop = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
   {products.map((product) => {
-    const fallbackImage = product.variants?.[0]?.image?.[0] || "/default-image.jpg";
-    const productImage = product.image || fallbackImage;
-    const productPrice = product.price || product.variants?.[0]?.price || "N/A";
+    const hasVariants = product.variants && product.variants.length > 0;
+    const firstVariant = hasVariants ? product.variants[0] : null;
+
+    const productImage = product.image || firstVariant?.image?.[0] || "/default-image.jpg";
+    const productPrice = product.price || firstVariant?.price || "N/A";
 
     return (
       <div
