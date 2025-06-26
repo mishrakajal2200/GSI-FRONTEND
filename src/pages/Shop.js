@@ -350,11 +350,20 @@ const Shop = () => {
                 >
                   {/* Image Section */}
                   <div className="relative overflow-hidden rounded-t-2xl">
-                    <img
+                    {/* <img
                       src={product.image}
                       alt={product.name}
                       className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
-                    />
+                    /> */}
+                    <img
+  src={
+    product.image ||
+    (product.variants?.[0]?.images?.[0]) || // fallback to first variant image
+    "/fallback.jpg" // fallback if no image at all
+  }
+  alt={product.name}
+  className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
+/>
                     <button
                       className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition"
                       onClick={() => handleWishlistClick(product._id)}
@@ -388,6 +397,8 @@ const Shop = () => {
                 </div>
               ))}
             </div>
+
+
           </section>
         </div>
       </div>
