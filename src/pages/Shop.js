@@ -125,6 +125,8 @@ const Shop = () => {
     }
 
     addToCart(product);
+    toast.success("Product added to cart");
+    navigate("/cart");
   };
 
   const handleWishlistClick = (productId) => {
@@ -411,7 +413,7 @@ const Shop = () => {
       </div>
     );
   })}
-</div>
+            </div>
 
 
 
