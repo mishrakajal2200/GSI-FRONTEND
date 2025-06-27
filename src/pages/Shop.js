@@ -25,7 +25,8 @@ const Shop = () => {
   const [openCategories, setOpenCategories] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false); // State for mobile filter visibility
-
+const [selectedColor, setSelectedColor] = useState("");
+const [selectedSize, setSelectedSize] = useState("");
   const query = useQuery();
   const defaultCategory = query.get("category");
 
@@ -401,14 +402,36 @@ const Shop = () => {
             </div>
           </div>
 
+
+          <select onChange={(e) => setSelectedColor(e.target.value)}>
+  {product.variants.map((variant, i) => (
+    <option key={i} value={variant.color}>{variant.color}</option>
+  ))}
+</select>
+
+<select onChange={(e) => setSelectedSize(e.target.value)}>
+  {product.variants
+    .filter(v => v.color === selectedColor)
+    .map((variant, i) => (
+      <option key={i} value={variant.size}>{variant.size}</option>
+  ))}
+</select>
+
           {/* Add to Cart */}
-          <button
+          {/* <button
             className="mt-4 bg-purple-600 w-full text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition"
             onClick={() => handleAddToCart(product)}
           >
             <HiOutlineShoppingBag className="inline-block mr-1" />
             Add to Cart
-          </button>
+          </button> */}
+
+          <button
+  onClick={() => handleAddToCart(product, selectedColor, selectedSize)}
+>
+  <HiOutlineShoppingBag className="inline-block mr-1" />
+  Add to Cart
+</button>
         </div>
       </div>
     );

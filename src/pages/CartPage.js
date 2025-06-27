@@ -306,6 +306,7 @@ const CartPage = () => {
                     <div>
                       <h4 className="text-lg font-semibold">{item.name}</h4>
                       <p className="text-sm text-gray-600">₹{item.price}</p>
+                      <p className="text-sm text-gray-600">Color: {item.color} | Size: {item.size}</p>
                       <div className="flex items-center gap-2 mt-2">
                         <button onClick={() => decreaseQuantity(item.productId)} className="w-8 h-8 rounded-full bg-red-500 text-white">−</button>
                         <span>{item.quantity}</span>
