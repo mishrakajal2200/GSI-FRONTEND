@@ -435,6 +435,7 @@ const CartPage = () => {
   const totalPrice = cart.reduce((sum, item) => item.price ? sum + item.price * item.quantity : sum, 0);
 
   const handleProceed = () => setShowModal(true);
+
   const confirmCheckout = () => {
     setShowModal(false);
     navigate("/checkout", { state: { cart } });
@@ -482,12 +483,12 @@ const CartPage = () => {
                 <div key={item.productId} className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between items-center gap-4">
                   <div className="flex items-center gap-4">
                     <img
-                      src={item.selectedImage || item.image || "/fallback.jpg"}
+                      src={item.cartImage || item.selectedImage || item.image || "/fallback.jpg"}
                       alt={item.name || "Product"}
                       className="w-20 h-20 object-cover rounded-lg cursor-pointer"
                       onClick={() => {
                         setSelectedItem(item);
-                        setActiveImage(item.selectedImage || item.image || "/fallback.jpg");
+                        setActiveImage(item.cartImage || item.selectedImage || item.image || "/fallback.jpg");
                       }}
                       onError={(e) => { e.target.src = "/fallback.jpg"; }}
                     />
@@ -496,23 +497,16 @@ const CartPage = () => {
                       <p className="text-sm text-gray-600">₹{item.price}</p>
 
                       {/* Show selected color and size */}
-                     {item.color && (
-  <p className="text-sm text-gray-500">
-    Color: <span style={{ backgroundColor: item.color }} className="inline-block w-4 h-4 rounded-full border mr-1 align-middle"></span>
-    {item.color}
-  </p>
-)}
+                      {item.color && (
+                        <p className="text-sm text-gray-500">
+                          Color: <span style={{ backgroundColor: item.color }} className="inline-block w-4 h-4 rounded-full border mr-1 align-middle"></span>
+                          {item.color}
+                        </p>
+                      )}
 
-{item.size && (
-  <p className="text-sm text-gray-500">Size: {item.size}</p>
-)}
-
-<img
-  src={item.selectedImage || item.image || "/fallback.jpg"}
-  alt={item.name || "Product"}
-  className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover border cursor-pointer hover:scale-105 transition-transform"
-/>
-
+                      {item.size && (
+                        <p className="text-sm text-gray-500">Size: {item.size}</p>
+                      )}
 
                       <div className="flex items-center gap-2 mt-2">
                         <button onClick={() => decreaseQuantity(item.productId)} className="w-8 h-8 rounded-full bg-red-500 text-white">−</button>
@@ -594,7 +588,10 @@ const CartPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Thumbnails */}
               <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
-                {(selectedItem.images || [selectedItem.selectedImage || selectedItem.image]).map((img, idx) => (
+                {(selectedItem.images
+                  ? Object.values(selectedItem.images).filter(Boolean)
+                  : [selectedItem.cartImage || selectedItem.selectedImage || selectedItem.image]
+                ).map((img, idx) => (
                   <img
                     key={idx}
                     src={img}

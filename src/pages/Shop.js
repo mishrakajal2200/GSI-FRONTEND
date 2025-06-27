@@ -124,7 +124,10 @@ const Shop = () => {
       return;
     }
 
-    addToCart(product);
+    addToCart({ 
+  ...product, 
+  cartImage: product.images.side || product.images.back || product.images.front 
+});
     toast.success("Product added to cart");
     
   };
@@ -347,8 +350,7 @@ const Shop = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
   {products.map((product) => {
     // 🧠 Use fallback from variant if product.image is missing
-   const productImage =
-  product.image || product.variants?.[0]?.images?.[0] || "/default-image.jpg";
+   
 
     // 🧠 Use product.price or fallback from variant
     const Price = product.price || product.variants?.[0]?.price || "N/A";
@@ -357,9 +359,7 @@ const Shop = () => {
     const Mrp = product.mrp || Price;
 
 
-    const fullImageURL = productImage.startsWith("/uploads")
-  ? `https://www.gsienterprises.com${productImage}`
-  : productImage;
+   
 
     return (
       <div
@@ -368,11 +368,13 @@ const Shop = () => {
       >
         {/* Image Section */}
         <div className="relative overflow-hidden rounded-t-2xl">
-          <img
+          {/* <img
            src={fullImageURL}
             alt={product.name}
             className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
-          />
+          /> */}
+          <img src={product.images.front} alt={product.name} className="w-full h-64 object-cover" />
+
           <button
             className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition"
             onClick={() => handleWishlistClick(product._id)}
