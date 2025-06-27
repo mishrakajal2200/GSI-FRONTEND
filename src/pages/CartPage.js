@@ -496,15 +496,23 @@ const CartPage = () => {
                       <p className="text-sm text-gray-600">₹{item.price}</p>
 
                       {/* Show selected color and size */}
-                      {item.selectedColor && (
-                        <p className="text-sm text-gray-500">
-                          Color: <span style={{ backgroundColor: item.selectedColor }} className="inline-block w-4 h-4 rounded-full border mr-1 align-middle"></span>
-                          {item.selectedColor}
-                        </p>
-                      )}
-                      {item.selectedSize && (
-                        <p className="text-sm text-gray-500">Size: {item.selectedSize}</p>
-                      )}
+                     {item.color && (
+  <p className="text-sm text-gray-500">
+    Color: <span style={{ backgroundColor: item.color }} className="inline-block w-4 h-4 rounded-full border mr-1 align-middle"></span>
+    {item.color}
+  </p>
+)}
+
+{item.size && (
+  <p className="text-sm text-gray-500">Size: {item.size}</p>
+)}
+
+<img
+  src={item.selectedImage || item.image || "/fallback.jpg"}
+  alt={item.name || "Product"}
+  className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover border cursor-pointer hover:scale-105 transition-transform"
+/>
+
 
                       <div className="flex items-center gap-2 mt-2">
                         <button onClick={() => decreaseQuantity(item.productId)} className="w-8 h-8 rounded-full bg-red-500 text-white">−</button>

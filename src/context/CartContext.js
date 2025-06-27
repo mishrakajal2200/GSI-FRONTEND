@@ -35,23 +35,48 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   // ➕ Add to Cart
-  const addToCart = async (productId) => {
+//   const addToCart = async (productId) => {
+//   const token = localStorage.getItem("token");
+//   try {
+//     await axios.post(
+//       "https://www.gsienterprises.com/api/cart/add",{
+//          withCredentials:true
+//       },
+//       { productId },
+//       { headers: { Authorization: `Bearer ${token}` } },
+     
+//     );
+//     fetchCartData(); // <-- refresh cart after adding
+//   } catch (err) {
+//     console.error("Error adding to cart:", err);
+//   }
+// };
+  const addToCart = async ({ productId, color, size, image, price }) => {
   const token = localStorage.getItem("token");
   try {
     await axios.post(
-      "https://www.gsienterprises.com/api/cart/add",{
-         withCredentials:true
+      "https://www.gsienterprises.com/api/cart/add",
+      {
+        productId,
+        color,
+        size,
+        image,
+        price,
       },
-      { productId },
-      { headers: { Authorization: `Bearer ${token}` } },
-     
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
     );
-    fetchCartData(); // <-- refresh cart after adding
+
+    fetchCartData(); // refresh cart after adding
   } catch (err) {
     console.error("Error adding to cart:", err);
   }
 };
-  
+
   
   
 
