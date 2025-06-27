@@ -344,11 +344,15 @@ const Shop = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
   {products.map((product) => {
-    const hasVariants = product.variants && product.variants.length > 0;
-    const firstVariant = hasVariants ? product.variants[0] : null;
+    // 🧠 Use fallback from variant if product.image is missing
+    const productImage =
+      product.image || product.variants?.[0]?.images?.[0] || "/default-image.jpg";
 
-    const productImage = product.image || firstVariant?.image?.[0] || "/default-image.jpg";
-    const productPrice = product.price || firstVariant?.price || "N/A";
+    // 🧠 Use product.price or fallback from variant
+    const productPrice = product.price || product.variants?.[0]?.price || "N/A";
+
+    // 🧠 Use MRP if available, else fallback to productPrice
+    const productMrp = product.mrp || productPrice;
 
     return (
       <div
@@ -374,11 +378,19 @@ const Shop = () => {
         <div className="flex flex-col justify-between flex-grow p-4">
           <div>
             <h4 className="text-lg font-bold text-gray-800 mb-1">{product.name}</h4>
-            <p className="text-gray-600 text-sm mb-2 line-clamp-2">{product.description}</p>
+            <p className="text-gray-600 text-sm mb-2 line-clamp-2">
+              {product.description}
+            </p>
 
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-purple-600 text-lg font-bold">₹{productPrice}</span>
-              <span className="text-gray-400 text-sm line-through">₹{product.mrp}</span>
+              <span className="text-purple-600 text-lg font-bold">
+                ₹{productPrice}
+              </span>
+              {productMrp > productPrice && (
+                <span className="text-gray-400 text-sm line-through">
+                  ₹{productMrp}
+                </span>
+              )}
             </div>
           </div>
 
@@ -395,6 +407,7 @@ const Shop = () => {
     );
   })}
 </div>
+
 
 
             
