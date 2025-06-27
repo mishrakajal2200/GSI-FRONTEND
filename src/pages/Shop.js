@@ -356,7 +356,7 @@ const Shop = () => {
 
 
     const fullImageURL = productImage.startsWith("/uploads")
-  ? `http://localhost:5000${productImage}`
+  ? `https://www.gsienterprises.com${productImage}`
   : productImage;
 
     return (
