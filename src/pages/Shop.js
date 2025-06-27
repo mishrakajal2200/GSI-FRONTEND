@@ -4,7 +4,7 @@ import axios from "axios";
 import { FaHeart, FaRegHeart, FaTags } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-import { useCart } from "../context/CartContext";
+// import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,15 +25,15 @@ const Shop = () => {
   const [openCategories, setOpenCategories] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false); // State for mobile filter visibility
-const [selectedColor, setSelectedColor] = useState("");
-const [selectedSize, setSelectedSize] = useState("");
+
+
   const query = useQuery();
   const defaultCategory = query.get("category");
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { cart, addToCart } = useCart();
+  // const { cart, addToCart } = useCart();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   const isInWishlist = (product) =>
@@ -109,26 +109,69 @@ const [selectedSize, setSelectedSize] = useState("");
     fetchProducts();
   }, [selectedBrands, selectedCategories, sortOption, location.state]);
 
-  const handleAddToCart = (product) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+  // const handleAddToCart = (product) => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     navigate("/login");
+  //     return;
+  //   }
 
-    const isAlreadyInCart = cart.some(
-      (item) => item.productId === product._id || item._id === product._id
+  //   const isAlreadyInCart = cart.some(
+  //     (item) => item.productId === product._id || item._id === product._id
+  //   );
+
+  //   if (isAlreadyInCart) {
+  //     toast.warning("Product is already in the cart");
+  //     return;
+  //   }
+
+  //   addToCart(product);
+  //   toast.success("Product added to cart");
+  //   navigate("/cart");
+  // };
+const handleAddToCart = async (product) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/login");
+    return;
+  }
+
+  // Assuming you already have selectedColor, selectedSize, and selectedImage in your product card
+  const selectedColor = product.selectedColor || product.colors?.[0]; // update as needed
+  const selectedSize = product.selectedSize || product.sizes?.[0];   // update as needed
+  const selectedImage = product.selectedImage || product.images?.front || product.image;
+
+  if (!selectedColor || !selectedSize) {
+    toast.error("Please select color and size before adding to cart");
+    return;
+  }
+
+  try {
+    const response = await axios.post(
+      "/api/cart/add",
+      {
+        productId: product._id,
+        color: selectedColor,
+        size: selectedSize,
+        image: selectedImage,
+        price: product.price,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
     );
-
-    if (isAlreadyInCart) {
-      toast.warning("Product is already in the cart");
-      return;
-    }
-
-    addToCart(product);
-    toast.success("Product added to cart");
+  console.log("Cart updated:", response.data.cart);
+    toast.success("Product added to cart!");
     navigate("/cart");
-  };
+  } catch (err) {
+    console.error("Error adding to cart:", err);
+    toast.error(err.response?.data?.message || "Failed to add to cart");
+  }
+};
+
 
   const handleWishlistClick = (productId) => {
     const token = localStorage.getItem("token");
@@ -402,36 +445,14 @@ const [selectedSize, setSelectedSize] = useState("");
             </div>
           </div>
 
-
-          <select onChange={(e) => setSelectedColor(e.target.value)}>
-  {product.variants.map((variant, i) => (
-    <option key={i} value={variant.color}>{variant.color}</option>
-  ))}
-</select>
-
-<select onChange={(e) => setSelectedSize(e.target.value)}>
-  {product.variants
-    .filter(v => v.color === selectedColor)
-    .map((variant, i) => (
-      <option key={i} value={variant.size}>{variant.size}</option>
-  ))}
-</select>
-
           {/* Add to Cart */}
-          {/* <button
+          <button
             className="mt-4 bg-purple-600 w-full text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition"
             onClick={() => handleAddToCart(product)}
           >
             <HiOutlineShoppingBag className="inline-block mr-1" />
             Add to Cart
-          </button> */}
-
-          <button
-  onClick={() => handleAddToCart(product, selectedColor, selectedSize)}
->
-  <HiOutlineShoppingBag className="inline-block mr-1" />
-  Add to Cart
-</button>
+          </button>
         </div>
       </div>
     );
