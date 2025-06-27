@@ -356,7 +356,7 @@ const Shop = () => {
     const Price = product.price || product.variants?.[0]?.price || "N/A";
 
     // 🧠 Use MRP if available, else fallback to productPrice
-    const Mrp = product.mrp || Price;
+    const mrp = product.mrp || Price;
 
 
    
@@ -373,7 +373,12 @@ const Shop = () => {
             alt={product.name}
             className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
           /> */}
-          <img src={product.images.front} alt={product.name} className="w-full h-64 object-cover" />
+          <img
+  src={product.image || product.images?.front || '/carlton.webp'}
+  alt={product.name}
+  className="w-full h-64 object-cover"
+/>
+
 
           <button
             className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition"
@@ -395,9 +400,9 @@ const Shop = () => {
               <span className="text-purple-600 text-lg font-bold">
                 ₹{Price}
               </span>
-              {Mrp > Price && (
+              {mrp > Price && (
                 <span className="text-gray-400 text-sm line-through">
-                  ₹{Mrp}
+                  ₹{mrp}
                 </span>
               )}
             </div>
