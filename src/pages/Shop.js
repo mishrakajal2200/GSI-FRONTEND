@@ -345,14 +345,19 @@ const Shop = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
   {products.map((product) => {
     // 🧠 Use fallback from variant if product.image is missing
-    const productImage =
-      product.image || product.variants?.[0]?.images?.[0] || "/default-image.jpg";
+   const productImage =
+  product.image || product.variants?.[0]?.images?.[0] || "/default-image.jpg";
 
     // 🧠 Use product.price or fallback from variant
-    const productPrice = product.price || product.variants?.[0]?.price || "N/A";
+    const Price = product.price || product.variants?.[0]?.price || "N/A";
 
     // 🧠 Use MRP if available, else fallback to productPrice
-    const productMrp = product.mrp || productPrice;
+    const Mrp = product.mrp || Price;
+
+
+    const fullImageURL = productImage.startsWith("/uploads")
+  ? `http://localhost:5000${productImage}`
+  : productImage;
 
     return (
       <div
@@ -362,7 +367,7 @@ const Shop = () => {
         {/* Image Section */}
         <div className="relative overflow-hidden rounded-t-2xl">
           <img
-            src={productImage}
+           src={fullImageURL}
             alt={product.name}
             className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
           />
@@ -384,11 +389,11 @@ const Shop = () => {
 
             <div className="flex items-center gap-2 mb-3">
               <span className="text-purple-600 text-lg font-bold">
-                ₹{productPrice}
+                ₹{Price}
               </span>
-              {productMrp > productPrice && (
+              {Mrp > Price && (
                 <span className="text-gray-400 text-sm line-through">
-                  ₹{productMrp}
+                  ₹{Mrp}
                 </span>
               )}
             </div>
