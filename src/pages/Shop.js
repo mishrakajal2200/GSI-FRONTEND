@@ -124,10 +124,12 @@ const Shop = () => {
       return;
     }
 
-    addToCart({ 
+   addToCart({ 
   ...product, 
-  cartImage: product.images.side || product.images.back || product.images.front 
+  cartImage: product.images.side || product.images.front || product.images.back,
+  selectedColor: product.colors?.[0] || null
 });
+
     toast.success("Product added to cart");
     
   };
