@@ -375,10 +375,10 @@ const Shop = () => {
             className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
           /> */}
           <img
-    src={product.images?.[0] || `/uploads/${product.image}`}
-    alt={product.name}
-    className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
-  />
+  src={product.images?.[0] || product.image}
+  alt={product.name}
+  className="w-full h-52 object-contain"
+/>
 
           <button
             className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition"
