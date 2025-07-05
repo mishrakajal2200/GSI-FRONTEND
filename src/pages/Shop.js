@@ -125,9 +125,8 @@ const Shop = () => {
     }
 
    addToCart({ 
-  ...product, 
-  cartImage: product.images.side || product.images.front || product.images.back,
-  selectedColor: product.colors?.[0] || null
+  _id: product._id,
+  quantity: 1,
 });
 
     toast.success("Product added to cart");
