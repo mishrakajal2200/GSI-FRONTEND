@@ -375,7 +375,7 @@ const Shop = () => {
             className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
           /> */}
           <img
-  src={product.image}
+  src={`https://www.gsienterprises.com/${product.image}`}
   alt={product.name}
   className="w-full h-52 object-contain"
 />

@@ -51,6 +51,7 @@ export const CartProvider = ({ children }) => {
 //     console.error("Error adding to cart:", err);
 //   }
 // };
+
   const addToCart = async ({ productId, color, size, image, price }) => {
   const token = localStorage.getItem("token");
   try {
