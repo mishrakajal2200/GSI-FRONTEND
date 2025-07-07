@@ -734,7 +734,8 @@ const CartPage = () => {
                   </h3>
 
                   <div className="flex flex-col md:flex-row gap-6">
-                    <div className="flex flex-col items-center md:w-1/3">
+
+                    {/* <div className="flex flex-col items-center md:w-1/3">
                       <img
                         src={mainImage}
                         alt="Main"
@@ -755,7 +756,33 @@ const CartPage = () => {
                           />
                         ))}
                       </div>
-                    </div>
+                    </div> */}
+                    <div className="flex gap-4 md:w-1/3">
+  {/* Vertical Thumbnails */}
+  <div className="flex flex-col gap-2">
+    {[mainItem.image, ...mainItem.images || []].map((img, idx) => (
+      <img
+        key={idx}
+        src={img}
+        alt={`Thumb-${idx}`}
+        onClick={() => handleThumbnailClick(img)}
+        className={`w-16 h-16 object-cover rounded border cursor-pointer ${
+          mainImage === img ? "border-blue-500" : "border-gray-300"
+        }`}
+      />
+    ))}
+  </div>
+
+  {/* Main Image */}
+  <div className="flex-1">
+    <img
+      src={mainImage}
+      alt="Main"
+      className="w-full h-64 object-contain rounded-lg border"
+    />
+  </div>
+</div>
+
 
                     <div className="md:w-2/3 space-y-4">
                       {items.map((item) => (
