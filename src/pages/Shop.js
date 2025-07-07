@@ -367,6 +367,8 @@ const Shop = () => {
         key={product._id}
         className="flex flex-col bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 group h-full"
       >
+
+      {console.log("Product Image:", product.image)}
         {/* Image Section */}
         <div className="relative overflow-hidden rounded-t-2xl">
           {/* <img
