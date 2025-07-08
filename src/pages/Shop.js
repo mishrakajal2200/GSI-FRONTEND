@@ -236,7 +236,7 @@ const Shop = () => {
         <div className="flex flex-col md:flex-row gap-8">
           {/* Conditionally render the sidebar on non-mobile screens */}
           {!isMobile && (
-            <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg sticky top-6 text-white">
+            <aside className="md:w-1/4 h-screen overflow-auto bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg sticky top-6 text-white">
               <h2 className="text-2xl font-bold mb-6 text-purple-400 tracking-wide flex items-center gap-2">
                 <FaTags /> Filters
               </h2>
