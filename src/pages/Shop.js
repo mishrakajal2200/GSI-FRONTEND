@@ -237,7 +237,7 @@ const Shop = () => {
           {/* Conditionally render the sidebar on non-mobile screens */}
           {!isMobile && (
             <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white h-fit sticky top-6">
-  <div className="max-h-[90vh] overflow-auto">
+  <div className="max-h-[40vh] overflow-auto">
     <h2 className="text-2xl font-bold mb-6 text-purple-400 tracking-wide flex items-center gap-2">
       <FaTags /> Filters
     </h2>
