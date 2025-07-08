@@ -233,10 +233,10 @@ const Shop = () => {
       <ToastContainer />
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Shop Our Products</h1>
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col md:flex-row items-start gap-8">
           {/* Conditionally render the sidebar on non-mobile screens */}
           {!isMobile && (
-            <aside className="md:w-1/4 max-h-[40vh] bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg sticky top-6 text-white">
+            <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg sticky top-6 text-white">
               <h2 className="text-2xl font-bold mb-6 text-purple-400 tracking-wide flex items-center gap-2">
                 <FaTags /> Filters
               </h2>
