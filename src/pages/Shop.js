@@ -236,51 +236,55 @@ const Shop = () => {
         <div className="flex flex-col md:flex-row items-start gap-8">
           {/* Conditionally render the sidebar on non-mobile screens */}
           {!isMobile && (
-            <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg self-start text-white">
-            <div className="max-h-[90vh] overflow-auto">
-<h2 className="text-2xl font-bold mb-6 text-purple-400 tracking-wide flex items-center gap-2">
-                <FaTags /> Filters
-              </h2>
-              <div className="mb-8">
-                <h3 className="text-lg font-semibold mb-3 border-b border-gray-700 pb-1">Brands</h3>
-                <ul className="space-y-2">
-                  {brandsData.map((brand, index) => (
-                    <li key={brand.name + index} className="flex flex-col">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <input
-                            type="checkbox"
-                            className="mr-2 accent-purple-500 h-4 w-4"
-                            onChange={() => handleBrandChange(brand.name)}
-                            checked={selectedBrands.includes(brand.name)}
-                          />
-                          <label className="cursor-pointer">{brand.name}</label>
-                        </div>
-                        {brand.subcategories.length > 0 && (
-                          <span
-                            className="cursor-pointer text-purple-300 hover:text-purple-500 text-sm"
-                            onClick={() => toggleSubcategories(brand.name)}
-                          >
-                            {openBrand === brand.name ? "▲" : "▼"}
-                          </span>
-                        )}
-                      </div>
-                      {brand.subcategories.length > 0 && openBrand === brand.name && (
-                        <ul className="ml-4 space-y-1 mt-1">
-                          {renderSubcategories(brand.subcategories)}
-                        </ul>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white h-fit sticky top-6">
+  <div className="max-h-[90vh] overflow-auto">
+    <h2 className="text-2xl font-bold mb-6 text-purple-400 tracking-wide flex items-center gap-2">
+      <FaTags /> Filters
+    </h2>
 
-              <div>
-                <h3 className="text-lg font-semibold mb-3 border-b border-gray-700 pb-1">Categories</h3>
-                {renderSubcategories(categoriesData)}
+    {/* Brands Filter */}
+    <div className="mb-8">
+      <h3 className="text-lg font-semibold mb-3 border-b border-gray-700 pb-1">Brands</h3>
+      <ul className="space-y-2">
+        {brandsData.map((brand, index) => (
+          <li key={brand.name + index} className="flex flex-col">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2 accent-purple-500 h-4 w-4"
+                  onChange={() => handleBrandChange(brand.name)}
+                  checked={selectedBrands.includes(brand.name)}
+                />
+                <label className="cursor-pointer">{brand.name}</label>
               </div>
+              {brand.subcategories.length > 0 && (
+                <span
+                  className="cursor-pointer text-purple-300 hover:text-purple-500 text-sm"
+                  onClick={() => toggleSubcategories(brand.name)}
+                >
+                  {openBrand === brand.name ? "▲" : "▼"}
+                </span>
+              )}
             </div>
-            </aside>
+            {brand.subcategories.length > 0 && openBrand === brand.name && (
+              <ul className="ml-4 space-y-1 mt-1">
+                {renderSubcategories(brand.subcategories)}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {/* Categories Filter */}
+    <div>
+      <h3 className="text-lg font-semibold mb-3 border-b border-gray-700 pb-1">Categories</h3>
+      {renderSubcategories(categoriesData)}
+    </div>
+  </div>
+</aside>
+
           )}
 
           <section className="flex-1">
