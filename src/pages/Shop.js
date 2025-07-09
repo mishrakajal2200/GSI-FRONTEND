@@ -235,10 +235,10 @@ const Shop = () => {
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Shop Our Products</h1>
         {/* Conditionally render the sidebar on non-mobile screens */}
           {!isMobile && (
-            <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white self-start h-fit sticky top-6 flex-shrink-0">
+            <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white flex-shrink-0">
   <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-700">
     <h2 className="text-2xl font-bold mb-6 text-purple-400 tracking-wide flex items-center gap-2">
-      <FaTags /> Filters
+      <FaTags /> Filter
     </h2>
 
     {/* Brands Filter */}
@@ -282,13 +282,9 @@ const Shop = () => {
       {renderSubcategories(categoriesData)}
     </div>
   </div>
-</aside>
-
-
+            </aside>
           )}
         <div className="flex flex-col md:flex-row items-start gap-8 min-h-0">
-          
-
           <section className="flex-1">
             <div className="flex justify-between mb-6">     
               {/* Button to show filters on mobile */}
