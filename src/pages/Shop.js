@@ -229,7 +229,7 @@ const Shop = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-purple-300 via-pink-300 to-yellow-300 min-h-screen py-10">
+    <div className="bg-gradient-to-br from-purple-300 via-pink-300 to-yellow-300 py-10">
       <ToastContainer />
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Shop Our Products</h1>
