@@ -233,8 +233,7 @@ const Shop = () => {
       <ToastContainer />
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Shop Our Products</h1>
-        <div className="flex flex-col md:flex-row items-start gap-8 min-h-0">
-          {/* Conditionally render the sidebar on non-mobile screens */}
+        {/* Conditionally render the sidebar on non-mobile screens */}
           {!isMobile && (
             <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white self-start h-fit sticky top-6 flex-shrink-0">
   <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-700">
@@ -287,6 +286,8 @@ const Shop = () => {
 
 
           )}
+        <div className="flex flex-col md:flex-row items-start gap-8 min-h-0">
+          
 
           <section className="flex-1">
             <div className="flex justify-between mb-6">     
