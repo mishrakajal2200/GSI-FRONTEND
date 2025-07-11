@@ -362,10 +362,6 @@ const Shop = () => {
 
     // 🧠 Use MRP if available, else fallback to productPrice
     const mrp = product.mrp || Price;
-
-
-   
-
     return (
       <div
         key={product._id}
@@ -385,7 +381,6 @@ const Shop = () => {
   alt={product.name}
   className="w-full h-52 object-contain"
 />
-
           <button
             className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition"
             onClick={() => handleWishlistClick(product._id)}
@@ -427,10 +422,6 @@ const Shop = () => {
     );
   })}
             </div>
-
-
-
-            
           </section>
         </div>
       </div>
