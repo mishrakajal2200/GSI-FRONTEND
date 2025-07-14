@@ -233,7 +233,7 @@ const Shop = () => {
       <ToastContainer />
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Shops Our Products</h1>
-        <h1>GSI Enterprises — Updated on 11 July!</h1>
+       
         {/* Conditionally render the sidebar on non-mobile screens */}
           {!isMobile && (
             <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white flex-shrink-0">
