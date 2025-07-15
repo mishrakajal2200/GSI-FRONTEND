@@ -69,7 +69,7 @@ const Profile = () => {
     }
     
     try {
-      const res = await axios.get("https://www.gsienterprises.com/api/auth/profile/getprofile",{withCredentials:true}, {
+      const res = await axios.get("https://api.gsienterprises.com/api/auth/profile/getprofile",{withCredentials:true}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -114,7 +114,7 @@ const Profile = () => {
     if (!token) return toast.error("Not authorized");
 
     try {
-      const res = await axios.put("https://www.gsienterprises.com/api/auth/profile", formData,{withCredentials:true}, {
+      const res = await axios.put("https://api.gsienterprises.com/api/auth/profile", formData,{withCredentials:true}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

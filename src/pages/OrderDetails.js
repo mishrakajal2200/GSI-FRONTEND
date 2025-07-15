@@ -14,7 +14,7 @@ const OrderDetails = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const { data } = await axios.get(`https://www.gsienterprises.com/api/payment/orders/${id}`,{withCredentials:true}, {
+        const { data } = await axios.get(`https://api.gsienterprises.com/api/payment/orders/${id}`,{withCredentials:true}, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         setOrder(data);

@@ -14,7 +14,7 @@ const OrderHistory = () => {
     const fetchOrders = async () => {
       try {
         const { data } = await axios.get(
-          "https://www.gsienterprises.com/api/payment/get-orders",{
+          "https://api.gsienterprises.com/api/payment/get-orders",{
             withCredentials:true
           },
           {

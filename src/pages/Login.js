@@ -19,7 +19,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('https://www.gsienterprises.com/api/auth/login', { email, password },{withCredentials:true});
+      const response = await axios.post('https://api.gsienterprises.com/api/auth/login', { email, password },{withCredentials:true});
       localStorage.setItem('token', response.data.token);
       toast.success('Login successful!');
       setTimeout(() => navigate('/'), 2000);
