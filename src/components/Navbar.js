@@ -19,9 +19,9 @@ import { useWishlist } from "../context/WishlistContext.js";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const user = true;
+  // const user = true;
   const navigate = useNavigate();
-  const { cart,  setUser } = useCart();
+  const { cart, user, setUser } = useCart();
   const { wishlist } = useWishlist();
 
   const toggleNav = () => setIsNavOpen(!isNavOpen);
