@@ -1,4 +1,5 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
+import { toast } from "react-toastify";
 import { useState ,useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -45,21 +46,31 @@ const Navbar = () => {
 
   //   navigate("/login");
   // };
+// const handleLogout = () => {
+//   console.log("Logged out");
+//   localStorage.removeItem("token");
+//   setUser(null); // This will cause Navbar to re-render and show Login/Signup
+//   navigate("/login");
+// };
+
 const handleLogout = () => {
-  console.log("Logged out");
-  localStorage.removeItem("token");
-  setUser(null); // This will cause Navbar to re-render and show Login/Signup
-  navigate("/login");
+  localStorage.removeItem("user");
+  setUser(null);
+  toast.success("Logged out");
 };
 
+// useEffect(() => {
+//   const storedUser = localStorage.getItem("user");
+//   setUser(storedUser ? JSON.parse(storedUser) : null);
+// }, [setUser]);
 
 useEffect(() => {
   const storedUser = localStorage.getItem("user");
-  setUser(storedUser ? JSON.parse(storedUser) : null);
-}, [setUser]);
-
+  if (storedUser) setUser(JSON.parse(storedUser));
+}, []);
   const handleSearch = async (e) => {
   e.preventDefault();
+
 
   const trimmedTerm = searchTerm.trim();
 
