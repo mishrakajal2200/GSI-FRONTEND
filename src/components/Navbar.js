@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { toast } from "react-toastify";
+
 import { useState ,useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -20,9 +19,9 @@ import { useWishlist } from "../context/WishlistContext.js";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  // const user = true;
+  const user = true;
   const navigate = useNavigate();
-  const { cart, user, setUser } = useCart();
+  const { cart,  setUser } = useCart();
   const { wishlist } = useWishlist();
 
   const toggleNav = () => setIsNavOpen(!isNavOpen);
@@ -46,31 +45,21 @@ const Navbar = () => {
 
   //   navigate("/login");
   // };
-// const handleLogout = () => {
-//   console.log("Logged out");
-//   localStorage.removeItem("token");
-//   setUser(null); // This will cause Navbar to re-render and show Login/Signup
-//   navigate("/login");
-// };
-
 const handleLogout = () => {
-  localStorage.removeItem("user");
-  setUser(null);
-  toast.success("Logged out");
+  console.log("Logged out");
+  localStorage.removeItem("token");
+  setUser(null); // This will cause Navbar to re-render and show Login/Signup
+  navigate("/login");
 };
 
-// useEffect(() => {
-//   const storedUser = localStorage.getItem("user");
-//   setUser(storedUser ? JSON.parse(storedUser) : null);
-// }, [setUser]);
 
 useEffect(() => {
   const storedUser = localStorage.getItem("user");
-  if (storedUser) setUser(JSON.parse(storedUser));
-}, []);
+  setUser(storedUser ? JSON.parse(storedUser) : null);
+}, [setUser]);
+
   const handleSearch = async (e) => {
   e.preventDefault();
-
 
   const trimmedTerm = searchTerm.trim();
 
