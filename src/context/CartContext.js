@@ -199,6 +199,7 @@ const totalItems = (cart || []).filter(item => item).length;
     <CartContext.Provider
       value={{
         cart,
+        setCart ,
         savedItems,
         totalItems,
         addToCart,

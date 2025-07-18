@@ -19,9 +19,9 @@ import { useWishlist } from "../context/WishlistContext.js";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [user, setUser] = useState(null);
+  const user = true;
   const navigate = useNavigate();
-  const { cart} = useCart();
+  const { cart,  setCart } = useCart();
   const { wishlist } = useWishlist();
 
   const toggleNav = () => setIsNavOpen(!isNavOpen);
@@ -41,22 +41,22 @@ const Navbar = () => {
   //   localStorage.removeItem("user");
 
   //   clearCart && clearCart();
-  //   setUser && setUser(null);
+  //   setCart && setCart(null);
 
   //   navigate("/login");
   // };
 const handleLogout = () => {
   console.log("Logged out");
   localStorage.removeItem("token");
- setUser(null);
+  setCart(null); // This will cause Navbar to re-render and show Login/Signup
   navigate("/login");
 };
 
 
 useEffect(() => {
   const storedUser = localStorage.getItem("user");
-  setUser(storedUser ? JSON.parse(storedUser) : null);
-}, []);
+  setCart(storedUser ? JSON.parse(storedUser) : null);
+}, [setCart]);
 
   const handleSearch = async (e) => {
   e.preventDefault();
