@@ -241,7 +241,7 @@ const Shop = () => {
         <div className="flex flex-col lg:flex-row gap-8">
 {!isMobile && (
             <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white flex-shrink-0">
-  <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-800 rounded-md">
+  <div className="max-h-[75vh] overflow-y-auto pr-2 rounded-md">
     <h2 className="text-2xl font-extrabold mb-6 text-purple-300 tracking-wide flex items-center gap-2">
   <FaTags className="text-purple-500 text-2xl" /> Filters
 </h2>
