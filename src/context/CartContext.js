@@ -8,7 +8,7 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [savedItems, setSavedItems] = useState([]);
-const [user, setUser] = useState(null);
+
   // 🔃 Fetch cart and wishlist from backend on load
   const fetchCartData = async () => {
     try {
@@ -205,8 +205,6 @@ const totalItems = (cart || []).filter(item => item).length;
         removeFromCart,
         increaseQuantity,
         decreaseQuantity,
-       user,       // ✅ Provide user
-        setUser,    // ✅ Provide setUser
         handleMoveToCart,
         clearCart,
       }}
