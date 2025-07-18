@@ -231,13 +231,16 @@ const Shop = () => {
   return (
     <div className="bg-gradient-to-br from-purple-300 via-pink-300 to-yellow-300 py-10">
       <ToastContainer />
+
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
         <h1 className="text-4xl font-extrabold text-gray-900 mb-10 text-center tracking-wide drop-shadow-sm">
   🛍️ Explore Our Products
-</h1>
+       </h1>
        
         {/* Conditionally render the sidebar on non-mobile screens */}
-          {!isMobile && (
+          
+        <div className="flex flex-col lg:flex-row gap-8">
+{!isMobile && (
             <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white flex-shrink-0">
   <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-800 rounded-md">
     <h2 className="text-2xl font-extrabold mb-6 text-purple-300 tracking-wide flex items-center gap-2">
@@ -287,8 +290,8 @@ const Shop = () => {
   </div>
             </aside>
           )}
-        <div className="flex flex-col lg:flex-row gap-8">
-          <section className="flex-1">
+
+          <section className="w-full lg:flex-1">
             <div className="flex justify-between mb-6">     
               {/* Button to show filters on mobile */}
               {isMobile && (
@@ -426,8 +429,10 @@ const Shop = () => {
   })}
             </div>
           </section>
+
         </div>
       </div>
+
     </div>
   );
 };
