@@ -287,7 +287,7 @@ const Shop = () => {
   </div>
             </aside>
           )}
-        <div className="flex flex-col md:flex-row items-start gap-8 min-h-0">
+        <div className="flex flex-col lg:flex-row gap-8">
           <section className="flex-1">
             <div className="flex justify-between mb-6">     
               {/* Button to show filters on mobile */}
