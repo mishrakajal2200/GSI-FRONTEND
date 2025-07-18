@@ -1,5 +1,5 @@
 
-import { useState ,useEffect} from "react";
+import { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaBars,
@@ -19,12 +19,14 @@ import { useWishlist } from "../context/WishlistContext.js";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const user = true;
+  // const user = true;
+  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  const { cart,  setCart } = useCart();
+  const { cart} = useCart();
   const { wishlist } = useWishlist();
+  const { clearCart } = useCart();
   const toggleNav = () => setIsNavOpen(!isNavOpen);
-  const totalQuantity = cart?.reduce((sum, item) => sum + item.quantity, 0);
+  
  
   // const handleLogout = () => {
   //   console.log("Logged out");
@@ -47,15 +49,16 @@ const Navbar = () => {
 const handleLogout = () => {
   console.log("Logged out");
   localStorage.removeItem("token");
-  setCart(null); // This will cause Navbar to re-render and show Login/Signup
+  // setCart(null); // This will cause Navbar to re-render and show Login/Signup
+  clearCart();
   navigate("/login");
 };
 
 
-useEffect(() => {
-  const storedUser = localStorage.getItem("user");
-  setCart(storedUser ? JSON.parse(storedUser) : null);
-}, [setCart]);
+// useEffect(() => {
+//   const storedUser = localStorage.getItem("user");
+//   setCart(storedUser ? JSON.parse(storedUser) : null);
+// }, [setCart]);
 
   const handleSearch = async (e) => {
   e.preventDefault();
@@ -231,14 +234,13 @@ useEffect(() => {
     </Link> */}
 
     <Link to="/cart" className="relative text-white hover:text-gray-200">
-        <FaShoppingCart className="text-xl" />
-        
-        {totalQuantity > 0 && (
-          <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-            {totalQuantity}
-          </span>
-        )}
-      </Link>
+  <FaShoppingCart className="text-xl" />
+  {Array.isArray(cart) && cart.length > 0 && (
+    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+      {cart.length}
+    </span>
+  )}
+</Link>
 
     <div className="relative group">
       <button className="flex items-center text-white hover:text-gray-200 focus:outline-none">
