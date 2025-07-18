@@ -380,7 +380,7 @@ const Shop = () => {
             className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
           /> */}
           <img
-  src={`https://api.gsienterprises.com/${product.image}`}
+  src={product.image}
   alt={product.name}
  className="w-full h-52 object-contain p-2 transition duration-300 ease-in-out transform group-hover:scale-105"
 />
