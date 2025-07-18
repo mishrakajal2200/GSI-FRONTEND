@@ -14,7 +14,7 @@ const [user, setUser] = useState(null);
     try {
       const token = localStorage.getItem("token");
   
-      const res = await axios.get("https://www.gsienterprises.com/api/cart/getcart", {
+      const res = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -56,7 +56,7 @@ const [user, setUser] = useState(null);
   const token = localStorage.getItem("token");
   try {
     await axios.post(
-      "https://www.gsienterprises.com/api/cart/add",
+      "https://api.gsienterprises.com/api/cart/add",
       {
         productId,
         color,
@@ -94,7 +94,7 @@ const [user, setUser] = useState(null);
 
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.delete(`https://www.gsienterprises.com/api/cart/remove/${productId}`,{
+    const res = await axios.delete(`https://api.gsienterprises.com/api/cart/remove/${productId}`,{
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -115,7 +115,7 @@ const [user, setUser] = useState(null);
       const token = localStorage.getItem("token"); // or however you store it
   
       const res = await axios.patch(
-        `https://www.gsienterprises.com/api/cart/increase/${productId}`,
+        `https://api.gsienterprises.com/api/cart/increase/${productId}`,
         {withCredentials:true},
         {
           headers: {
@@ -137,7 +137,7 @@ const [user, setUser] = useState(null);
       const token = localStorage.getItem("token"); // or however you store it
   
       const res = await axios.patch(
-        `https://www.gsienterprises.com/api/cart/decrease/${productId}`,
+        `https://api.gsienterprises.com/api/cart/decrease/${productId}`,
         {withCredentials:true},
         {
           headers: {
@@ -170,7 +170,7 @@ const [user, setUser] = useState(null);
   // 🔁 Move from Wishlist to Cart
   const handleMoveToCart = async (productId) => {
     try {
-      const res = await axios.patch(`https://www.gsienterprises.com/api/cart/move/${productId}`,{
+      const res = await axios.patch(`https://api.gsienterprises.com/api/cart/move/${productId}`,{
         withCredentials:true
       });
       setCart(res.data.cart);
