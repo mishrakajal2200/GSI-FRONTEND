@@ -14,7 +14,7 @@ export const WishlistProvider = ({ children }) => {
   const fetchWishlist = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("https://www.gsienterprises.com/api/wishlist/getWishlist", {
+      const res = await axios.get("https://api.gsienterprises.com/api/wishlist/getWishlist", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -35,7 +35,7 @@ export const WishlistProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "https://www.gsienterprises.com/api/wishlist/add",
+        "https://api.gsienterprises.com/api/wishlist/add",
         {withCredentials:true},
         { productId },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -51,7 +51,7 @@ const removeFromWishlist = async (productId) => {
   try {
     const token = localStorage.getItem("token");
     const res = await axios.delete(
-      `https://www.gsienterprises.com/api/wishlist/remove/${productId}`,
+      `https://api.gsienterprises.com/api/wishlist/remove/${productId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       },
@@ -75,7 +75,7 @@ const removeFromWishlist = async (productId) => {
     const token = localStorage.getItem("token");
 
     const res = await axios.patch(
-      `https://www.gsienterprises.com/api/wishlist/move/${productId}`,
+      `https://api.gsienterprises.com/api/wishlist/move/${productId}`,
       {withCredentials:true},
       {
         headers: {
