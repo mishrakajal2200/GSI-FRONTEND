@@ -48,8 +48,8 @@ const Shop = () => {
     const fetchFilters = async () => {
       try {
         const [brandRes, categoryRes] = await Promise.all([
-          axios.get("https://gsi-backend-0lt5.onrender.com/api/filters/brands",{withCredentials:true}),
-          axios.get("https://gsi-backend-0lt5.onrender.com/api/filters/categories",{withCredentials:true}),
+          axios.get("https://api.gsienterprises.com/api/filters/brands",{withCredentials:true}),
+          axios.get("https://api.gsienterprises.com/api/filters/categories",{withCredentials:true}),
         ]);
         console.log("Brand response:", brandRes.data);
         console.log("Category response:", categoryRes.data);
@@ -92,7 +92,7 @@ const Shop = () => {
         try {
           const brandQuery = selectedBrands.join(",");
           const categoryQuery = selectedCategories.join(",");
-          const res = await axios.get("https://gsi-backend-0lt5.onrender.com/api/getproducts/products",{withCredentials:true}, {
+          const res = await axios.get("https://api.gsienterprises.com/api/getproducts/products",{withCredentials:true}, {
             params: {
               brands: brandQuery,
               categories: categoryQuery,
@@ -380,7 +380,7 @@ const Shop = () => {
             className="w-full h-52 object-contain transition-transform duration-300 group-hover:scale-105"
           /> */}
           <img
-  src={product.image}
+  src={`https://api.gsienterprises.com/${product.image}`}
   alt={product.name}
  className="w-full h-52 object-contain p-2 transition duration-300 ease-in-out transform group-hover:scale-105"
 />
