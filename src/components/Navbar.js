@@ -19,9 +19,9 @@ import { useWishlist } from "../context/WishlistContext.js";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const user = true;
+  
   const navigate = useNavigate();
-  const { cart,  setUser } = useCart();
+  const { cart,user,  setUser } = useCart();
   const { wishlist } = useWishlist();
 
   const toggleNav = () => setIsNavOpen(!isNavOpen);
@@ -45,18 +45,25 @@ const Navbar = () => {
 
   //   navigate("/login");
   // };
+// const handleLogout = () => {
+//   console.log("Logged out");
+//   localStorage.removeItem("token");
+//   setUser(null); // This will cause Navbar to re-render and show Login/Signup
+//   navigate("/login");
+// };
 const handleLogout = () => {
   console.log("Logged out");
   localStorage.removeItem("token");
-  setUser(null); // This will cause Navbar to re-render and show Login/Signup
+  localStorage.removeItem("user");
+  setUser(null);
   navigate("/login");
 };
-
 
 useEffect(() => {
   const storedUser = localStorage.getItem("user");
   setUser(storedUser ? JSON.parse(storedUser) : null);
-}, [setUser]);
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const handleSearch = async (e) => {
   e.preventDefault();
