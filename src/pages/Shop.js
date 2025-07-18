@@ -237,8 +237,7 @@ const Shop = () => {
   🛍️ Explore Our Products
        </h1>
        
-        {/* Conditionally render the sidebar on non-mobile screens */}
-          
+        
         <div className="flex flex-col lg:flex-row gap-8">
 {!isMobile && (
             <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white flex-shrink-0">
@@ -291,7 +290,7 @@ const Shop = () => {
             </aside>
           )}
 
-          <section className="w-full lg:flex-1">
+          <section className="flex-1">
             <div className="flex justify-between mb-6">     
               {/* Button to show filters on mobile */}
               {isMobile && (
