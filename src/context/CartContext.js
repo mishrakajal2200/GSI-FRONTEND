@@ -39,18 +39,22 @@ export const CartProvider = ({ children }) => {
   const token = localStorage.getItem("token");
   try {
     await axios.post(
-      "https://api.gsienterprises.com/api/cart/add",{
-         withCredentials:true
-      },
-      { productId },
-      { headers: { Authorization: `Bearer ${token}` } },
-     
+      "https://api.gsienterprises.com/api/cart/add",
+      { productId }, // ✅ Request body
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true, // ✅ Moved into the config object
+      }
     );
-    fetchCartData(); // <-- refresh cart after adding
+
+    fetchCartData(); // 🔄 Refresh cart after adding
   } catch (err) {
-    console.error("Error adding to cart:", err);
+    console.error("Error adding to cart:", err.response?.data || err.message);
   }
 };
+
 
 //   const addToCart = async ({ productId, color, size, image, price }) => {
 //   const token = localStorage.getItem("token");
