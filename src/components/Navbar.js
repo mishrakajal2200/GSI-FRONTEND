@@ -60,10 +60,9 @@ const handleLogout = () => {
 };
 
 useEffect(() => {
-  const storedUser = localStorage.getItem("user");
-  setUser(storedUser ? JSON.parse(storedUser) : null);
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    const storedUser = localStorage.getItem("user");
+    setUser(storedUser ? JSON.parse(storedUser) : null); // ✅ No error now
+  }, []);
 
   const handleSearch = async (e) => {
   e.preventDefault();
