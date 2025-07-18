@@ -56,7 +56,7 @@ const handleLogout = () => {
 useEffect(() => {
   const storedUser = localStorage.getItem("user");
   setUser(storedUser ? JSON.parse(storedUser) : null);
-}, [setUser]);
+}, []);
 
   const handleSearch = async (e) => {
   e.preventDefault();
