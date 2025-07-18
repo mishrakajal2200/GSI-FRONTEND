@@ -428,10 +428,8 @@ const Shop = () => {
   })}
             </div>
           </section>
-
         </div>
       </div>
-
     </div>
   );
 };
