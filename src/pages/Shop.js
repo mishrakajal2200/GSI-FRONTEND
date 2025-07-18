@@ -115,14 +115,22 @@ const Shop = () => {
       return;
     }
 
-    const isAlreadyInCart = cart.some(
-      (item) => item.productId === product._id || item._id === product._id
-    );
+    // const isAlreadyInCart = cart.some(
+    //   (item) => item.productId === product._id || item._id === product._id
+    // );
+    const isAlreadyInCart = Array.isArray(cart) && cart.some(
+  (item) => item.productId === product._id || item._id === product._id
+);
 
-    if (isAlreadyInCart) {
-      toast.warning("Product is already in the cart");
-      return;
-    }
+if (isAlreadyInCart) {
+  toast.warning("Product is already in the cart");
+  return;
+}
+
+    // if (isAlreadyInCart) {
+    //   toast.warning("Product is already in the cart");
+    //   return;
+    // }
 
    addToCart({ 
   _id: product._id,
