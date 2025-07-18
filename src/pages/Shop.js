@@ -232,15 +232,17 @@ const Shop = () => {
     <div className="bg-gradient-to-br from-purple-300 via-pink-300 to-yellow-300 py-10">
       <ToastContainer />
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Shops Our Products</h1>
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-10 text-center tracking-wide drop-shadow-sm">
+  🛍️ Explore Our Products
+</h1>
        
         {/* Conditionally render the sidebar on non-mobile screens */}
           {!isMobile && (
             <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white flex-shrink-0">
-  <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-700">
-    <h2 className="text-2xl font-bold mb-6 text-purple-400 tracking-wide flex items-center gap-2">
-      <FaTags /> Filter
-    </h2>
+  <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-800 rounded-md">
+    <h2 className="text-2xl font-extrabold mb-6 text-purple-300 tracking-wide flex items-center gap-2">
+  <FaTags className="text-purple-500 text-2xl" /> Filters
+</h2>
 
     {/* Brands Filter */}
     <div className="mb-8">
@@ -301,7 +303,7 @@ const Shop = () => {
 
             {/* Mobile Filter Section (conditionally rendered) */}
             {isMobile && showMobileFilters && (
-              <div className="bg-gray-800 p-6 rounded-xl shadow-lg text-white mb-8">
+              <div className="bg-gray-900 text-white rounded-xl shadow-lg p-6 mb-8 animate-slideInDown">
                 <h2 className="text-2xl font-bold mb-6 text-purple-400 tracking-wide flex items-center gap-2">
                   <FaTags /> Filters
                 </h2>
@@ -366,7 +368,7 @@ const Shop = () => {
     return (
       <div
         key={product._id}
-        className="flex flex-col bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 group h-full"
+        className="flex flex-col bg-white rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 h-full group"
       >
 
       {console.log("Product Image:", product.image)}
@@ -380,7 +382,7 @@ const Shop = () => {
           <img
   src={`https://www.gsienterprises.com/${product.image}`}
   alt={product.name}
-  className="w-full h-52 object-contain"
+ className="w-full h-52 object-contain p-2 transition duration-300 ease-in-out transform group-hover:scale-105"
 />
           <button
             className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition"
