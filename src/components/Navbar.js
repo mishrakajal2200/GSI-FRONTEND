@@ -19,8 +19,8 @@ import { useWishlist } from "../context/WishlistContext.js";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  // const user = true;
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = true;
+  // const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const { cart} = useCart();
   const { wishlist } = useWishlist();
