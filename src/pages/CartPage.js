@@ -18,12 +18,14 @@ const CartPage = () => {
   const [setDiscountedCart] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const totalPrice = cart.reduce((sum, item) => {
-    if (item.price) {
-      return sum + item.price * item.quantity;
-    }
-    return sum;
-  }, 0);
+  const totalPrice = Array.isArray(cart)
+  ? cart.reduce((sum, item) => {
+      if (item?.price) {
+        return sum + item.price * item.quantity;
+      }
+      return sum;
+    }, 0)
+  : 0;
 
   const handleProceed = () => {
     setShowModal(true); // show confirmation modal

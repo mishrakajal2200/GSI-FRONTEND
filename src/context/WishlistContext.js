@@ -32,19 +32,24 @@ export const WishlistProvider = ({ children }) => {
 
   // Add to wishlist
   const addToWishlist = async (productId) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        "https://api.gsienterprises.com/api/wishlist/add",
-        {withCredentials:true},
-        { productId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      fetchWishlist();
-    } catch (err) {
-      console.error("Error adding to wishlist:", err);
-    }
-  };
+  try {
+    const token = localStorage.getItem("token");
+    await axios.post(
+      "https://api.gsienterprises.com/api/wishlist/add",
+      { productId }, // This is the body
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+    fetchWishlist();
+  } catch (err) {
+    console.error("Error adding to wishlist:", err);
+  }
+};
+
 
   
 const removeFromWishlist = async (productId) => {
