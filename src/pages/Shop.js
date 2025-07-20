@@ -92,13 +92,17 @@ const Shop = () => {
         try {
           const brandQuery = selectedBrands.join(",");
           const categoryQuery = selectedCategories.join(",");
-          const res = await axios.get("https://api.gsienterprises.com/api/getproducts/products",{withCredentials:true}, {
-            params: {
-              brands: brandQuery,
-              categories: categoryQuery,
-              sort: sortOption,
-            },
-          });
+          const res = await axios.get(
+  "https://api.gsienterprises.com/api/getproducts/products",
+  {
+    withCredentials: true,
+    params: {
+      brands: brandQuery,
+      categories: categoryQuery,
+      sort: sortOption,
+    },
+  }
+);
           setProducts(res.data);
         } catch (error) {
           console.error("Error fetching products:", error);
