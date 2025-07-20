@@ -249,7 +249,7 @@ if (isAlreadyInCart) {
         <div className="flex flex-col lg:flex-row items-start gap-8">
         
           {!isMobile && (
-            <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white flex-shrink-0 h-fit">
+            <aside className="md:w-1/4 bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg text-white flex-shrink-0 h-fit lg:self-start">
   <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-none rounded-md">
     <h2 className="text-2xl font-extrabold mb-6 text-purple-300 tracking-wide flex items-center gap-2">
   <FaTags className="text-purple-500 text-2xl" /> Filters
