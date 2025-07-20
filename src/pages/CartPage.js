@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+
 const CartPage = () => {
   const {
-    cart,
-    totalItems,
+    cart = [],
+    totalItems = 0,
     increaseQuantity,
     decreaseQuantity,
     removeFromCart,
@@ -13,41 +14,36 @@ const CartPage = () => {
   } = useCart();
 
   const [savedItems, setSavedItems] = useState([]);
-
   const [couponCode, setCouponCode] = useState("");
-  const [setDiscountedCart] = useState(null);
+  const [discountedCart, setDiscountedCart] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+
   const totalPrice = Array.isArray(cart)
-  ? cart.reduce((sum, item) => {
-      if (item?.price) {
-        return sum + item.price * item.quantity;
-      }
-      return sum;
-    }, 0)
-  : 0;
+    ? cart.reduce((sum, item) => {
+        if (item?.price) {
+          return sum + item.price * item.quantity;
+        }
+        return sum;
+      }, 0)
+    : 0;
 
   const handleProceed = () => {
-    setShowModal(true); // show confirmation modal
+    setShowModal(true);
   };
 
   const confirmCheckout = () => {
     setShowModal(false);
-    navigate("/checkout", { state: { cart } }); // pass cart to checkout
+    navigate("/checkout", { state: { cart } });
   };
 
-
-  // MOVE BACK TO CART
   const handleMoveToCart = (item) => {
-    // Check if item already in the cart
     const itemInCart = cart.find((cartItem) => cartItem._id === item._id);
 
-    // If the item is not in the cart, add it with quantity = 1
     if (!itemInCart) {
-      addToCart({ ...item, quantity: 1 }); // Using addToCart from context to add to cart
+      addToCart({ ...item, quantity: 1 });
     }
 
-    // Remove the item from saved items
     const updatedSaved = savedItems.filter(
       (savedItem) => savedItem._id !== item._id
     );
@@ -62,7 +58,7 @@ const CartPage = () => {
         { code: couponCode },
         { withCredentials: true }
       );
-      setDiscountedCart(res.data); // e.g., updated cart with discount
+      setDiscountedCart(res.data);
       alert("Coupon applied!");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to apply coupon.");
@@ -80,8 +76,8 @@ const CartPage = () => {
     <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen bg-gray-50">
       <h2 className="text-3xl font-bold mb-6 text-center">🛒 Your Cart</h2>
 
-      {cart.length === 0 ? (
-        <p className="text-gray-500 w-full max-w-7xl  text-center">
+      {(Array.isArray(cart) && cart.length === 0) ? (
+        <p className="text-gray-500 w-full max-w-7xl text-center">
           Your cart is empty.{" "}
           <Link to="/shop" className="text-blue-600 underline">
             Go shopping →
@@ -91,8 +87,8 @@ const CartPage = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="md:col-span-2 space-y-4">
-            {cart.map((item) => {
-              if (!item || !item.productId) return null; // defensive check
+            {Array.isArray(cart) && cart.map((item) => {
+              if (!item || !item.productId) return null;
               return (
                 <div
                   key={item.productId}
@@ -100,11 +96,11 @@ const CartPage = () => {
                 >
                   <div className="flex items-center gap-4">
                     <img
-                      src={item.image || "/fallback.jpg"} // Replace with your local image if needed
+                      src={item.image || "/fallback.jpg"}
                       alt={item.name || "Product"}
                       className="w-20 h-20 object-cover rounded-lg"
                       onError={(e) => {
-                        e.target.src = "/fallback.jpg"; // fallback on error
+                        e.target.src = "/fallback.jpg";
                       }}
                     />
                     <div>
@@ -188,12 +184,19 @@ const CartPage = () => {
               Apply Coupon
             </button>
 
+            {discountedCart && (
+  <p className="text-green-600 font-medium mt-2">
+    Coupon applied successfully!
+  </p>
+)}
+
             <button
               onClick={handleProceed}
               className="w-full mt-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
               Proceed to Checkout
             </button>
+
             {showModal && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="bg-white p-6 rounded-lg shadow-lg">
