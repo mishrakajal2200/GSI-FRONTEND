@@ -431,7 +431,7 @@ if (isAlreadyInCart) {
           {/* Add to Cart */}
           <button
             className="mt-4 bg-purple-600 w-full text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition"
-            onClick={() => handleAddToCart(product)}
+            onClick={() => handleAddToCart(product._id)}
           >
             <HiOutlineShoppingBag className="inline-block mr-1" />
             Add to Cart
