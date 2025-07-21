@@ -11,28 +11,28 @@ export const CartProvider = ({ children }) => {
 
   // 🔃 Fetch cart and wishlist from backend on load
  const fetchCartData = async () => {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
   try {
-    const response = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const res = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
       withCredentials: true,
     });
 
-    // Safely update both cart and savedItems
-    setCart(Array.isArray(response.data.cart) ? response.data.cart : []);
-    setSavedItems(Array.isArray(response.data.savedItems) ? response.data.savedItems : []);
+    setCart(Array.isArray(res.data.cart) ? res.data.cart : []);
+    setSavedItems(Array.isArray(res.data.savedItems) ? res.data.savedItems : []);
   } catch (err) {
     console.error("Error fetching cart data:", err.response?.data || err.message);
   }
 };
 
 useEffect(() => {
-  fetchCartData(); // Automatically called only if token exists
+  fetchCartData();
 }, []);
+
 
 
 
@@ -57,8 +57,10 @@ useEffect(() => {
 //   }
 // };
 const addToCart = async ({ productId, name, image, images, price, quantity = 1 }) => {
-  const token = localStorage.getItem("token");
   try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
     await axios.post(
       "https://api.gsienterprises.com/api/cart/add",
       {
@@ -77,17 +79,13 @@ const addToCart = async ({ productId, name, image, images, price, quantity = 1 }
       }
     );
 
-    setCart((prevCart) => [
-      ...prevCart,
-      { productId, name, image, images, price, quantity },
-    ]);
-
-    // Optional: Also fetch latest from server
+    // Optional: Update local state or just refetch from backend
     fetchCartData();
   } catch (err) {
     console.error("Error adding to cart:", err.response?.data || err.message);
   }
 };
+
 
 
 
@@ -248,6 +246,7 @@ const totalItems = (cart || []).filter(item => item).length;
         decreaseQuantity,
         handleMoveToCart,
         clearCart,
+        fetchCartData,
       }}
     >
       {children}
