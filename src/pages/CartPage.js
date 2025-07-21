@@ -90,51 +90,69 @@ const CartPage = () => {
             {Array.isArray(cart) && cart.map((item) => {
               if (!item || !item.productId) return null;
               return (
-                <div
-                  key={item.productId}
-                  className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between items-center gap-4"
-                >
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={item.image || "/fallback.jpg"}
-                      alt={item.name || "Product"}
-                      className="w-20 h-20 object-cover rounded-lg"
-                      onError={(e) => {
-                        e.target.src = "/fallback.jpg";
-                      }}
-                    />
-                    <div>
-                      <h4 className="text-lg font-semibold">{item.name}</h4>
-                      <p className="text-sm text-gray-600">₹{item.price}</p>
-                      <div className="flex items-center gap-2 mt-2">
-                        <button
-                          onClick={() => decreaseQuantity(item.productId)}
-                          className="w-8 h-8 rounded-full bg-red-500 text-white"
-                        >
-                          −
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button
-                          onClick={() => increaseQuantity(item.productId)}
-                          className="w-8 h-8 rounded-full bg-green-500 text-white"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right space-y-2">
-                    <p className="font-bold text-gray-700">
-                      ₹{item.price * item.quantity}
-                    </p>
-                    <button
-                      onClick={() => removeFromCart(item.productId)}
-                      className="text-red-500 text-sm hover:underline"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
+               <div
+    key={item.productId}
+    className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between items-center gap-4"
+  >
+    <div className="flex items-center gap-4">
+      <div className="flex flex-col items-center">
+        {/* Main Image */}
+        <img
+          src={item.image || "/fallback.jpg"}
+          alt={item.name}
+          className="w-20 h-20 object-cover rounded-lg border mb-2"
+          onError={(e) => {
+            e.target.src = "/fallback.jpg";
+          }}
+        />
+
+        {/* Thumbnails */}
+        <div className="flex gap-1">
+          {(item.images || []).slice(0, 3).map((imgUrl, idx) => (
+            <img
+              key={idx}
+              src={imgUrl}
+              alt={`thumbnail-${idx}`}
+              className="w-6 h-6 rounded-md border object-cover"
+            />
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h4 className="text-lg font-semibold">{item.name}</h4>
+        <p className="text-sm text-gray-600">₹{item.price}</p>
+
+        <div className="flex items-center gap-2 mt-2">
+          <button
+            onClick={() => decreaseQuantity(item.productId)}
+            className="w-8 h-8 rounded-full bg-red-500 text-white"
+          >
+            −
+          </button>
+          <span>{item.quantity}</span>
+          <button
+            onClick={() => increaseQuantity(item.productId)}
+            className="w-8 h-8 rounded-full bg-green-500 text-white"
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div className="text-right space-y-2">
+      <p className="font-bold text-gray-700">
+        ₹{item.price * item.quantity}
+      </p>
+      <button
+        onClick={() => removeFromCart(item.productId)}
+        className="text-red-500 text-sm hover:underline"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
               );
             })}
 

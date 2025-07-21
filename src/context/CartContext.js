@@ -35,25 +35,52 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   // ➕ Add to Cart
-  const addToCart = async (productId) => {
+//   const addToCart = async (productId) => {
+//   const token = localStorage.getItem("token");
+//   try {
+//     await axios.post(
+//       "https://api.gsienterprises.com/api/cart/add",
+//       { productId }, // ✅ Request body
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//         withCredentials: true, // ✅ Moved into the config object
+//       }
+//     );
+
+//     fetchCartData(); // 🔄 Refresh cart after adding
+//   } catch (err) {
+//     console.error("Error adding to cart:", err.response?.data || err.message);
+//   }
+// };
+const addToCart = async ({ productId, name, image, images, price, quantity = 1 }) => {
   const token = localStorage.getItem("token");
   try {
     await axios.post(
       "https://api.gsienterprises.com/api/cart/add",
-      { productId }, // ✅ Request body
+      {
+        productId,
+        name,
+        image,
+        images,
+        price,
+        quantity,
+      },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true, // ✅ Moved into the config object
+        withCredentials: true,
       }
     );
 
-    fetchCartData(); // 🔄 Refresh cart after adding
+    fetchCartData();
   } catch (err) {
     console.error("Error adding to cart:", err.response?.data || err.message);
   }
 };
+
 
 
 //   const addToCart = async ({ productId, color, size, image, price }) => {
