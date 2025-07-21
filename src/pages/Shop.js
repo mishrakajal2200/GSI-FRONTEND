@@ -112,68 +112,39 @@ const Shop = () => {
     fetchProducts();
   }, [selectedBrands, selectedCategories, sortOption, location.state]);
 
-//   const handleAddToCart = (product) => {
-//     const token = localStorage.getItem("token");
-//     if (!token) {
-//       navigate("/login");
-//       return;
-//     }
+  const handleAddToCart = (product) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
 
-//     // const isAlreadyInCart = cart.some(
-//     //   (item) => item.productId === product._id || item._id === product._id
-//     // );
-//     const isAlreadyInCart = Array.isArray(cart) && cart.some(
-//   (item) => item.productId === product._id || item._id === product._id
-// );
+    // const isAlreadyInCart = cart.some(
+    //   (item) => item.productId === product._id || item._id === product._id
+    // );
+    const isAlreadyInCart = Array.isArray(cart) && cart.some(
+  (item) => item.productId === product._id || item._id === product._id
+);
 
-// if (isAlreadyInCart) {
-//   toast.warning("Product is already in the cart");
-//   return;
-// }
+if (isAlreadyInCart) {
+  toast.warning("Product is already in the cart");
+  return;
+}
 
-//     // if (isAlreadyInCart) {
-//     //   toast.warning("Product is already in the cart");
-//     //   return;
-//     // }
+    // if (isAlreadyInCart) {
+    //   toast.warning("Product is already in the cart");
+    //   return;
+    // }
 
-//    addToCart({ 
-//   _id: product._id,
-//   quantity: 1,
-// });
+   addToCart({ 
+  _id: product._id,
+  quantity: 1,
+});
 
-//     toast.success("Product added to cart");
+    toast.success("Product added to cart");
     
-//   };
-const handleAddToCart = (product) => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/login");
-    return;
-  }
+  };
 
-  const isAlreadyInCart =
-    Array.isArray(cart) &&
-    cart.some(
-      (item) => item.productId === product._id || item._id === product._id
-    );
-
-  if (isAlreadyInCart) {
-    toast.warning("Product is already in the cart");
-    return;
-  }
-
-  // ✅ Send full object with productId and required fields
-  addToCart({
-    productId: product._id,
-    name: product.name,
-    image: product.image,
-    images: product.images || [],
-    price: product.price,
-    quantity: 1,
-  });
-
-  toast.success("Product added to cart");
-};
 
   const handleWishlistClick = (productId) => {
     const token = localStorage.getItem("token");
