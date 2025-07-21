@@ -151,17 +151,26 @@ const handleAddToCart = (product) => {
     return;
   }
 
-  const isAlreadyInCart = Array.isArray(cart) && cart.some(
-    (item) => item.productId === product._id || item._id === product._id
-  );
+  const isAlreadyInCart =
+    Array.isArray(cart) &&
+    cart.some(
+      (item) => item.productId === product._id || item._id === product._id
+    );
 
   if (isAlreadyInCart) {
     toast.warning("Product is already in the cart");
     return;
   }
 
-  // ✅ Pass only product._id, because that's what your context expects
-  addToCart(product._id);
+  // ✅ Send full object with productId and required fields
+  addToCart({
+    productId: product._id,
+    name: product.name,
+    image: product.image,
+    images: product.images || [],
+    price: product.price,
+    quantity: 1,
+  });
 
   toast.success("Product added to cart");
 };
