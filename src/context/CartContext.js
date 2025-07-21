@@ -28,11 +28,18 @@ export const CartProvider = ({ children }) => {
     }
   };
   
-  
 
+  // useEffect(() => {
+  //   fetchCartData();
+  // }, []);
   useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
     fetchCartData();
-  }, []);
+  }
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [localStorage.getItem("token")]); // this won't trigger a re-render though
+
 
   // ➕ Add to Cart
 //   const addToCart = async (productId) => {

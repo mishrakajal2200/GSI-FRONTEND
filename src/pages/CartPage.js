@@ -54,7 +54,7 @@ const CartPage = () => {
   const handleApplyCoupon = async () => {
     try {
       const res = await axios.post(
-        "https://www.gsienterprises.com/api/cart/apply-coupon",
+        "https://api.gsienterprises.com/api/cart/apply-coupon",
         { code: couponCode },
         { withCredentials: true }
       );
