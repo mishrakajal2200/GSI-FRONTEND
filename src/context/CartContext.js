@@ -255,10 +255,10 @@
 
 
 
+// CartContext.js
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
-// Create Cart Context
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
@@ -266,7 +266,6 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [savedItems, setSavedItems] = useState([]);
 
-  // 🔃 Fetch cart and saved items from backend
   const fetchCartData = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -290,7 +289,6 @@ export const CartProvider = ({ children }) => {
     fetchCartData();
   }, []);
 
-  // ➕ Add to Cart
   const addToCart = async ({ productId, name, image, images, price, quantity = 1 }) => {
     try {
       const token = localStorage.getItem("token");
@@ -314,20 +312,16 @@ export const CartProvider = ({ children }) => {
         }
       );
 
-      fetchCartData(); // 🔄 Refresh cart after adding
+      fetchCartData();
     } catch (err) {
       console.error("Error adding to cart:", err.response?.data || err.message);
     }
   };
 
-  // ❌ Remove Item from Cart
   const removeFromCart = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-      if (!productId || !token) {
-        console.error("Missing productId or token");
-        return;
-      }
+      if (!productId || !token) return;
 
       const res = await axios.delete(`https://api.gsienterprises.com/api/cart/remove/${productId}`, {
         headers: {
@@ -342,17 +336,17 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // 🔼 Increase quantity
   const increaseQuantity = async (productId) => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.patch(
         `https://api.gsienterprises.com/api/cart/increase/${productId}`,
-        { withCredentials: true },
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         }
       );
 
@@ -362,17 +356,17 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // 🔽 Decrease quantity
   const decreaseQuantity = async (productId) => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.patch(
         `https://api.gsienterprises.com/api/cart/decrease/${productId}`,
-        { withCredentials: true },
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         }
       );
 
@@ -382,12 +376,15 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // 🔁 Move from Wishlist to Cart
   const handleMoveToCart = async (productId) => {
     try {
-      const res = await axios.patch(`https://api.gsienterprises.com/api/cart/move/${productId}`, {
-        withCredentials: true,
-      });
+      const res = await axios.patch(
+        `https://api.gsienterprises.com/api/cart/move/${productId}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
 
       setCart(res.data.cart);
       setSavedItems(res.data.savedItems);
@@ -396,7 +393,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // 🧹 Clear Entire Cart
   const clearCart = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -413,7 +409,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // 🧮 Total Items Count
   const totalItems = (cart || []).filter(item => item).length;
 
   return (
