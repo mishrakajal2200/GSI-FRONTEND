@@ -246,7 +246,6 @@ const totalItems = (cart || []).filter(item => item).length;
         decreaseQuantity,
         handleMoveToCart,
         clearCart,
-        fetchCartData,
       }}
     >
       {children}
