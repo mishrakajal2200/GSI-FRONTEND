@@ -10,35 +10,30 @@ export const CartProvider = ({ children }) => {
   const [savedItems, setSavedItems] = useState([]);
 
   // 🔃 Fetch cart and wishlist from backend on load
-  const fetchCartData = async () => {
-    try {
-      const token = localStorage.getItem("token");
-  
-      const res = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials:true
-      });
-  
-      setCart(res.data.cart);
-      setSavedItems(res.data.savedItems);
-    } catch (err) {
-      console.error("Error fetching cart data:", err.response?.data || err.message);
-    }
-  };
-  
-
-  // useEffect(() => {
-  //   fetchCartData();
-  // }, []);
-  useEffect(() => {
+ const fetchCartData = async () => {
   const token = localStorage.getItem("token");
-  if (token) {
-    fetchCartData();
+  if (!token) return;
+
+  try {
+    const response = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+
+    // Safely update both cart and savedItems
+    setCart(Array.isArray(response.data.cart) ? response.data.cart : []);
+    setSavedItems(Array.isArray(response.data.savedItems) ? response.data.savedItems : []);
+  } catch (err) {
+    console.error("Error fetching cart data:", err.response?.data || err.message);
   }
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [localStorage.getItem("token")]); // this won't trigger a re-render though
+};
+
+useEffect(() => {
+  fetchCartData(); // Automatically called only if token exists
+}, []);
+
 
 
   // ➕ Add to Cart
@@ -82,11 +77,18 @@ const addToCart = async ({ productId, name, image, images, price, quantity = 1 }
       }
     );
 
+    setCart((prevCart) => [
+      ...prevCart,
+      { productId, name, image, images, price, quantity },
+    ]);
+
+    // Optional: Also fetch latest from server
     fetchCartData();
   } catch (err) {
     console.error("Error adding to cart:", err.response?.data || err.message);
   }
 };
+
 
 
 
