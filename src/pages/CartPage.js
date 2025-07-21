@@ -248,52 +248,46 @@
 // export default CartPage;
 
 
+
+
+
+
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import ReactImageMagnify from "react-image-magnify";
 
 const CartPage = () => {
-  const {
-    cart = [],
-    totalItems = 0,
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromCart,
-    handleMoveToCart,
-  } = useCart();
-
+  const { cart, totalItems, increaseQuantity, decreaseQuantity, removeFromCart, addToCart } = useCart();
   const [savedItems, setSavedItems] = useState([]);
   const [couponCode, setCouponCode] = useState("");
-  const [discountedCart, setDiscountedCart] = useState(null);
+  const [setDiscountedCart] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [activeImage, setActiveImage] = useState("");
   const navigate = useNavigate();
 
-  const totalPrice = Array.isArray(cart)
-    ? cart.reduce((sum, item) => {
-        if (item?.price) {
-          return sum + item.price * item.quantity;
-        }
-        return sum;
-      }, 0)
-    : 0;
+  const totalPrice = cart.reduce((sum, item) => item.price ? sum + item.price * item.quantity : sum, 0);
 
-  const handleProceed = () => {
-    setShowModal(true);
-  };
-
+  const handleProceed = () => setShowModal(true);
   const confirmCheckout = () => {
     setShowModal(false);
     navigate("/checkout", { state: { cart } });
   };
 
+  const handleMoveToCart = (item) => {
+    if (!cart.find(ci => ci._id === item._id)) {
+      addToCart({ ...item, quantity: 1 });
+    }
+    const updatedSaved = savedItems.filter(si => si._id !== item._id);
+    setSavedItems(updatedSaved);
+    localStorage.setItem("savedItems", JSON.stringify(updatedSaved));
+  };
+
   const handleApplyCoupon = async () => {
     try {
-      const res = await axios.post(
-        "https://api.gsienterprises.com/api/cart/apply-coupon",
-        { code: couponCode },
-        { withCredentials: true }
-      );
+      const res = await axios.post("https://www.gsienterprises.com/api/cart/apply-coupon", { code: couponCode }, { withCredentials: true });
       setDiscountedCart(res.data);
       alert("Coupon applied!");
     } catch (err) {
@@ -302,178 +296,137 @@ const CartPage = () => {
   };
 
   useEffect(() => {
-    const storedSaved = localStorage.getItem("savedItems");
-    if (storedSaved) {
-      setSavedItems(JSON.parse(storedSaved));
-    }
+    const stored = localStorage.getItem("savedItems");
+    if (stored) setSavedItems(JSON.parse(stored));
   }, []);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen bg-gray-50">
       <h2 className="text-3xl font-bold mb-6 text-center">🛒 Your Cart</h2>
 
-      {Array.isArray(cart) && cart.length === 0 ? (
-        <p className="text-gray-500 w-full max-w-7xl text-center">
+      {cart.length === 0 ? (
+        <p className="text-gray-500 text-center">
           Your cart is empty.{" "}
-          <Link to="/shop" className="text-blue-600 underline">
-            Go shopping →
-          </Link>
+          <Link to="/shop" className="text-blue-600 underline">Go shopping →</Link>
         </p>
       ) : (
         <div className="grid md:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="md:col-span-2 space-y-4">
-            {cart.map((item) => {
-              if (!item || !item.productId) return null;
-              return (
-                <div
-                  key={item.productId}
-                  className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between items-center gap-4"
-                >
+            {cart.map(item => (
+              !item || !item.productId ? null : (
+                <div key={item.productId} className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between items-center gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="flex flex-col items-center">
-                      {/* Main Image */}
-                      <img
-                        src={item.image || "/fallback.jpg"}
-                        alt={item.name}
-                        className="w-20 h-20 object-cover rounded-lg border mb-2"
-                        onError={(e) => {
-                          e.target.src = "/fallback.jpg";
-                        }}
-                      />
-
-                      {/* Thumbnails */}
-                      <div className="flex gap-1">
-                        {(item.images || []).slice(0, 3).map((imgUrl, idx) => (
-                          <img
-                            key={idx}
-                            src={imgUrl}
-                            alt={`thumbnail-${idx}`}
-                            className="w-6 h-6 rounded-md border object-cover"
-                          />
-                        ))}
-                      </div>
-                    </div>
-
+                    <img
+                      src={item.image || "/fallback.jpg"}
+                      alt={item.name || "Product"}
+                      className="w-20 h-20 object-cover rounded-lg cursor-pointer"
+                      onClick={() => {
+                        setSelectedItem(item);
+                        setActiveImage(item.image || "/fallback.jpg");
+                      }}
+                      onError={(e) => { e.target.src = "/fallback.jpg"; }}
+                    />
                     <div>
                       <h4 className="text-lg font-semibold">{item.name}</h4>
                       <p className="text-sm text-gray-600">₹{item.price}</p>
-
+                     
                       <div className="flex items-center gap-2 mt-2">
-                        <button
-                          onClick={() => decreaseQuantity(item.productId)}
-                          className="w-8 h-8 rounded-full bg-red-500 text-white"
-                        >
-                          −
-                        </button>
+                        <button onClick={() => decreaseQuantity(item.productId)} className="w-8 h-8 rounded-full bg-red-500 text-white">−</button>
                         <span>{item.quantity}</span>
-                        <button
-                          onClick={() => increaseQuantity(item.productId)}
-                          className="w-8 h-8 rounded-full bg-green-500 text-white"
-                        >
-                          +
-                        </button>
+                        <button onClick={() => increaseQuantity(item.productId)} className="w-8 h-8 rounded-full bg-green-500 text-white">+</button>
                       </div>
                     </div>
                   </div>
-
                   <div className="text-right space-y-2">
-                    <p className="font-bold text-gray-700">
-                      ₹{item.price * item.quantity}
-                    </p>
-                    <button
-                      onClick={() => removeFromCart(item.productId)}
-                      className="text-red-500 text-sm hover:underline"
-                    >
-                      Remove
-                    </button>
+                    <p className="font-bold text-gray-700">₹{item.price * item.quantity}</p>
+                    <button onClick={() => removeFromCart(item.productId)} className="text-red-500 text-sm hover:underline">Remove</button>
                   </div>
                 </div>
-              );
-            })}
+              )
+            ))}
 
-            {/* Saved for Later Section */}
-            {savedItems.map((item) => {
-              if (!item || !item.productId) return null;
-              return (
-                <div
-                  key={item.productId}
-                  className="bg-gray-100 p-4 rounded-lg flex justify-between items-center mb-2"
-                >
+            {/* Saved for Later */}
+            {savedItems.map(item => (
+              !item || !item.productId ? null : (
+                <div key={item.productId} className="bg-gray-100 p-4 rounded-lg flex justify-between items-center mb-2">
                   <div>
                     <p className="font-semibold">{item.name}</p>
                     <p className="text-sm text-gray-600">₹{item.price}</p>
                   </div>
-                  <button
-                    onClick={() => handleMoveToCart(item.productId)}
-                    className="text-blue-500 text-sm hover:underline"
-                  >
-                    Move to Cart
-                  </button>
+                  <button onClick={() => handleMoveToCart(item)} className="text-blue-500 text-sm hover:underline">Move to Cart</button>
                 </div>
-              );
-            })}
+              )
+            ))}
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white p-6 rounded-xl shadow h-fit">
+          <div className="bg-white p-6 rounded-xl shadow">
             <h3 className="text-xl font-bold mb-4">Order Summary</h3>
             <p className="text-sm text-gray-700">Total Items: {totalItems}</p>
-            <p className="text-lg font-semibold my-3">
-              Total Price: ₹{totalPrice}
-            </p>
-
-            <input
-              type="text"
-              value={couponCode}
-              onChange={(e) => setCouponCode(e.target.value)}
-              placeholder="Enter coupon code"
-              className="w-full p-2 border rounded mb-2"
-            />
-
-            <button
-              onClick={handleApplyCoupon}
-              className="w-full py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-            >
-              Apply Coupon
-            </button>
-
-            {discountedCart && (
-              <p className="text-green-600 font-medium mt-2">
-                Coupon applied successfully!
-              </p>
-            )}
-
-            <button
-              onClick={handleProceed}
-              className="w-full mt-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Proceed to Checkout
-            </button>
+            <p className="text-lg font-semibold my-3">Total Price: ₹{totalPrice}</p>
+            <input type="text" value={couponCode} onChange={e => setCouponCode(e.target.value)} placeholder="Enter coupon code" className="w-full p-2 border rounded mb-2" />
+            <button onClick={handleApplyCoupon} className="w-full py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Apply Coupon</button>
+            <button onClick={handleProceed} className="w-full mt-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Proceed to Checkout</button>
 
             {showModal && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="bg-white p-6 rounded-lg shadow-lg">
-                  <p className="text-lg font-semibold mb-4">
-                    Proceed to Checkout?
-                  </p>
+                  <p className="text-lg font-semibold mb-4">Proceed to Checkout?</p>
                   <div className="flex justify-end gap-4">
-                    <button
-                      className="px-4 py-2 bg-gray-300 rounded"
-                      onClick={() => setShowModal(false)}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                      onClick={confirmCheckout}
-                    >
-                      Confirm
-                    </button>
+                    <button className="px-4 py-2 bg-gray-300 rounded" onClick={() => setShowModal(false)}>Cancel</button>
+                    <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" onClick={confirmCheckout}>Confirm</button>
                   </div>
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Image Lightbox Modal */}
+      {selectedItem && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-white p-4 rounded-xl w-full max-w-4xl">
+            <div className="flex justify-between mb-4">
+              <h2 className="text-xl font-bold">{selectedItem.name}</h2>
+              <button onClick={() => setSelectedItem(null)} className="text-gray-600">✖</button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Thumbnails */}
+              <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
+                {(selectedItem.images || [selectedItem.image]).map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img}
+                    alt={`thumb-${idx}`}
+                    onClick={() => setActiveImage(img)}
+                    className={`w-20 h-20 object-cover rounded cursor-pointer border ${activeImage === img ? 'border-blue-500' : 'border-transparent'}`}
+                  />
+                ))}
+              </div>
+              {/* Main Zoom Image */}
+              <div className="md:col-span-2 flex items-center justify-center">
+                <ReactImageMagnify
+                  {...{
+                    smallImage: {
+                      alt: selectedItem.name,
+                      isFluidWidth: true,
+                      src: activeImage,
+                    },
+                    largeImage: {
+                      src: activeImage,
+                      width: 1200,
+                      height: 1800,
+                    },
+                    enlargedImageContainerDimensions: {
+                      width: '200%',
+                      height: '100%',
+                    },
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -482,192 +435,6 @@ const CartPage = () => {
 };
 
 export default CartPage;
-
-
-
-// import React, { useState, useEffect } from "react";
-// import { useCart } from "../context/CartContext";
-// import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import ReactImageMagnify from "react-image-magnify";
-
-// const CartPage = () => {
-//   const { cart, totalItems, increaseQuantity, decreaseQuantity, removeFromCart, addToCart } = useCart();
-//   const [savedItems, setSavedItems] = useState([]);
-//   const [couponCode, setCouponCode] = useState("");
-//   const [setDiscountedCart] = useState(null);
-//   const [showModal, setShowModal] = useState(false);
-//   const [selectedItem, setSelectedItem] = useState(null);
-//   const [activeImage, setActiveImage] = useState("");
-//   const navigate = useNavigate();
-
-//   const totalPrice = cart.reduce((sum, item) => item.price ? sum + item.price * item.quantity : sum, 0);
-
-//   const handleProceed = () => setShowModal(true);
-//   const confirmCheckout = () => {
-//     setShowModal(false);
-//     navigate("/checkout", { state: { cart } });
-//   };
-
-//   const handleMoveToCart = (item) => {
-//     if (!cart.find(ci => ci._id === item._id)) {
-//       addToCart({ ...item, quantity: 1 });
-//     }
-//     const updatedSaved = savedItems.filter(si => si._id !== item._id);
-//     setSavedItems(updatedSaved);
-//     localStorage.setItem("savedItems", JSON.stringify(updatedSaved));
-//   };
-
-//   const handleApplyCoupon = async () => {
-//     try {
-//       const res = await axios.post("https://www.gsienterprises.com/api/cart/apply-coupon", { code: couponCode }, { withCredentials: true });
-//       setDiscountedCart(res.data);
-//       alert("Coupon applied!");
-//     } catch (err) {
-//       alert(err.response?.data?.message || "Failed to apply coupon.");
-//     }
-//   };
-
-//   useEffect(() => {
-//     const stored = localStorage.getItem("savedItems");
-//     if (stored) setSavedItems(JSON.parse(stored));
-//   }, []);
-
-//   return (
-//     <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen bg-gray-50">
-//       <h2 className="text-3xl font-bold mb-6 text-center">🛒 Your Cart</h2>
-
-//       {cart.length === 0 ? (
-//         <p className="text-gray-500 text-center">
-//           Your cart is empty.{" "}
-//           <Link to="/shop" className="text-blue-600 underline">Go shopping →</Link>
-//         </p>
-//       ) : (
-//         <div className="grid md:grid-cols-3 gap-8">
-//           {/* Cart Items */}
-//           <div className="md:col-span-2 space-y-4">
-//             {cart.map(item => (
-//               !item || !item.productId ? null : (
-//                 <div key={item.productId} className="bg-white p-4 rounded-xl shadow flex flex-col sm:flex-row justify-between items-center gap-4">
-//                   <div className="flex items-center gap-4">
-//                     <img
-//                       src={item.image || "/fallback.jpg"}
-//                       alt={item.name || "Product"}
-//                       className="w-20 h-20 object-cover rounded-lg cursor-pointer"
-//                       onClick={() => {
-//                         setSelectedItem(item);
-//                         setActiveImage(item.image || "/fallback.jpg");
-//                       }}
-//                       onError={(e) => { e.target.src = "/fallback.jpg"; }}
-//                     />
-//                     <div>
-//                       <h4 className="text-lg font-semibold">{item.name}</h4>
-//                       <p className="text-sm text-gray-600">₹{item.price}</p>
-                     
-//                       <div className="flex items-center gap-2 mt-2">
-//                         <button onClick={() => decreaseQuantity(item.productId)} className="w-8 h-8 rounded-full bg-red-500 text-white">−</button>
-//                         <span>{item.quantity}</span>
-//                         <button onClick={() => increaseQuantity(item.productId)} className="w-8 h-8 rounded-full bg-green-500 text-white">+</button>
-//                       </div>
-//                     </div>
-//                   </div>
-//                   <div className="text-right space-y-2">
-//                     <p className="font-bold text-gray-700">₹{item.price * item.quantity}</p>
-//                     <button onClick={() => removeFromCart(item.productId)} className="text-red-500 text-sm hover:underline">Remove</button>
-//                   </div>
-//                 </div>
-//               )
-//             ))}
-
-//             {/* Saved for Later */}
-//             {savedItems.map(item => (
-//               !item || !item.productId ? null : (
-//                 <div key={item.productId} className="bg-gray-100 p-4 rounded-lg flex justify-between items-center mb-2">
-//                   <div>
-//                     <p className="font-semibold">{item.name}</p>
-//                     <p className="text-sm text-gray-600">₹{item.price}</p>
-//                   </div>
-//                   <button onClick={() => handleMoveToCart(item)} className="text-blue-500 text-sm hover:underline">Move to Cart</button>
-//                 </div>
-//               )
-//             ))}
-//           </div>
-
-//           {/* Order Summary */}
-//           <div className="bg-white p-6 rounded-xl shadow">
-//             <h3 className="text-xl font-bold mb-4">Order Summary</h3>
-//             <p className="text-sm text-gray-700">Total Items: {totalItems}</p>
-//             <p className="text-lg font-semibold my-3">Total Price: ₹{totalPrice}</p>
-//             <input type="text" value={couponCode} onChange={e => setCouponCode(e.target.value)} placeholder="Enter coupon code" className="w-full p-2 border rounded mb-2" />
-//             <button onClick={handleApplyCoupon} className="w-full py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Apply Coupon</button>
-//             <button onClick={handleProceed} className="w-full mt-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Proceed to Checkout</button>
-
-//             {showModal && (
-//               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-//                 <div className="bg-white p-6 rounded-lg shadow-lg">
-//                   <p className="text-lg font-semibold mb-4">Proceed to Checkout?</p>
-//                   <div className="flex justify-end gap-4">
-//                     <button className="px-4 py-2 bg-gray-300 rounded" onClick={() => setShowModal(false)}>Cancel</button>
-//                     <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" onClick={confirmCheckout}>Confirm</button>
-//                   </div>
-//                 </div>
-//               </div>
-//             )}
-//           </div>
-//         </div>
-//       )}
-
-//       {/* Image Lightbox Modal */}
-//       {selectedItem && (
-//         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-//           <div className="bg-white p-4 rounded-xl w-full max-w-4xl">
-//             <div className="flex justify-between mb-4">
-//               <h2 className="text-xl font-bold">{selectedItem.name}</h2>
-//               <button onClick={() => setSelectedItem(null)} className="text-gray-600">✖</button>
-//             </div>
-//             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-//               {/* Thumbnails */}
-//               <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
-//                 {(selectedItem.images || [selectedItem.image]).map((img, idx) => (
-//                   <img
-//                     key={idx}
-//                     src={img}
-//                     alt={`thumb-${idx}`}
-//                     onClick={() => setActiveImage(img)}
-//                     className={`w-20 h-20 object-cover rounded cursor-pointer border ${activeImage === img ? 'border-blue-500' : 'border-transparent'}`}
-//                   />
-//                 ))}
-//               </div>
-//               {/* Main Zoom Image */}
-//               <div className="md:col-span-2 flex items-center justify-center">
-//                 <ReactImageMagnify
-//                   {...{
-//                     smallImage: {
-//                       alt: selectedItem.name,
-//                       isFluidWidth: true,
-//                       src: activeImage,
-//                     },
-//                     largeImage: {
-//                       src: activeImage,
-//                       width: 1200,
-//                       height: 1800,
-//                     },
-//                     enlargedImageContainerDimensions: {
-//                       width: '200%',
-//                       height: '100%',
-//                     },
-//                   }}
-//                 />
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CartPage;
 
 
 
