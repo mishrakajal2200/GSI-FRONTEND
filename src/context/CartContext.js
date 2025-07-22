@@ -461,6 +461,7 @@ export const CartProvider = ({ children }) => {
 
       setCart(Array.isArray(res.data.cart) ? res.data.cart : []);
       setSavedItems(Array.isArray(res.data.savedItems) ? res.data.savedItems : []);
+      console.log("Cart after fetch:", res.data.cart);
     } catch (err) {
       console.error("Error fetching cart data:", err.response?.data || err.message);
     }

@@ -32,7 +32,7 @@ const Shop = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { cart, addToCart,fetchCartData } = useCart();
+  const { cart, addToCart } = useCart();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   const isInWishlist = (product) =>
@@ -168,7 +168,6 @@ const handleAddToCart = async (product) => {
     quantity: 1,
   });
 
-  await fetchCartData(); // ✅ important to update cart state immediately
 
   toast.success("Product added to cart");
 };
