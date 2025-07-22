@@ -289,7 +289,7 @@ export const CartProvider = ({ children }) => {
     fetchCartData();
   }, []);
 
-  const addToCart = async ({ productId, name, image, images, price, quantity = 1 }) => {
+  const addToCart = async ({ productId, quantity }) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
@@ -297,7 +297,7 @@ export const CartProvider = ({ children }) => {
       await axios.post(
         "https://api.gsienterprises.com/api/cart/add",
         {
-          productId,
+          productId,quantity
         },
         {
           headers: {
