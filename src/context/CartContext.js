@@ -447,25 +447,43 @@ export const CartProvider = ({ children }) => {
   const [savedItems, setSavedItems] = useState([]);
 
   // Fetch cart data from backend
-  const fetchCartData = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+  // const fetchCartData = async () => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     if (!token) return;
 
-      const res = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
+  //     const res = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       withCredentials: true,
+  //     });
 
-      setCart(Array.isArray(res.data.cart) ? res.data.cart : []);
-      setSavedItems(Array.isArray(res.data.savedItems) ? res.data.savedItems : []);
-      console.log("Cart after fetch:", res.data.cart);
-    } catch (err) {
-      console.error("Error fetching cart data:", err.response?.data || err.message);
-    }
-  };
+  //     setCart(Array.isArray(res.data.cart) ? res.data.cart : []);
+  //     setSavedItems(Array.isArray(res.data.savedItems) ? res.data.savedItems : []);
+  //     console.log("Cart after fetch:", res.data.cart);
+  //   } catch (err) {
+  //     console.error("Error fetching cart data:", err.response?.data || err.message);
+  //   }
+  // };
+const fetchCartData = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const res = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+
+    const cartItems = res.data.cart || [];
+    setCart(cartItems); // Set your cart state here
+  } catch (err) {
+    console.error("Error fetching cart data:", err.response?.data || err.message);
+  }
+};
 
   // Run once on mount
   useEffect(() => {

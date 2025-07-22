@@ -167,8 +167,7 @@ const handleAddToCart = async (product) => {
     productId: product._id,
     quantity: 1,
   });
-
-
+  
   toast.success("Product added to cart");
 };
 
