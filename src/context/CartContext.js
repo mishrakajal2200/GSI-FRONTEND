@@ -298,11 +298,6 @@ export const CartProvider = ({ children }) => {
         "https://api.gsienterprises.com/api/cart/add",
         {
           productId,
-          name,
-          image,
-          images,
-          price,
-          quantity,
         },
         {
           headers: {
