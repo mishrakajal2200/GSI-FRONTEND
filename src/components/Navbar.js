@@ -225,13 +225,13 @@ const handleLogout = () => {
     </Link>
 
     <Link to="/cart" className="relative text-white hover:text-gray-200">
-      <FaShoppingCart className="text-xl" />
-      {Array.isArray(cart) && cart.length > 0 && (
-        <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-          {cart.length}
-        </span>
-      )}
-    </Link>
+  <FaShoppingCart className="text-xl" />
+  {Array.isArray(cart) && cart.length > 0 && (
+    <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+      {cart.length}
+    </span>
+  )}
+</Link>
 
     
 
