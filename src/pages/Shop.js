@@ -163,11 +163,17 @@ const handleAddToCart = async (product) => {
     return;
   }
 
+  console.log("📦 Adding to cart:", {
+    productId: product._id,
+    quantity: 1,
+  });
+
   await addToCart({
     productId: product._id,
     quantity: 1,
   });
 };
+
 
   const handleWishlistClick = (productId) => {
     const token = localStorage.getItem("token");
