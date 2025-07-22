@@ -1,16 +1,13 @@
-
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import ReactImageMagnify from "react-image-magnify";
 
 const CartPage = () => {
   const { cart, totalItems, increaseQuantity, decreaseQuantity, removeFromCart, addToCart } = useCart();
   const [savedItems, setSavedItems] = useState([]);
   const [couponCode, setCouponCode] = useState("");
-  // eslint-disable-next-line no-unused-vars
-  const [discountedCart, setDiscountedCart] = useState(null);
+  const [setDiscountedCart] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [activeImage, setActiveImage] = useState("");
@@ -38,7 +35,6 @@ const CartPage = () => {
     try {
       const res = await axios.post("https://www.gsienterprises.com/api/cart/apply-coupon", { code: couponCode }, { withCredentials: true });
       setDiscountedCart(res.data);
-      if (res.data?.totalPrice) {} // ✅ suppress unused warning
       alert("Coupon applied!");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to apply coupon.");
@@ -102,6 +98,7 @@ const CartPage = () => {
                 </div>
               </div>
             ))}
+
             {savedItems.length > 0 && (
               <div className="mt-6">
                 <h3 className="text-lg font-semibold mb-2">Saved for Later</h3>
@@ -178,24 +175,13 @@ const CartPage = () => {
                 ))}
               </div>
               <div className="md:col-span-2 flex items-center justify-center">
-                <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: selectedItem.name,
-                      isFluidWidth: true,
-                      src: activeImage,
-                    },
-                    largeImage: {
-                      src: activeImage,
-                      width: 1200,
-                      height: 1800,
-                    },
-                    enlargedImageContainerDimensions: {
-                      width: '200%',
-                      height: '100%',
-                    },
-                  }}
-                />
+                <div className="relative group w-full max-w-lg overflow-hidden rounded-lg">
+                  <img
+                    src={activeImage}
+                    alt={selectedItem.name}
+                    className="object-contain w-full h-full transition-transform duration-500 transform group-hover:scale-150"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -206,6 +192,3 @@ const CartPage = () => {
 };
 
 export default CartPage;
-
-
-
