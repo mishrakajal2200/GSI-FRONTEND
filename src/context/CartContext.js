@@ -479,10 +479,11 @@ const fetchCartData = async () => {
     });
 
     // Map product and quantity into one flat object for UI
-    const items = res.data?.items?.map((item) => ({
-      ...item.product,
-      quantity: item.quantity,
-    })) || [];
+    // const items = res.data?.items?.map((item) => ({
+    //   ...item.product,
+    //   quantity: item.quantity,
+    // })) || [];
+    const items = res.data?.items || [];
 
     setCart(items); // this sets cart items with full product data
     console.log("🛒 Cart items loaded:", items);
