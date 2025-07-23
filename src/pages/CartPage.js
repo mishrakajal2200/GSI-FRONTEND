@@ -498,16 +498,16 @@ const CartPage = () => {
                       <h4 className="text-sm font-bold mt-3 text-gray-800">{product.product.name}</h4>
                       <p className="text-sm text-gray-500 line-clamp-2">{product.product.description}</p>
                       <div className="text-purple-600 font-bold mt-1 text-lg">₹{product.product.price}</div>
-                      {product.mrp > product.price && (
-                        <div className="text-sm text-gray-400 line-through">₹{product.mrp}</div>
+                      {product.product.mrp > product.product.price && (
+                        <div className="text-sm text-gray-400 line-through">₹{product.product.mrp}</div>
                       )}
 
                       <div className="flex items-center gap-3 mt-3">
-                        <button onClick={() => decreaseQuantity(product.productId)} className="w-7 h-7 rounded-full bg-red-500 text-white">−</button>
-                        <span className="font-medium text-gray-700">{product.quantity}</span>
-                        <button onClick={() => increaseQuantity(product.productId)} className="w-7 h-7 rounded-full bg-green-500 text-white">+</button>
+                        <button onClick={() => decreaseQuantity(product.product.productId)} className="w-7 h-7 rounded-full bg-red-500 text-white">−</button>
+                        <span className="font-medium text-gray-700">{product.product.quantity}</span>
+                        <button onClick={() => increaseQuantity(product.product.productId)} className="w-7 h-7 rounded-full bg-green-500 text-white">+</button>
                       </div>
-                      <button onClick={() => removeFromCart(product.productId)} className="text-red-500 text-xs mt-3 hover:underline">Remove</button>
+                      <button onClick={() => removeFromCart(product.product.productId)} className="text-red-500 text-xs mt-3 hover:underline">Remove</button>
                     </div>
                   ))}
                 </div>
