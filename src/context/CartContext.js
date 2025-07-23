@@ -447,25 +447,7 @@ export const CartProvider = ({ children }) => {
   const [savedItems, setSavedItems] = useState([]);
 
   // Fetch cart data from backend
-  // const fetchCartData = async () => {
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     if (!token) return;
-
-  //     const res = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       withCredentials: true,
-  //     });
-
-  //     setCart(Array.isArray(res.data.cart) ? res.data.cart : []);
-  //     setSavedItems(Array.isArray(res.data.savedItems) ? res.data.savedItems : []);
-  //     console.log("Cart after fetch:", res.data.cart);
-  //   } catch (err) {
-  //     console.error("Error fetching cart data:", err.response?.data || err.message);
-  //   }
-  // };
+  
 // const fetchCartData = async () => {
 //   try {
 //     const token = localStorage.getItem("token");
@@ -477,9 +459,9 @@ export const CartProvider = ({ children }) => {
 //       },
 //       withCredentials: true,
 //     });
-
-//     const cartItems = res.data.cart || [];
-//     setCart(cartItems); // Set your cart state here
+    
+//     setCart(res.data?.items || res.data?.cart?.items || []);
+//     console.log("🛒 Cart Items Fetched:", res.data?.items || res.data?.cart?.items || []);
 //   } catch (err) {
 //     console.error("Error fetching cart data:", err.response?.data || err.message);
 //   }
@@ -495,13 +477,20 @@ const fetchCartData = async () => {
       },
       withCredentials: true,
     });
-    
-    setCart(res.data?.items || res.data?.cart?.items || []);
-    console.log("🛒 Cart Items Fetched:", res.data?.items || res.data?.cart?.items || []);
+
+    // Map product and quantity into one flat object for UI
+    const items = res.data?.items?.map((item) => ({
+      ...item.product,
+      quantity: item.quantity,
+    })) || [];
+
+    setCart(items); // this sets cart items with full product data
+    console.log("🛒 Cart items loaded:", items);
   } catch (err) {
     console.error("Error fetching cart data:", err.response?.data || err.message);
   }
 };
+
 
 
   // Run once on mount
