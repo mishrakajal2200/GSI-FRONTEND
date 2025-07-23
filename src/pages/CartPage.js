@@ -268,14 +268,14 @@ const CartPage = () => {
       ) : (
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-6">
-            {Object.entries(groupedCart).map(([key, items]) => (
+            {Object.entries(groupedCart).map(([key, products]) => (
               <div key={key} className="border rounded-lg p-4 shadow-md bg-white">
                 <h3 className="text-xl font-semibold mb-3 text-purple-700">
-                  {items[0].brand} {items[0].selectedColor && ` - ${items[0].selectedColor}`}
+                  {products[0].brand} {products[0].selectedColor && ` - ${products[0].selectedColor}`}
                 </h3>
 
                 <div className="flex flex-wrap gap-4">
-                  {items.map((product) => (
+                  {products.map((product) => (
                     <div key={product._id} className="w-full sm:w-60 bg-gray-50 p-3 rounded-lg border hover:shadow">
                       <img
                         src={activeImages[product.productId] || product.image}
