@@ -394,6 +394,7 @@ const CartPage = () => {
     removeFromCart,
     addToCart,
   } = useCart();
+
   const [savedItems, setSavedItems] = useState([]);
   const [couponCode, setCouponCode] = useState("");
   const [setDiscountedCart] = useState(null);
@@ -411,15 +412,6 @@ const CartPage = () => {
   const confirmCheckout = () => {
     setShowModal(false);
     navigate("/checkout", { state: { cart } });
-  };
-
-  const handleSaveForLater = (product) => {
-    // Add to savedItems
-    const updatedSaved = [...savedItems, product];
-    setSavedItems(updatedSaved);
-    localStorage.setItem("savedItems", JSON.stringify(updatedSaved));
-    // Remove from cart
-    removeFromCart(product.productId);
   };
 
   const handleMoveToCart = (item) => {
@@ -449,7 +441,6 @@ const CartPage = () => {
     const stored = localStorage.getItem("savedItems");
     if (stored) setSavedItems(JSON.parse(stored));
 
-    // initialize active images
     const initialImages = {};
     cart.forEach((item) => {
       initialImages[item.productId] = item.image;
@@ -465,173 +456,102 @@ const CartPage = () => {
   }, {});
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen bg-gray-50">
-      <h2 className="text-3xl font-bold mb-6 text-center">🛒 Your Cart</h2>
+    <div className="max-w-7xl mx-auto px-4 py-10 min-h-screen bg-gradient-to-b from-gray-50 to-purple-50">
+      <h2 className="text-4xl font-bold mb-8 text-center text-purple-800 shadow-sm">
+        🛍️ Your Stylish Cart
+      </h2>
 
       {cart.length === 0 ? (
-        <p className="text-gray-500 text-center">
-          Your cart is empty.{" "}
-          <Link to="/shop" className="text-blue-600 underline">
-            Go shopping →
-          </Link>
+        <p className="text-gray-500 text-center text-lg">
+          Your cart is empty. <Link to="/shop" className="text-purple-600 underline hover:text-purple-800">Go shopping →</Link>
         </p>
       ) : (
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2 space-y-6">
+        <div className="grid md:grid-cols-3 gap-10">
+          <div className="md:col-span-2 space-y-8">
             {Object.entries(groupedCart).map(([key, products]) => (
-              <div
-                key={key}
-                className="border rounded-lg p-4 shadow-md bg-white"
-              >
-                <h3 className="text-xl font-semibold mb-3 text-purple-700">
-                  {products[0].brand}{" "}
-                  {products[0].selectedColor &&
-                    ` - ${products[0].selectedColor}`}
+              <div key={key} className="border rounded-xl p-5 shadow-lg bg-white">
+                <h3 className="text-xl font-semibold mb-4 text-purple-700">
+                  {products[0].brand} {products[0].selectedColor && ` - ${products[0].selectedColor}`}
                 </h3>
 
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-6">
                   {products.map((product) => (
-                    <div
-                      key={product._id}
-                      className="w-full sm:w-60 bg-gray-50 p-3 rounded-lg border hover:shadow"
-                    >
+                    <div key={product._id} className="w-full sm:w-60 bg-gray-50 p-4 rounded-xl border hover:shadow-lg transition-all">
                       <img
-                        src={
-                          activeImages[product.productId] || product.image
-                        }
+                        src={activeImages[product.productId] || product.image}
                         alt={product.name}
-                        className="w-full h-40 object-contain rounded"
+                        className="w-full h-40 object-contain rounded-xl"
                       />
 
-                      {/* Thumbnails */}
-                      <div className="flex gap-2 mt-2 overflow-x-auto">
+                      <div className="flex gap-2 mt-3 overflow-x-auto">
                         {(product.images || [product.image]).map((img, idx) => (
                           <img
                             key={idx}
                             src={img}
                             alt={`thumb-${idx}`}
-                            onClick={() =>
-                              setActiveImages((prev) => ({
-                                ...prev,
-                                [product.productId]: img,
-                              }))
-                            }
-                            className={`w-10 h-10 object-cover rounded border cursor-pointer ${
-                              activeImages[product.productId] === img
-                                ? "border-purple-500"
-                                : "border-gray-300"
-                            }`}
+                            onClick={() => setActiveImages((prev) => ({ ...prev, [product.productId]: img }))}
+                            className={`w-10 h-10 object-cover rounded border cursor-pointer transition-all ${activeImages[product.productId] === img ? 'border-purple-500' : 'border-gray-300'}`}
                           />
                         ))}
                       </div>
 
-                      <h4 className="text-sm font-bold mt-2">
-                        {product.name}
-                      </h4>
-                      <p className="text-sm text-gray-500 line-clamp-2">
-                        {product.description}
-                      </p>
-                      <div className="text-purple-600 font-bold mt-1">
-                        ₹{product.price}
-                      </div>
+                      <h4 className="text-sm font-bold mt-3 text-gray-800">{product.product.name}</h4>
+                      <p className="text-sm text-gray-500 line-clamp-2">{product.product.description}</p>
+                      <div className="text-purple-600 font-bold mt-1 text-lg">₹{product.product.price}</div>
                       {product.mrp > product.price && (
-                        <div className="text-sm text-gray-400 line-through">
-                          ₹{product.mrp}
-                        </div>
+                        <div className="text-sm text-gray-400 line-through">₹{product.mrp}</div>
                       )}
 
-                      <div className="flex items-center gap-2 mt-2">
-                        <button
-                          onClick={() =>
-                            decreaseQuantity(product.productId)
-                          }
-                          className="w-6 h-6 rounded-full bg-red-500 text-white"
-                        >
-                          −
-                        </button>
-                        <span>{product.quantity}</span>
-                        <button
-                          onClick={() =>
-                            increaseQuantity(product.productId)
-                          }
-                          className="w-6 h-6 rounded-full bg-green-500 text-white"
-                        >
-                          +
-                        </button>
+                      <div className="flex items-center gap-3 mt-3">
+                        <button onClick={() => decreaseQuantity(product.productId)} className="w-7 h-7 rounded-full bg-red-500 text-white">−</button>
+                        <span className="font-medium text-gray-700">{product.quantity}</span>
+                        <button onClick={() => increaseQuantity(product.productId)} className="w-7 h-7 rounded-full bg-green-500 text-white">+</button>
                       </div>
-
-                      <button
-                        onClick={() => removeFromCart(product.productId)}
-                        className="text-red-500 text-sm mt-2 hover:underline"
-                      >
-                        Remove
-                      </button>
-
-                      <button
-                        onClick={() => handleSaveForLater(product)}
-                        className="text-yellow-600 text-sm mt-1 hover:underline"
-                      >
-                        Save for Later
-                      </button>
+                      <button onClick={() => removeFromCart(product.productId)} className="text-red-500 text-xs mt-3 hover:underline">Remove</button>
                     </div>
                   ))}
                 </div>
               </div>
             ))}
 
-            {/* Saved Items */}
             {savedItems.length > 0 && (
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold mb-2">Saved for Later</h3>
-                {savedItems.map(
-                  (item) =>
-                    item?.productId && (
-                      <div
-                        key={item.productId}
-                        className="bg-gray-100 p-4 rounded-lg flex justify-between items-center mb-2"
-                      >
-                        <div>
-                          <p className="font-semibold">{item.name}</p>
-                          <p className="text-sm text-gray-600">
-                            ₹{item.price}
-                          </p>
-                        </div>
-                        <button
-                          onClick={() => handleMoveToCart(item)}
-                          className="text-blue-500 text-sm hover:underline"
-                        >
-                          Move to Cart
-                        </button>
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold mb-3 text-gray-700">Saved for Later</h3>
+                {savedItems.map((item) => (
+                  item?.productId && (
+                    <div key={item.productId} className="bg-gray-100 p-4 rounded-lg flex justify-between items-center mb-3">
+                      <div>
+                        <p className="font-semibold text-sm">{item.name}</p>
+                        <p className="text-xs text-gray-600">₹{item.price}</p>
                       </div>
-                    )
-                )}
+                      <button onClick={() => handleMoveToCart(item)} className="text-blue-500 text-xs hover:underline">Move to Cart</button>
+                    </div>
+                  )
+                ))}
               </div>
             )}
           </div>
 
-          {/* Order Summary */}
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h3 className="text-xl font-bold mb-4">Order Summary</h3>
+          <div className="bg-white p-6 rounded-2xl shadow-lg">
+            <h3 className="text-xl font-bold mb-4 text-gray-800">Order Summary</h3>
             <p className="text-sm text-gray-700">Total Items: {totalItems}</p>
-            <p className="text-lg font-semibold my-3">
-              Total Price: ₹{totalPrice}
-            </p>
+            <p className="text-lg font-semibold my-3 text-purple-700">Total Price: ₹{totalPrice}</p>
             <input
               type="text"
               value={couponCode}
               onChange={(e) => setCouponCode(e.target.value)}
               placeholder="Enter coupon code"
-              className="w-full p-2 border rounded mb-2"
+              className="w-full p-2 border rounded mb-2 text-sm"
             />
             <button
               onClick={handleApplyCoupon}
-              className="w-full py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+              className="w-full py-2 bg-purple-600 text-white rounded hover:bg-purple-700 text-sm"
             >
               Apply Coupon
             </button>
             <button
               onClick={handleProceed}
-              className="w-full mt-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="w-full mt-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
             >
               Proceed to Checkout
             </button>
@@ -639,24 +559,13 @@ const CartPage = () => {
         </div>
       )}
 
-      {/* Checkout Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-6 rounded-lg shadow-xl">
             <p className="text-lg font-semibold mb-4">Proceed to Checkout?</p>
             <div className="flex justify-end gap-4">
-              <button
-                className="px-4 py-2 bg-gray-300 rounded"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                onClick={confirmCheckout}
-              >
-                Confirm
-              </button>
+              <button className="px-4 py-2 bg-gray-300 rounded" onClick={() => setShowModal(false)}>Cancel</button>
+              <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" onClick={confirmCheckout}>Confirm</button>
             </div>
           </div>
         </div>
