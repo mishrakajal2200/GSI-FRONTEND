@@ -275,40 +275,40 @@ const CartPage = () => {
                 </h3>
 
                 <div className="flex flex-wrap gap-4">
-                  {items.map((item) => (
-                    <div key={item._id} className="w-full sm:w-60 bg-gray-50 p-3 rounded-lg border hover:shadow">
+                  {items.map((product) => (
+                    <div key={product._id} className="w-full sm:w-60 bg-gray-50 p-3 rounded-lg border hover:shadow">
                       <img
-                        src={activeImages[item.productId] || item.image}
-                        alt={item.name}
+                        src={activeImages[product.productId] || product.image}
+                        alt={product.name}
                         className="w-full h-40 object-contain rounded"
                       />
 
                       {/* Thumbnails */}
                       <div className="flex gap-2 mt-2 overflow-x-auto">
-                        {(item.images || [item.image]).map((img, idx) => (
+                        {(product.images || [product.image]).map((img, idx) => (
                           <img
                             key={idx}
                             src={img}
                             alt={`thumb-${idx}`}
-                            onClick={() => setActiveImages(prev => ({ ...prev, [item.productId]: img }))}
-                            className={`w-10 h-10 object-cover rounded border cursor-pointer ${activeImages[item.productId] === img ? 'border-purple-500' : 'border-gray-300'}`}
+                            onClick={() => setActiveImages(prev => ({ ...prev, [product.productId]: img }))}
+                            className={`w-10 h-10 object-cover rounded border cursor-pointer ${activeImages[product.productId] === img ? 'border-purple-500' : 'border-gray-300'}`}
                           />
                         ))}
                       </div>
 
-                      <h4 className="text-sm font-bold mt-2">{item.name}</h4>
-                      <p className="text-sm text-gray-500 line-clamp-2">{item.description}</p>
-                      <div className="text-purple-600 font-bold mt-1">₹{item.price}</div>
-                      {item.mrp > item.price && (
-                        <div className="text-sm text-gray-400 line-through">₹{item.mrp}</div>
+                      <h4 className="text-sm font-bold mt-2">{product.name}</h4>
+                      <p className="text-sm text-gray-500 line-clamp-2">{product.description}</p>
+                      <div className="text-purple-600 font-bold mt-1">₹{product.price}</div>
+                      {product.mrp > product.price && (
+                        <div className="text-sm text-gray-400 line-through">₹{product.mrp}</div>
                       )}
 
                       <div className="flex items-center gap-2 mt-2">
-                        <button onClick={() => decreaseQuantity(item.productId)} className="w-6 h-6 rounded-full bg-red-500 text-white">−</button>
-                        <span>{item.quantity}</span>
-                        <button onClick={() => increaseQuantity(item.productId)} className="w-6 h-6 rounded-full bg-green-500 text-white">+</button>
+                        <button onClick={() => decreaseQuantity(product.productId)} className="w-6 h-6 rounded-full bg-red-500 text-white">−</button>
+                        <span>{product.quantity}</span>
+                        <button onClick={() => increaseQuantity(product.productId)} className="w-6 h-6 rounded-full bg-green-500 text-white">+</button>
                       </div>
-                      <button onClick={() => removeFromCart(item.productId)} className="text-red-500 text-sm mt-2 hover:underline">Remove</button>
+                      <button onClick={() => removeFromCart(product.productId)} className="text-red-500 text-sm mt-2 hover:underline">Remove</button>
                     </div>
                   ))}
                 </div>
