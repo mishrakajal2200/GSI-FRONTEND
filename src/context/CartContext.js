@@ -495,9 +495,9 @@ const fetchCartData = async () => {
       },
       withCredentials: true,
     });
-
-    const cartItems = res.data.cart?.items || []; // ✅ Fix is here
-    setCart(cartItems);
+    
+    setCart(res.data?.items || res.data?.cart?.items || []);
+    console.log("🛒 Cart Items Fetched:", res.data?.items || res.data?.cart?.items || []);
   } catch (err) {
     console.error("Error fetching cart data:", err.response?.data || err.message);
   }
