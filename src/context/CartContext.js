@@ -466,6 +466,24 @@ export const CartProvider = ({ children }) => {
   //     console.error("Error fetching cart data:", err.response?.data || err.message);
   //   }
   // };
+// const fetchCartData = async () => {
+//   try {
+//     const token = localStorage.getItem("token");
+//     if (!token) return;
+
+//     const res = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//       withCredentials: true,
+//     });
+
+//     const cartItems = res.data.cart || [];
+//     setCart(cartItems); // Set your cart state here
+//   } catch (err) {
+//     console.error("Error fetching cart data:", err.response?.data || err.message);
+//   }
+// };
 const fetchCartData = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -478,12 +496,13 @@ const fetchCartData = async () => {
       withCredentials: true,
     });
 
-    const cartItems = res.data.cart || [];
-    setCart(cartItems); // Set your cart state here
+    const cartItems = res.data.cart?.items || []; // ✅ Fix is here
+    setCart(cartItems);
   } catch (err) {
     console.error("Error fetching cart data:", err.response?.data || err.message);
   }
 };
+
 
   // Run once on mount
   useEffect(() => {
