@@ -503,11 +503,11 @@ const CartPage = () => {
                       )}
 
                       <div className="flex items-center gap-3 mt-3">
-                        <button onClick={() => decreaseQuantity(product.product.productId)} className="w-7 h-7 rounded-full bg-red-500 text-white">−</button>
+                        <button onClick={() => decreaseQuantity(product.productId)} className="w-7 h-7 rounded-full bg-red-500 text-white">−</button>
                         <span className="font-medium text-gray-700">{product.quantity}</span>
-                        <button onClick={() => increaseQuantity(product.product.productId)} className="w-7 h-7 rounded-full bg-green-500 text-white">+</button>
+                        <button onClick={() => increaseQuantity(product.productId)} className="w-7 h-7 rounded-full bg-green-500 text-white">+</button>
                       </div>
-                      <button onClick={() => removeFromCart(product.product.productId)} className="text-red-500 text-xs mt-3 hover:underline">Remove</button>
+                      <button onClick={() => removeFromCart(product.productId)} className="text-red-500 text-xs mt-3 hover:underline">Remove</button>
                     </div>
                   ))}
                 </div>
