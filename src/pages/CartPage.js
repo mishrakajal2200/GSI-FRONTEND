@@ -478,19 +478,19 @@ const CartPage = () => {
                   {products.map((product) => (
                     <div key={product._id} className="w-full sm:w-60 bg-gray-50 p-4 rounded-xl border hover:shadow-lg transition-all">
                       <img
-                        src={activeImages[product.productId] || product.image}
-                        alt={product.name}
+                        src={activeImages[product.product.productId] || product.product.image}
+                        alt={product.product.name}
                         className="w-full h-40 object-contain rounded-xl"
                       />
 
                       <div className="flex gap-2 mt-3 overflow-x-auto">
-                        {(product.images || [product.image]).map((img, idx) => (
+                        {(product.product.images || [product.product.image]).map((img, idx) => (
                           <img
                             key={idx}
                             src={img}
                             alt={`thumb-${idx}`}
-                            onClick={() => setActiveImages((prev) => ({ ...prev, [product.productId]: img }))}
-                            className={`w-10 h-10 object-cover rounded border cursor-pointer transition-all ${activeImages[product.productId] === img ? 'border-purple-500' : 'border-gray-300'}`}
+                            onClick={() => setActiveImages((prev) => ({ ...prev, [product.product.productId]: img }))}
+                            className={`w-10 h-10 object-cover rounded border cursor-pointer transition-all ${activeImages[product.product.productId] === img ? 'border-purple-500' : 'border-gray-300'}`}
                           />
                         ))}
                       </div>
