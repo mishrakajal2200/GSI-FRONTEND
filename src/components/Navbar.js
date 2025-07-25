@@ -23,7 +23,7 @@ const Navbar = () => {
   // const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const { cart} = useCart();
-   const totalCartItems = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+  const totalCartItems = cart.length;
   const { wishlist } = useWishlist();
   const { clearCart } = useCart();
   const toggleNav = () => setIsNavOpen(!isNavOpen);
