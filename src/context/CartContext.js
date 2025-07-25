@@ -525,23 +525,44 @@ const fetchCartData = async () => {
   };
 
   // Remove from cart
-  const removeFromCart = async (productId) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!productId || !token) return;
+  // const removeFromCart = async (productId) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     if (!productId || !token) return;
 
-      const res = await axios.delete(`https://api.gsienterprises.com/api/cart/remove/${productId}`, {
+  //     const res = await axios.delete(`https://api.gsienterprises.com/api/cart/remove/${productId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       withCredentials: true,
+  //     });
+
+  //     setCart(res.data.cart);
+  //   } catch (error) {
+  //     console.error("Error removing from cart:", error.response?.data || error.message);
+  //   }
+  // };
+const removeFromCart = async (productId) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!productId || !token) return;
+
+    const res = await axios.delete(
+      `https://api.gsienterprises.com/api/cart/remove/${productId}`,
+      {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         withCredentials: true,
-      });
+      }
+    );
 
-      setCart(res.data.cart);
-    } catch (error) {
-      console.error("Error removing from cart:", error.response?.data || error.message);
-    }
-  };
+    setCart(res.data.cart);
+  } catch (error) {
+    console.error("Error removing from cart:", error.response?.data || error.message);
+    alert(error.response?.data?.message || "Failed to remove item.");
+  }
+};
 
   // Increase item quantity
   const increaseQuantity = async (productId) => {
