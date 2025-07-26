@@ -155,12 +155,12 @@ const removeFromCart = async (productId) => {
   };
 
   // Decrease item quantity
-  const decreaseQuantity = async (productId) => {
+ const decreaseQuantity = async (productId, size, color) => {
   try {
     const token = localStorage.getItem("token");
     const res = await axios.patch(
       `https://api.gsienterprises.com/api/cart/decrease/${productId}`,
-      {},
+      { size, color },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -169,11 +169,12 @@ const removeFromCart = async (productId) => {
       }
     );
 
-    setCart(res.data.cart); // ✅ will work correctly once backend fixed
+    setCart(res.data.cart);
   } catch (err) {
     console.error("Error decreasing quantity:", err.response?.data || err.message);
   }
 };
+
 
 
   // Move item from savedItems to cart

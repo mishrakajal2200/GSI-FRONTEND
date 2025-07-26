@@ -123,13 +123,11 @@ const CartPage = () => {
                   <div className="flex items-center gap-4 mt-3">
                     <div className="flex items-center gap-2 border px-2 py-1 rounded-md">
                       <button
-                        onClick={() =>
-                          decreaseQuantity(product.product._id)
-                        }
-                        className="w-6 h-6 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300"
-                      >
-                        −
-                      </button>
+  onClick={() => decreaseQuantity(product.product._id, product.size, product.color)}
+  className="w-6 h-6 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300"
+>
+  −
+</button>
                       <span>{product.quantity}</span>
                       <button
                         onClick={() =>
