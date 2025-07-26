@@ -124,12 +124,14 @@ const removeFromCart = async (productId) => {
       }
     );
 
-    setCart(res.data.cart);
+    // ✅ Only update the cart items
+    setCart(res.data.items); 
   } catch (error) {
     console.error("Error removing from cart:", error.response?.data || error.message);
     alert(error.response?.data?.message || "Failed to remove item.");
   }
 };
+
 
   // Increase item quantity
   const increaseQuantity = async (productId) => {
