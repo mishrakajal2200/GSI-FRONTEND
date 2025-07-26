@@ -156,24 +156,25 @@ const removeFromCart = async (productId) => {
 
   // Decrease item quantity
   const decreaseQuantity = async (productId) => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.patch(
-        `https://api.gsienterprises.com/api/cart/decrease/${productId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        }
-      );
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.patch(
+      `https://api.gsienterprises.com/api/cart/decrease/${productId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
 
-      setCart(res.data.cart);
-    } catch (err) {
-      console.error("Error decreasing quantity:", err.response?.data || err.message);
-    }
-  };
+    setCart(res.data.cart); // ✅ will work correctly once backend fixed
+  } catch (err) {
+    console.error("Error decreasing quantity:", err.response?.data || err.message);
+  }
+};
+
 
   // Move item from savedItems to cart
   const handleMoveToCart = async (productId) => {
