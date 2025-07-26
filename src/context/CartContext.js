@@ -33,6 +33,32 @@ export const CartProvider = ({ children }) => {
 //     console.error("Error fetching cart data:", err.response?.data || err.message);
 //   }
 // };
+// const fetchCartData = async () => {
+//   try {
+//     const token = localStorage.getItem("token");
+//     if (!token) return;
+
+//     const res = await axios.get("https://api.gsienterprises.com/api/cart/getcart", {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//       withCredentials: true,
+//     });
+
+//     // Map product and quantity into one flat object for UI
+//     // const items = res.data?.items?.map((item) => ({
+//     //   ...item.product,
+//     //   quantity: item.quantity,
+//     // })) || [];
+//     const items = res.data?.items || [];
+
+//     setCart(items); // this sets cart items with full product data
+//     console.log("🛒 Cart items loaded:", items);
+//   } catch (err) {
+//     console.error("Error fetching cart data:", err.response?.data || err.message);
+//   }
+// };
+
 const fetchCartData = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -45,20 +71,13 @@ const fetchCartData = async () => {
       withCredentials: true,
     });
 
-    // Map product and quantity into one flat object for UI
-    // const items = res.data?.items?.map((item) => ({
-    //   ...item.product,
-    //   quantity: item.quantity,
-    // })) || [];
-    const items = res.data?.items || [];
-
-    setCart(items); // this sets cart items with full product data
-    console.log("🛒 Cart items loaded:", items);
+    const cart = res.data.cart || {}; // make sure full cart object
+    setCart(cart); // ✅ always keep cart object consistent
+    console.log("🛒 Cart loaded:", cart);
   } catch (err) {
     console.error("Error fetching cart data:", err.response?.data || err.message);
   }
 };
-
 
 
   // Run once on mount
@@ -124,13 +143,13 @@ const removeFromCart = async (productId) => {
       }
     );
 
-    // ✅ Only update the cart items
-    setCart(res.data.items); 
+    setCart(res.data.cart); // ✅ update full cart object
   } catch (error) {
     console.error("Error removing from cart:", error.response?.data || error.message);
     alert(error.response?.data?.message || "Failed to remove item.");
   }
 };
+
 
 
   // Increase item quantity
