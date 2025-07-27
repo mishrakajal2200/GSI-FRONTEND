@@ -98,7 +98,7 @@ const CartPage = () => {
                     product.product.image
                   }
                   alt={product.product.name}
-                  className="w-40 h-40 object-contain rounded-md border"
+                  className="w-80 h-80 object-contain rounded-md border"
                 />
 
                 <div className="flex-1">
