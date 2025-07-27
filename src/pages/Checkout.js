@@ -10,7 +10,7 @@ const Checkout = () => {
   const cartItems = location.state?.cart || [];
 
   const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + item.product.price * item.product.quantity,
     0
   );
 
@@ -230,9 +230,9 @@ const handlePayment = async () => {
               <h2 className="text-xl font-bold mb-4 text-gray-700">Order Summary</h2>
               <div className="space-y-3 mb-4">
                 {cartItems.map((item) => (
-                  <div key={item.productId} className="flex justify-between text-gray-700">
-                    <span>{item.name} x {item.quantity}</span>
-                    <span>₹{item.price * item.quantity}</span>
+                  <div key={item.product.productId} className="flex justify-between text-gray-700">
+                    <span>{item.product.name} x {item.product.quantity}</span>
+                    <span>₹{item.product.price * item.product.quantity}</span>
                   </div>
                 ))}
               </div>
