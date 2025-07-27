@@ -101,7 +101,7 @@ const CartPage = () => {
                   className="w-80 h-80 object-contain rounded-md border"
                 />
 
-                <div className="flex-1">
+                <div className="flex-1 ml-12 items-center">
                   <h4 className="text-md font-semibold text-gray-800">
                     {product.product.name}
                   </h4>
@@ -180,6 +180,7 @@ const CartPage = () => {
                     </div>
                   )}
                 </div>
+
               </div>
             ))}
 
