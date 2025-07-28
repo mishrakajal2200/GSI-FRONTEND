@@ -101,7 +101,7 @@ const CartPage = () => {
                   className="w-80 h-80 object-contain rounded-md border"
                 />
 
-                <div className="flex-1 ml-12 mt-16">
+                <div className="flex-1 ml-12 mt-10">
                   <h4 className="text-md font-semibold text-gray-800">
                     {product.product.name}
                   </h4>
@@ -170,7 +170,7 @@ const CartPage = () => {
                               [product.product._id]: img,
                             }))
                           }
-                          className={`w-40 h-40 object-cover rounded border cursor-pointer transition-all ${
+                          className={`w-20 h-20 object-cover rounded border cursor-pointer transition-all ${
                             activeImages[product.product._id] === img
                               ? "border-purple-500"
                               : "border-gray-300"
