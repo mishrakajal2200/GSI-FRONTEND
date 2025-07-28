@@ -170,7 +170,7 @@ const CartPage = () => {
                               [product.product._id]: img,
                             }))
                           }
-                          className={`w-10 h-10 object-cover rounded border cursor-pointer transition-all ${
+                          className={`w-40 h-40 object-cover rounded border cursor-pointer transition-all ${
                             activeImages[product.product._id] === img
                               ? "border-purple-500"
                               : "border-gray-300"
