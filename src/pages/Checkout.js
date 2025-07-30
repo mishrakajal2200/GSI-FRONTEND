@@ -104,7 +104,7 @@ const handlePayment = async () => {
       },
      withCredentials:true,
       body: JSON.stringify({
-        amount: totalPrice,
+         amount: Math.round(totalPrice * 100),  
         shippingInfo,
         cartItems,
       }),
@@ -142,12 +142,6 @@ const handlePayment = async () => {
     alert("Something went wrong. Try again later.");
   }
 };
-
-   
-
-
-  
-
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-purple-100 to-indigo-100 px-4 py-10">
