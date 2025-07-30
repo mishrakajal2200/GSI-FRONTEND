@@ -60,12 +60,13 @@ const handleCODPayment = async () => {
   console.log("Payload being sent:", payload);
 
   try {
-    const res = await fetch("https://api.gsienterprises.com/api/payment/place-order",{withCredentials:true} ,{
+    const res = await fetch("https://api.gsienterprises.com/api/payment/place-order",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
+      credentials: "include",
       body: JSON.stringify(payload),
     });
 
@@ -95,12 +96,13 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 
 const handlePayment = async () => {
   try {
-    const res = await fetch("https://api.gsienterprises.com/api/payment/create-order",{withCredentials:true}, {
+    const res = await fetch("https://api.gsienterprises.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      credentials: "include",
       body: JSON.stringify({
         amount: totalPrice,
         shippingInfo,
