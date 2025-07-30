@@ -25,11 +25,76 @@ const Checkout = () => {
   });
 
 
+// const handleCODPayment = async () => {
+//   // Log shippingInfo for debugging
+//   console.log("Shipping Info:", shippingInfo);
+
+//   // Check for empty fields and log which one is missing
+//   const isAnyFieldEmpty = Object.entries(shippingInfo).some(([key, value]) => {
+//     if (!value || value.trim() === "") {
+//       console.warn(`Missing field: ${key}`);
+//       return true;
+//     }
+//     return false;
+//   });
+
+//   if (isAnyFieldEmpty) {
+//     toast.error("Please fill out all shipping information before placing an order.");
+//     return;
+//   }
+
+//   const payload = {
+//     totalPrice,
+//     paymentMethod: "COD",
+//     shippingAddress: {
+//       fullName: shippingInfo.fullName,
+//       phone: shippingInfo.phone,
+//       address: shippingInfo.address,
+//       city: shippingInfo.city,
+//       country: shippingInfo.country,
+//       postalCode: shippingInfo.postalCode,
+//     },
+//     items: cartItems,
+//   };
+
+//   console.log("Payload being sent:", payload);
+
+//   try {
+//     const res = await fetch("https://api.gsienterprises.com/api/payment/place-order",{
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//       },
+//       withCredentials:true,
+//       body: JSON.stringify(payload),
+//     });
+
+//     if (res.status === 500) {
+//       console.log("Server error:", await res.text());
+//       toast.error("Internal server error. Please try again.");
+//       return;
+//     }
+
+//     const data = await res.json();
+
+//     if (data.success) {
+//       toast.success("Order placed successfully! You'll pay cash on delivery.");
+//       setTimeout(() => {
+//         window.location.href = "/orders";
+//       }, 1500);
+//     } else {
+//       toast.error(data.message || "There was an error placing your order.");
+//     }
+//   } catch (error) {
+//     console.error("Error placing COD order:", error);
+//     toast.error("Error placing the order. Try again!");
+//   }
+// };
 const handleCODPayment = async () => {
-  // Log shippingInfo for debugging
   console.log("Shipping Info:", shippingInfo);
 
-  // Check for empty fields and log which one is missing
+  // Validate all shipping fields
   const isAnyFieldEmpty = Object.entries(shippingInfo).some(([key, value]) => {
     if (!value || value.trim() === "") {
       console.warn(`Missing field: ${key}`);
@@ -43,6 +108,14 @@ const handleCODPayment = async () => {
     return;
   }
 
+  // ✅ Convert cartItems to match backend schema
+  const formattedItems = cartItems.map((item) => ({
+    productId: item.product?._id || item.productId,  // Fallback to productId if needed
+    name: item.product?.name,
+    price: item.product?.price,
+    quantity: item.quantity,
+  }));
+
   const payload = {
     totalPrice,
     paymentMethod: "COD",
@@ -54,24 +127,24 @@ const handleCODPayment = async () => {
       country: shippingInfo.country,
       postalCode: shippingInfo.postalCode,
     },
-    items: cartItems,
+    items: formattedItems,
   };
 
-  console.log("Payload being sent:", payload);
+  console.log("✅ Payload being sent:", payload);
 
   try {
-    const res = await fetch("https://api.gsienterprises.com/api/payment/place-order",{
+    const res = await fetch("https://api.gsienterprises.com/api/payment/place-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      withCredentials:true,
       body: JSON.stringify(payload),
     });
 
     if (res.status === 500) {
-      console.log("Server error:", await res.text());
+      const errorText = await res.text();
+      console.log("❌ Server error:", errorText);
       toast.error("Internal server error. Please try again.");
       return;
     }
@@ -87,7 +160,7 @@ const handleCODPayment = async () => {
       toast.error(data.message || "There was an error placing your order.");
     }
   } catch (error) {
-    console.error("Error placing COD order:", error);
+    console.error("❌ Error placing COD order:", error);
     toast.error("Error placing the order. Try again!");
   }
 };
