@@ -66,7 +66,7 @@ const handleCODPayment = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      credentials: "include",
+      withCredentials:true,
       body: JSON.stringify(payload),
     });
 
@@ -102,7 +102,7 @@ const handlePayment = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      credentials: "include",
+     withCredentials:true,
       body: JSON.stringify({
         amount: totalPrice,
         shippingInfo,
