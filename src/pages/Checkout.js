@@ -92,9 +92,10 @@ const Checkout = () => {
 //   }
 // };
 const handleCODPayment = async () => {
+  // Log shipping info for debugging
   console.log("Shipping Info:", shippingInfo);
 
-  // Validate all shipping fields
+  // Validate shipping info fields
   const isAnyFieldEmpty = Object.entries(shippingInfo).some(([key, value]) => {
     if (!value || value.trim() === "") {
       console.warn(`Missing field: ${key}`);
@@ -108,11 +109,12 @@ const handleCODPayment = async () => {
     return;
   }
 
-  // ✅ Convert cartItems to match backend schema
+  // ✅ Safely format items to match backend Order schema
+  console.log("🛒 cartItems:", cartItems);
   const formattedItems = cartItems.map((item) => ({
-    productId: item.product?._id || item.productId,  // Fallback to productId if needed
-    name: item.product?.name,
-    price: item.product?.price,
+    productId: item.product?._id || item._id || item.productId,
+    name: item.product?.name || item.name,
+    price: item.product?.price || item.price,
     quantity: item.quantity,
   }));
 
@@ -144,7 +146,7 @@ const handleCODPayment = async () => {
 
     if (res.status === 500) {
       const errorText = await res.text();
-      console.log("❌ Server error:", errorText);
+      console.error("❌ Server error:", errorText);
       toast.error("Internal server error. Please try again.");
       return;
     }
@@ -164,6 +166,7 @@ const handleCODPayment = async () => {
     toast.error("Error placing the order. Try again!");
   }
 };
+
 
 const token = localStorage.getItem("token"); // or get from Redux, etc.
 
