@@ -16,7 +16,6 @@ const CartPage = () => {
 
   const [savedItems, setSavedItems] = useState([]);
   const [couponCode, setCouponCode] = useState("");
-  const [setDiscountedCart] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [activeImages, setActiveImages] = useState({});
   const [showQuotationModal, setShowQuotationModal] = useState(false);
@@ -48,19 +47,7 @@ const CartPage = () => {
     localStorage.setItem("savedItems", JSON.stringify(updatedSaved));
   };
 
-  const handleApplyCoupon = async () => {
-    try {
-      const res = await axios.post(
-        "https://www.gsienterprises.com/api/cart/apply-coupon",
-        { code: couponCode },
-        { withCredentials: true }
-      );
-      setDiscountedCart(res.data);
-      alert("Coupon applied!");
-    } catch (err) {
-      alert(err.response?.data?.message || "Failed to apply coupon.");
-    }
-  };
+ 
 
   const handleQuotationSubmit = async () => {
   try {
@@ -256,12 +243,7 @@ const CartPage = () => {
               placeholder="Enter coupon code"
               className="w-full p-2 border rounded mb-2 text-sm"
             />
-            <button
-              onClick={handleApplyCoupon}
-              className="w-full py-2 bg-purple-600 text-white rounded hover:bg-purple-700 text-sm"
-            >
-              Apply Coupon
-            </button>
+           
             <button
               onClick={handleProceed}
               className="w-full mt-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
