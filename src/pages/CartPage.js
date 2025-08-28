@@ -19,6 +19,11 @@ const CartPage = () => {
   const [setDiscountedCart] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [activeImages, setActiveImages] = useState({});
+  const [showQuotationModal, setShowQuotationModal] = useState(false);
+  const [quotationForm, setQuotationForm] = useState({
+  budget: "",
+  specialNotes: "",
+});
   const navigate = useNavigate();
 
   const totalPrice = cart.reduce(
@@ -56,6 +61,28 @@ const CartPage = () => {
       alert(err.response?.data?.message || "Failed to apply coupon.");
     }
   };
+
+  const handleQuotationSubmit = async () => {
+  try {
+    await axios.post(
+      "https://www.gsienterprises.com/api/quotation",
+      {
+        items: cart.map((item) => ({
+          productId: item.product._id,
+          quantity: item.quantity,
+        })),
+        budget: quotationForm.budget,
+        specialNotes: quotationForm.specialNotes,
+      },
+      { withCredentials: true }
+    );
+
+    alert("Quotation request submitted!");
+    setShowQuotationModal(false);
+  } catch (err) {
+    alert(err.response?.data?.message || "Failed to submit quotation.");
+  }
+};
 
   useEffect(() => {
     const stored = localStorage.getItem("savedItems");
@@ -241,6 +268,12 @@ const CartPage = () => {
             >
               Proceed to Checkout
             </button>
+            <button
+  onClick={() => setShowQuotationModal(true)}
+  className="w-full mt-2 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+>
+  Request Quotation
+</button>
           </div>
         </div>
       )}
@@ -269,6 +302,52 @@ const CartPage = () => {
           </div>
         </div>
       )}
+
+      {/* Create the Quotation Modal */}
+      {showQuotationModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg shadow-xl w-96">
+      <h3 className="text-lg font-semibold mb-4">Request a Quotation</h3>
+
+      {/* Budget Input */}
+      <input
+        type="number"
+        placeholder="Your budget (₹)"
+        value={quotationForm.budget}
+        onChange={(e) =>
+          setQuotationForm({ ...quotationForm, budget: e.target.value })
+        }
+        className="w-full p-2 border rounded mb-3 text-sm"
+      />
+
+      {/* Special Notes */}
+      <textarea
+        placeholder="Any special requirements?"
+        value={quotationForm.specialNotes}
+        onChange={(e) =>
+          setQuotationForm({ ...quotationForm, specialNotes: e.target.value })
+        }
+        className="w-full p-2 border rounded mb-3 text-sm"
+      />
+
+      <div className="flex justify-end gap-4">
+        <button
+          className="px-4 py-2 bg-gray-300 rounded"
+          onClick={() => setShowQuotationModal(false)}
+        >
+          Cancel
+        </button>
+        <button
+          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+          onClick={handleQuotationSubmit}
+        >
+          Submit Request
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
