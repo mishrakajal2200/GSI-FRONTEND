@@ -65,7 +65,7 @@ const CartPage = () => {
   const handleQuotationSubmit = async () => {
   try {
     await axios.post(
-      "https://www.gsienterprises.com/api/quotation",
+      "https://gsienterprises.com/api/quotation",
       {
         items: cart.map((item) => ({
           productId: item.product._id,
