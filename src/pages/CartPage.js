@@ -15,7 +15,7 @@ const CartPage = () => {
   } = useCart();
 
   const [savedItems, setSavedItems] = useState([]);
-  const [couponCode, setCouponCode] = useState("");
+ 
   const [showModal, setShowModal] = useState(false);
   const [activeImages, setActiveImages] = useState({});
   const [showQuotationModal, setShowQuotationModal] = useState(false);
@@ -236,13 +236,7 @@ const CartPage = () => {
             <p className="text-lg font-semibold my-3 text-purple-700">
               Total Price: ₹{totalPrice}
             </p>
-            <input
-              type="text"
-              value={couponCode}
-              onChange={(e) => setCouponCode(e.target.value)}
-              placeholder="Enter coupon code"
-              className="w-full p-2 border rounded mb-2 text-sm"
-            />
+
            
             <button
               onClick={handleProceed}
