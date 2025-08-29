@@ -65,6 +65,7 @@ function App() {
             <Route path="/terms" element={<TermsAndConditions />} />
            
            
+           
 
             {/* Protected Routes */}
             <Route
