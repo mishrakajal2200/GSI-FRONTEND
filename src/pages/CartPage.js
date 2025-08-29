@@ -49,10 +49,33 @@ const CartPage = () => {
 
  
 
-  const handleQuotationSubmit = async () => {
+//   const handleQuotationSubmit = async () => {
+//   try {
+//     await axios.post(
+//       "https://api.gsienterprises.com/api/quotation/create",
+//       {
+//         items: cart.map((item) => ({
+//           productId: item.product._id,
+//           quantity: item.quantity,
+//         })),
+//         budget: quotationForm.budget,
+//         specialNotes: quotationForm.specialNotes,
+//       },
+//       { withCredentials: true }
+//     );
+
+//     alert("Quotation request submitted!");
+//     setShowQuotationModal(false);
+//   } catch (err) {
+//     alert(err.response?.data?.message || "Failed to submit quotation.");
+//   }
+// };
+const handleQuotationSubmit = async () => {
   try {
+    const token = localStorage.getItem("token"); // Or sessionStorage
+
     await axios.post(
-      "https://api.gsienterprises.com/api/quotations/createquotation",
+      "https://api.gsienterprises.com/api/quotation/create",
       {
         items: cart.map((item) => ({
           productId: item.product._id,
@@ -61,7 +84,12 @@ const CartPage = () => {
         budget: quotationForm.budget,
         specialNotes: quotationForm.specialNotes,
       },
-      { withCredentials: true }
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ send JWT token
+        },
+        withCredentials: true, // keep if backend also uses cookies
+      }
     );
 
     alert("Quotation request submitted!");
