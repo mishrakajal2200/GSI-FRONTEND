@@ -75,7 +75,7 @@ const handleQuotationSubmit = async () => {
     const token = localStorage.getItem("token"); // Or sessionStorage
 
     await axios.post(
-      "https://api.gsienterprises.com/api/quotation/create",
+      "https://api.gsienterprises.com/api/cart/quotation/create",
       {
         items: cart.map((item) => ({
           productId: item.product._id,
