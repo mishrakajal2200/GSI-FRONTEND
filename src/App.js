@@ -26,6 +26,7 @@ import SavedAddressesPage from './pages/SavedAddressesPage.js';
 
 
 import TermsAndConditions from './pages/TermsConditions.js';
+import MyQuotationsPage from './pages/MyQuotationsPage.js';
 
 
 
@@ -63,7 +64,7 @@ function App() {
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/address" element={<SavedAddressesPage />} />
             <Route path="/terms" element={<TermsAndConditions />} />
-           
+           <Route path="/my" element={<MyQuotationsPage />} />
            
            
 
