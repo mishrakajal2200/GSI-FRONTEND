@@ -14,15 +14,14 @@ const OrderHistory = () => {
     const fetchOrders = async () => {
       try {
         const { data } = await axios.get(
-          "https://api.gsienterprises.com/api/payment/get-orders",{
-            withCredentials:true
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+  "https://api.gsienterprises.com/api/payment/get-orders",
+  {
+    withCredentials: true, // if your backend uses cookies
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  }
+);
         setOrders(data.orders || []);
       } catch (error) {
         console.error("Failed to fetch orders:", error);
