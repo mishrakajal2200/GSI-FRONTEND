@@ -244,8 +244,10 @@ const handleLogout = () => {
       <div className="absolute right-0 mt-2 w-44 bg-white text-black border rounded shadow-lg z-50 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
         <Link to="/profile" className="block px-4 py-2 hover:bg-indigo-100">My Profile</Link>
         <Link to="/orders" className="block px-4 py-2 hover:bg-indigo-100">My Orders</Link>
+        <Link to="/my" className="block px-4 py-2 hover:bg-indigo-100">My Quotations</Link>
         <Link to="/address" className="block px-4 py-2 hover:bg-indigo-100">Saved Address</Link>
         <Link to="/contact" className="block px-4 py-2 hover:bg-indigo-100">Contact Us</Link>
+
         <button
           onClick={handleLogout}
           className="block w-full text-left px-4 py-2 hover:bg-indigo-100 text-red-600"
