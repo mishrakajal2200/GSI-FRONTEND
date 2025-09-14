@@ -165,7 +165,7 @@ const MyQuotations = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex items-center justify-center min-h-screen">
         <p className="text-gray-600 text-lg animate-pulse">Loading quotations...</p>
       </div>
     );
