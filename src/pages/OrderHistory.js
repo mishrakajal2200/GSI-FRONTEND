@@ -283,14 +283,15 @@ const OrderHistory = () => {
               {/* Order Items */}
               <div className="mt-4">
                 <h3 className="font-semibold text-gray-800 mb-2">Items:</h3>
-                <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
-                  {order.items.map((item, idx) => (
-                    <li key={idx}>
-                      <span className="font-medium text-gray-700">{item.product?.name || item.name}</span> x{" "}
-                      {item.quantity} = ₹{(item.product?.price || item.price) * item.quantity}
-                    </li>
-                  ))}
-                </ul>
+               <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
+  {order.items.map((item, idx) => (
+    <li key={idx}>
+      <span className="font-medium text-gray-700">{item.name}</span> x{" "}
+      {item.quantity} = ₹{item.priceAtOrder * item.quantity}
+    </li>
+  ))}
+</ul>
+
               </div>
             </div>
           ))}
