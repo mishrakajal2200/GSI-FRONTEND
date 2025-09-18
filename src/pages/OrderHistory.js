@@ -1,4 +1,158 @@
 
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+// import { FaMoneyBill, FaBoxOpen, FaMapMarkerAlt } from "react-icons/fa";
+// import { MdDateRange } from "react-icons/md";
+
+// const OrderHistory = () => {
+//   const [orders, setOrders] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const navigate = useNavigate();
+
+//  useEffect(() => {
+//   const fetchOrders = async () => {
+//     try {
+//       const token = localStorage.getItem("token");
+//       if (!token) {
+//         console.warn("No token found in localStorage");
+//         setOrders([]);
+//         setLoading(false);
+//         return;
+//       }
+
+//       const { data } = await axios.get(
+//         "https://api.gsienterprises.com/api/payment/get-orders",
+//         {
+//           withCredentials: true,
+//           headers: {
+//             Authorization: `Bearer ${token}`, // keep Bearer here
+//           },
+//         }
+//       );
+
+//       console.log("Orders API response:", data); // ✅ debug
+//       setOrders(data.orders || []);
+//     } catch (error) {
+//       console.error("Failed to fetch orders:", error.response?.data || error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   fetchOrders();
+// }, []);
+
+
+//   if (loading) {
+//     return (
+//       <div className="min-h-screen flex items-center justify-center text-xl text-gray-600">
+//         Loading your orders...
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-gray-50 p-6">
+//       <div className="max-w-6xl mx-auto">
+//         <h1 className="text-4xl font-extrabold text-center text-indigo-700 mb-10">
+//           🛒 Your Order History
+//         </h1>
+
+//         {orders.length === 0 ? (
+//           <div className="text-center text-gray-600 text-lg">
+//             You haven't placed any orders yet.
+//             <br />
+//             <button
+//               onClick={() => navigate("/")}
+//               className="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition"
+//             >
+//               Go to Shop
+//             </button>
+//           </div>
+//         ) : (
+//           <div className="space-y-8">
+//             {orders.map((order) => (
+//               <div
+//                 key={order._id}
+//                 className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition p-6"
+//               >
+//                 <div className="flex justify-between flex-wrap items-center mb-4">
+//                   <div className="text-sm text-gray-500 flex items-center gap-2">
+//                     <FaBoxOpen className="text-indigo-500" />
+//                     <span className="font-semibold">Order ID:</span> {order._id}
+//                   </div>
+//                   <div className="text-sm text-gray-500 flex items-center gap-2">
+//                     <MdDateRange className="text-green-600" />
+//                     {new Date(order.createdAt).toLocaleString()}
+//                   </div>
+//                 </div>
+
+//                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-gray-700">
+//                   <div className="flex items-center gap-2">
+//                     <FaMoneyBill className="text-green-500" />
+//                     <span>
+//                       <strong>Total:</strong> ₹{order.totalPrice}
+//                     </span>
+//                   </div>
+//                   <div className="flex items-center gap-2">
+//                     <FaMoneyBill className="text-yellow-600" />
+//                     <span>
+//                       <strong>Payment:</strong> {order.paymentMethod}
+//                     </span>
+//                   </div>
+//                   <div>
+//                     <strong>Status:</strong>{" "}
+//                     <span
+//                       className={`inline-block px-2 py-1 text-sm font-medium rounded-full ${
+//                         order.status === "Delivered"
+//                           ? "bg-green-100 text-green-700"
+//                           : "bg-yellow-100 text-yellow-700"
+//                       }`}
+//                     >
+//                       {order.status || "Processing"}
+//                     </span>
+//                   </div>
+//                 </div>
+
+//                 <div className="mt-6 border-t pt-4">
+//                   <h3 className="font-semibold text-gray-800 mb-1 flex items-center gap-1">
+//                     <FaMapMarkerAlt className="text-indigo-500" />
+//                     Shipping Address:
+//                   </h3>
+//                   <p className="text-sm text-gray-600 leading-6 ml-6">
+//                     {order.shippingAddress.fullName}, {order.shippingAddress.address},{" "}
+//                     {order.shippingAddress.city}, {order.shippingAddress.country} -{" "}
+//                     {order.shippingAddress.postalCode}
+//                     <br />
+//                     Phone: {order.shippingAddress.phone}
+//                   </p>
+//                 </div>
+
+//                 <div className="mt-4">
+//                   <h3 className="font-semibold text-gray-800 mb-2">Items:</h3>
+//                   <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
+//                     {order.items.map((item, idx) => (
+//                       <li key={idx}>
+//                         <span className="font-medium text-gray-700">{item.name}</span> x{" "}
+//                         {item.quantity} = ₹{item.price * item.quantity}
+//                       </li>
+//                     ))}
+//                   </ul>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default OrderHistory;
+
+
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,47 +164,51 @@ const OrderHistory = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
- useEffect(() => {
-  const fetchOrders = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.warn("No token found in localStorage");
-        setOrders([]);
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return setLoading(false);
+
+        const { data } = await axios.get(
+          "https://api.gsienterprises.com/api/payment/get-orders",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
+          }
+        );
+
+        console.log("Orders API response:", data);
+        setOrders(data.orders || []);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err.response?.data || err);
+      } finally {
         setLoading(false);
-        return;
       }
+    };
 
-      const { data } = await axios.get(
-        "https://api.gsienterprises.com/api/payment/get-orders",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`, // keep Bearer here
-          },
-        }
-      );
+    fetchOrders();
+  }, []);
 
-      console.log("Orders API response:", data); // ✅ debug
-      setOrders(data.orders || []);
-    } catch (error) {
-      console.error("Failed to fetch orders:", error.response?.data || error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchOrders();
-}, []);
-
-
-  if (loading) {
+  if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center text-xl text-gray-600">
         Loading your orders...
       </div>
     );
-  }
+
+  if (orders.length === 0)
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-gray-600 p-6">
+        <h1 className="text-2xl font-semibold mb-4">You haven't placed any orders yet.</h1>
+        <button
+          onClick={() => navigate("/")}
+          className="px-6 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition"
+        >
+          Go to Shop
+        </button>
+      </div>
+    );
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -59,62 +217,54 @@ const OrderHistory = () => {
           🛒 Your Order History
         </h1>
 
-        {orders.length === 0 ? (
-          <div className="text-center text-gray-600 text-lg">
-            You haven't placed any orders yet.
-            <br />
-            <button
-              onClick={() => navigate("/")}
-              className="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition"
+        <div className="space-y-8">
+          {orders.map((order) => (
+            <div
+              key={order._id}
+              className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition p-6"
             >
-              Go to Shop
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-8">
-            {orders.map((order) => (
-              <div
-                key={order._id}
-                className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition p-6"
-              >
-                <div className="flex justify-between flex-wrap items-center mb-4">
-                  <div className="text-sm text-gray-500 flex items-center gap-2">
-                    <FaBoxOpen className="text-indigo-500" />
-                    <span className="font-semibold">Order ID:</span> {order._id}
-                  </div>
-                  <div className="text-sm text-gray-500 flex items-center gap-2">
-                    <MdDateRange className="text-green-600" />
-                    {new Date(order.createdAt).toLocaleString()}
-                  </div>
+              {/* Order Header */}
+              <div className="flex justify-between flex-wrap items-center mb-4">
+                <div className="text-sm text-gray-500 flex items-center gap-2">
+                  <FaBoxOpen className="text-indigo-500" />
+                  <span className="font-semibold">Order ID:</span> {order._id}
                 </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-gray-700">
-                  <div className="flex items-center gap-2">
-                    <FaMoneyBill className="text-green-500" />
-                    <span>
-                      <strong>Total:</strong> ₹{order.totalPrice}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FaMoneyBill className="text-yellow-600" />
-                    <span>
-                      <strong>Payment:</strong> {order.paymentMethod}
-                    </span>
-                  </div>
-                  <div>
-                    <strong>Status:</strong>{" "}
-                    <span
-                      className={`inline-block px-2 py-1 text-sm font-medium rounded-full ${
-                        order.status === "Delivered"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}
-                    >
-                      {order.status || "Processing"}
-                    </span>
-                  </div>
+                <div className="text-sm text-gray-500 flex items-center gap-2">
+                  <MdDateRange className="text-green-600" />
+                  {new Date(order.createdAt).toLocaleString()}
                 </div>
+              </div>
 
+              {/* Order Details */}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-gray-700">
+                <div className="flex items-center gap-2">
+                  <FaMoneyBill className="text-green-500" />
+                  <span>
+                    <strong>Total:</strong> ₹{order.total}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FaMoneyBill className="text-yellow-600" />
+                  <span>
+                    <strong>Payment:</strong> {order.paymentMethod} ({order.paymentStatus})
+                  </span>
+                </div>
+                <div>
+                  <strong>Status:</strong>{" "}
+                  <span
+                    className={`inline-block px-2 py-1 text-sm font-medium rounded-full ${
+                      order.fulfillmentStatus === "Delivered"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-yellow-100 text-yellow-700"
+                    }`}
+                  >
+                    {order.fulfillmentStatus || "Processing"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Shipping Address */}
+              {order.shippingAddress && (
                 <div className="mt-6 border-t pt-4">
                   <h3 className="font-semibold text-gray-800 mb-1 flex items-center gap-1">
                     <FaMapMarkerAlt className="text-indigo-500" />
@@ -128,22 +278,23 @@ const OrderHistory = () => {
                     Phone: {order.shippingAddress.phone}
                   </p>
                 </div>
+              )}
 
-                <div className="mt-4">
-                  <h3 className="font-semibold text-gray-800 mb-2">Items:</h3>
-                  <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
-                    {order.items.map((item, idx) => (
-                      <li key={idx}>
-                        <span className="font-medium text-gray-700">{item.name}</span> x{" "}
-                        {item.quantity} = ₹{item.price * item.quantity}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {/* Order Items */}
+              <div className="mt-4">
+                <h3 className="font-semibold text-gray-800 mb-2">Items:</h3>
+                <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
+                  {order.items.map((item, idx) => (
+                    <li key={idx}>
+                      <span className="font-medium text-gray-700">{item.product?.name || item.name}</span> x{" "}
+                      {item.quantity} = ₹{(item.product?.price || item.price) * item.quantity}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
