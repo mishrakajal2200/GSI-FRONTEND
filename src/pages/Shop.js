@@ -470,6 +470,7 @@ const handleAddToCart = async (product) => {
     );
   })}
             </div>
+            
           </section>
 
         </div>
