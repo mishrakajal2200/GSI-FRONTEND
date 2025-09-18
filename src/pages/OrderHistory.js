@@ -10,28 +10,39 @@ const OrderHistory = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const { data } = await axios.get(
-  "https://api.gsienterprises.com/api/payment/get-orders",
-  {
-    withCredentials: true, // if your backend uses cookies
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  }
-);
-        setOrders(data.orders || []);
-      } catch (error) {
-        console.error("Failed to fetch orders:", error);
-      } finally {
+ useEffect(() => {
+  const fetchOrders = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.warn("No token found in localStorage");
+        setOrders([]);
         setLoading(false);
+        return;
       }
-    };
 
-    fetchOrders();
-  }, []);
+      const { data } = await axios.get(
+        "https://api.gsienterprises.com/api/payment/get-orders",
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`, // keep Bearer here
+          },
+        }
+      );
+
+      console.log("Orders API response:", data); // ✅ debug
+      setOrders(data.orders || []);
+    } catch (error) {
+      console.error("Failed to fetch orders:", error.response?.data || error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchOrders();
+}, []);
+
 
   if (loading) {
     return (
