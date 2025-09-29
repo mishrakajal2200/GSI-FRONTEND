@@ -135,7 +135,7 @@ const handleCODPayment = async () => {
   console.log("✅ Payload being sent:", payload);
 
   try {
-    const res = await fetch("https://api.gsienterprises.com/api/payment/place-order", {
+    const res = await fetch("https://gsienterprises.com/api/payment/place-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
