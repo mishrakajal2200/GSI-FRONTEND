@@ -172,7 +172,7 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 
 const handlePayment = async () => {
   try {
-    const res = await fetch("https://api.gsienterprises.com/api/payment/create-order", {
+    const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

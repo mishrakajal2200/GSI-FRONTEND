@@ -20,7 +20,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('https://api.gsienterprises.com/api/auth/signup',{ name, email, password },{withCredentials:true});
+      const response = await axios.post('https://gsienterprises.com/api/auth/signup',{ name, email, password },{withCredentials:true});
       toast.success(response.data.message || 'Signup successful!');
       setTimeout(() => navigate('/login'), 2000);
     } catch (error) {

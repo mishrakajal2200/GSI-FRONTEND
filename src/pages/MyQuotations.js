@@ -148,7 +148,7 @@ const MyQuotations = () => {
     try {
       const token = localStorage.getItem("token");
       const { data } = await axios.get(
-        "https://api.gsienterprises.com/api/quotation/my",
+        "https://gsienterprises.com/api/quotation/my",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setQuotations(data);

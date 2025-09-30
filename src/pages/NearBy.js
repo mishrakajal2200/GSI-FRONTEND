@@ -6,7 +6,7 @@ const NearBy = () => {
   useEffect(() => {
     const fetchShops = async () => {
       try {
-        const res = await fetch(`https://api.gsienterprises.com/api/nearby/shops`,{withCredentials:true});
+        const res = await fetch(`https://gsienterprises.com/api/nearby/shops`,{withCredentials:true});
         const data = await res.json();
         setShops(data);
       } catch (err) {

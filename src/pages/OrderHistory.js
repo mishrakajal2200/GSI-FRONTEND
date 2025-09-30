@@ -171,7 +171,7 @@ const OrderHistory = () => {
         if (!token) return setLoading(false);
 
         const { data } = await axios.get(
-          "https://api.gsienterprises.com/api/payment/get-orders",
+          "https://gsienterprises.com/api/payment/get-orders",
           {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,

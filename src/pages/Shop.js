@@ -48,8 +48,8 @@ const Shop = () => {
     const fetchFilters = async () => {
       try {
         const [brandRes, categoryRes] = await Promise.all([
-          axios.get("https://api.gsienterprises.com/api/filters/brands",{withCredentials:true}),
-          axios.get("https://api.gsienterprises.com/api/filters/categories",{withCredentials:true}),
+          axios.get("https://gsienterprises.com/api/filters/brands",{withCredentials:true}),
+          axios.get("https://gsienterprises.com/api/filters/categories",{withCredentials:true}),
         ]);
         console.log("Brand response:", brandRes.data);
         console.log("Category response:", categoryRes.data);
@@ -93,7 +93,7 @@ const Shop = () => {
           const brandQuery = selectedBrands.join(",");
           const categoryQuery = selectedCategories.join(",");
           const res = await axios.get(
-  "https://api.gsienterprises.com/api/getproducts/products",
+  "https://gsienterprises.com/api/getproducts/products",
   {
     withCredentials: true,
     params: {
