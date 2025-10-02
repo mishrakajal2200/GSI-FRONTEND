@@ -29,7 +29,7 @@ const ContactUs = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://gsienterprises.com/api/contact",{withCredentials:true} ,{
+      const response = await fetch("https://api.gsienterprises.com/api/contact",{withCredentials:true} ,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
