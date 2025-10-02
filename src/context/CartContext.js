@@ -75,7 +75,7 @@ const fetchCartData = async () => {
       const { productId, quantity } = item;
 
       await axios.post(
-        "https://api.gsienterprises.com/api/cart/add",
+        "https://gsienterprises.com/api/cart/add",
         { productId, quantity },
         {
           headers: {
@@ -182,7 +182,7 @@ const removeFromCart = async (productId) => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.patch(
-        `https://api.gsienterprises.com/api/cart/move/${productId}`,
+        `https://gsienterprises.com/api/cart/move/${productId}`,
         {},
         {
           headers: {
@@ -203,7 +203,7 @@ const removeFromCart = async (productId) => {
   const clearCart = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.delete("https://api.gsienterprises.com/api/cart", {
+      const res = await axios.delete("https://gsienterprises.com/api/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
