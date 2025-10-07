@@ -226,35 +226,41 @@ const handlePayment = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        amount: totalPrice, // ✅ Fix: don't multiply by 100
-      }),
+      body: JSON.stringify({ amount: totalPrice }), // ✅ keep this as rupees
     });
 
+    const text = await res.text();
+    console.log("🌀 Raw backend response:", text);
+
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error("Backend error:", errorText);
-      alert("Error creating order. Please try again.");
+      console.error("❌ Backend returned error:", text);
+      alert("Error creating Razorpay order. Please check server logs.");
       return;
     }
 
-    const data = await res.json();
-    console.log("Backend response:", data);
+    const data = JSON.parse(text);
+    console.log("✅ Parsed backend data:", data);
+
+    if (!data.key) {
+      console.error("❌ No key received from backend");
+      alert("Razorpay key missing from backend response.");
+      return;
+    }
 
     const options = {
-      key: data.key,
+      key: data.key, // ✅ Important: pass key here
       amount: data.amount,
       currency: data.currency,
       name: "GSI Enterprises",
       description: "Order Payment",
       order_id: data.orderId,
       handler: function (response) {
+        console.log("🎉 Payment Success:", response);
         alert("Payment Successful!");
-        console.log("Payment success:", response);
       },
       prefill: {
         name: shippingInfo.fullName,
-        email: shippingInfo.email,
+        email: "example@gmail.com", // optional
         contact: shippingInfo.phone,
       },
       theme: { color: "#6366F1" },
@@ -263,10 +269,11 @@ const handlePayment = async () => {
     const rzp = new window.Razorpay(options);
     rzp.open();
   } catch (error) {
-    console.error("Payment Error:", error);
+    console.error("💥 Payment Error:", error);
     alert("Something went wrong. Try again later.");
   }
 };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-purple-100 to-indigo-100 px-4 py-10">
