@@ -170,6 +170,54 @@ const handleCODPayment = async () => {
 
 const token = localStorage.getItem("token"); // or get from Redux, etc.
 
+// const handlePayment = async () => {
+//   try {
+//     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//      withCredentials:true,
+//       body: JSON.stringify({
+//          amount: Math.round(totalPrice * 100),  
+//         shippingInfo,
+//         cartItems,
+//       }),
+//     });
+
+//     if (res.status === 401) {
+//       alert("You must be logged in to make a payment.");
+//       return;
+//     }
+
+//     const data = await res.json();
+
+//     const options = {
+//       key: data.key,
+//       amount: data.amount,
+//       currency: data.currency,
+//       name: "GSI Enterprises",
+//       description: "Order Payment",
+//       order_id: data.orderId,   // <-- fix here
+//       handler: function (response) {
+//         alert("Payment Successful!");
+//       },
+//       prefill: {
+//         name: shippingInfo.fullName,
+//         email: shippingInfo.email,
+//         contact: shippingInfo.phone,
+//       },
+//       theme: { color: "#6366F1" },
+//     };
+
+//     const rzp = new window.Razorpay(options);
+//     rzp.open();
+//   } catch (error) {
+//     console.error("Payment Error:", error);
+//     alert("Something went wrong. Try again later.");
+//   }
+// };
 const handlePayment = async () => {
   try {
     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
@@ -178,20 +226,20 @@ const handlePayment = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-     withCredentials:true,
       body: JSON.stringify({
-         amount: Math.round(totalPrice * 100),  
-        shippingInfo,
-        cartItems,
+        amount: totalPrice, // ✅ Fix: don't multiply by 100
       }),
     });
 
-    if (res.status === 401) {
-      alert("You must be logged in to make a payment.");
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("Backend error:", errorText);
+      alert("Error creating order. Please try again.");
       return;
     }
 
     const data = await res.json();
+    console.log("Backend response:", data);
 
     const options = {
       key: data.key,
@@ -199,9 +247,10 @@ const handlePayment = async () => {
       currency: data.currency,
       name: "GSI Enterprises",
       description: "Order Payment",
-      order_id: data.orderId,   // <-- fix here
+      order_id: data.orderId,
       handler: function (response) {
         alert("Payment Successful!");
+        console.log("Payment success:", response);
       },
       prefill: {
         name: shippingInfo.fullName,
