@@ -275,14 +275,17 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 // };
 const handlePayment = async () => {
   try {
-    // Send totalPrice in rupees to backend
+    // ✅ Make sure you're sending amount in RUPEES (not already multiplied)
+    console.log("💰 totalPrice (frontend, rupees):", totalPrice);
+
     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ amount: totalPrice }), // totalPrice in rupees
+      // ✅ send rupee value only (e.g., 799)
+      body: JSON.stringify({ amount: Number(totalPrice) }),
     });
 
     const text = await res.text();
@@ -297,19 +300,16 @@ const handlePayment = async () => {
     const data = JSON.parse(text);
     console.log("✅ Parsed backend data:", data);
 
-    // Validate backend response
     if (!data.key || !data.orderId || !data.amount) {
       console.error("❌ Invalid backend response:", data);
       alert("Razorpay order data missing.");
       return;
     }
 
-    // 🔹 Convert rupees to paise for Razorpay
-    const amountInPaise = data.amount;
-
+    // ✅ Razorpay expects amount in paise (backend already did *100)
     const options = {
       key: data.key,
-      amount: amountInPaise, // Razorpay requires paise
+      amount: data.amount, // already in paise
       currency: data.currency,
       name: "GSI Enterprises",
       description: "Order Payment",
@@ -317,7 +317,6 @@ const handlePayment = async () => {
       handler: function (response) {
         console.log("🎉 Payment Success:", response);
         alert("Payment Successful!");
-        // Optionally, call backend to verify payment here
       },
       prefill: {
         name: shippingInfo.fullName,
@@ -334,6 +333,7 @@ const handlePayment = async () => {
     alert("Something went wrong. Try again later.");
   }
 };
+
 
 
 
