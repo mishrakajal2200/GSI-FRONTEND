@@ -275,7 +275,6 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 // };
 const handlePayment = async () => {
   try {
-    // ✅ Send totalPrice in rupees to backend
     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
       method: "POST",
       headers: {
@@ -285,26 +284,12 @@ const handlePayment = async () => {
       body: JSON.stringify({ amount: totalPrice }), // totalPrice in rupees
     });
 
-    const text = await res.text();
-    console.log("🌀 Raw backend response:", text);
-
-    if (!res.ok) {
-      console.error("❌ Backend returned error:", text);
-      alert("Error creating Razorpay order. Please check server logs.");
+    const data = await res.json();
+    if (!data.success) {
+      alert("Error creating order");
       return;
     }
 
-    const data = JSON.parse(text);
-    console.log("✅ Parsed backend data:", data);
-
-    // ✅ Validate backend response
-    if (!data.key || !data.orderId || !data.amount) {
-      console.error("❌ Invalid backend response:", data);
-      alert("Razorpay order data missing.");
-      return;
-    }
-
-    // ⚠️ Razorpay expects amount in paise
     const options = {
       key: data.key,
       amount: data.amount, // already in paise from backend
@@ -313,9 +298,8 @@ const handlePayment = async () => {
       description: "Order Payment",
       order_id: data.orderId,
       handler: function (response) {
-        console.log("🎉 Payment Success:", response);
+        console.log("Payment Success:", response);
         alert("Payment Successful!");
-        // ✅ Optionally, call backend to verify payment here
       },
       prefill: {
         name: shippingInfo.fullName,
@@ -328,10 +312,11 @@ const handlePayment = async () => {
     const rzp = new window.Razorpay(options);
     rzp.open();
   } catch (error) {
-    console.error("💥 Payment Error:", error);
+    console.error("Payment Error:", error);
     alert("Something went wrong. Try again later.");
   }
 };
+
 
 
 
