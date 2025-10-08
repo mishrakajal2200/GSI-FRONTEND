@@ -170,6 +170,109 @@ const handleCODPayment = async () => {
 
 const token = localStorage.getItem("token"); // or get from Redux, etc.
 
+// const handlePayment = async () => {
+//   try {
+//     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//      withCredentials:true,
+//       body: JSON.stringify({
+//          amount: Math.round(totalPrice * 100),  
+//         shippingInfo,
+//         cartItems,
+//       }),
+//     });
+
+//     if (res.status === 401) {
+//       alert("You must be logged in to make a payment.");
+//       return;
+//     }
+
+//     const data = await res.json();
+
+//     const options = {
+//       key: data.key,
+//       amount: data.amount,
+//       currency: data.currency,
+//       name: "GSI Enterprises",
+//       description: "Order Payment",
+//       order_id: data.orderId,   // <-- fix here
+//       handler: function (response) {
+//         alert("Payment Successful!");
+//       },
+//       prefill: {
+//         name: shippingInfo.fullName,
+//         email: shippingInfo.email,
+//         contact: shippingInfo.phone,
+//       },
+//       theme: { color: "#6366F1" },
+//     };
+
+//     const rzp = new window.Razorpay(options);
+//     rzp.open();
+//   } catch (error) {
+//     console.error("Payment Error:", error);
+//     alert("Something went wrong. Try again later.");
+//   }
+// };
+// const handlePayment = async () => {
+//   try {
+//     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({ amount: totalPrice }), // ✅ keep this as rupees
+//     });
+
+//     const text = await res.text();
+//     console.log("🌀 Raw backend response:", text);
+
+//     if (!res.ok) {
+//       console.error("❌ Backend returned error:", text);
+//       alert("Error creating Razorpay order. Please check server logs.");
+//       return;
+//     }
+
+//     const data = JSON.parse(text);
+//     console.log("✅ Parsed backend data:", data);
+
+//     if (!data.key) {
+//       console.error("❌ No key received from backend");
+//       alert("Razorpay key missing from backend response.");
+//       return;
+//     }
+
+//     const options = {
+//       key: data.key, // ✅ Important: pass key here
+//       amount: data.amount,
+//       currency: data.currency,
+//       name: "GSI Enterprises",
+//       description: "Order Payment",
+//       order_id: data.orderId,
+//       handler: function (response) {
+//         console.log("🎉 Payment Success:", response);
+//         alert("Payment Successful!");
+//       },
+//       prefill: {
+//         name: shippingInfo.fullName,
+//         email: "example@gmail.com", // optional
+//         contact: shippingInfo.phone,
+//       },
+//       theme: { color: "#6366F1" },
+//     };
+
+//     const rzp = new window.Razorpay(options);
+//     rzp.open();
+//   } catch (error) {
+//     console.error("💥 Payment Error:", error);
+//     alert("Something went wrong. Try again later.");
+//   }
+// };
 const handlePayment = async () => {
   try {
     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
@@ -178,48 +281,52 @@ const handlePayment = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-     withCredentials:true,
-      body: JSON.stringify({
-         amount: Math.round(totalPrice * 100),  
-        shippingInfo,
-        cartItems,
-      }),
+      body: JSON.stringify({ amount: totalPrice }), // totalPrice in rupees
     });
 
-    if (res.status === 401) {
-      alert("You must be logged in to make a payment.");
+    const text = await res.text();
+    console.log("🌀 Raw backend response:", text);
+
+    if (!res.ok) {
+      alert("Error creating Razorpay order.");
       return;
     }
 
-    const data = await res.json();
+    const data = JSON.parse(text);
+    console.log("✅ Parsed backend data:", data);
+
+    // LOG ACTUAL AMOUNT
+    console.log("💰 Backend amount (paise):", data.amount);
+    console.log("💰 Should show on Razorpay:", data.amount / 100, "INR");
 
     const options = {
       key: data.key,
-      amount: data.amount,
+      amount: data.amount, // already in paise
       currency: data.currency,
       name: "GSI Enterprises",
       description: "Order Payment",
-      order_id: data.orderId,   // <-- fix here
+      order_id: data.orderId,
       handler: function (response) {
+        console.log("🎉 Payment Success:", response);
         alert("Payment Successful!");
       },
       prefill: {
         name: shippingInfo.fullName,
-        email: shippingInfo.email,
+        email: shippingInfo.email || "example@gmail.com",
         contact: shippingInfo.phone,
       },
       theme: { color: "#6366F1" },
     };
 
+    console.log("🚀 Razorpay Options:", options);
+
     const rzp = new window.Razorpay(options);
     rzp.open();
   } catch (error) {
-    console.error("Payment Error:", error);
+    console.error("💥 Payment Error:", error);
     alert("Something went wrong. Try again later.");
   }
 };
-
-
 
 
 
