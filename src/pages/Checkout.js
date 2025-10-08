@@ -275,33 +275,32 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 // };
 const handlePayment = async () => {
   try {
+    console.log("🟡 Total price before sending:", totalPrice);
+
     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ amount: totalPrice }), // totalPrice in rupees
+      body: JSON.stringify({ amount: totalPrice }), // amount in rupees only!
     });
 
-    const text = await res.text();
-    console.log("🌀 Raw backend response:", text);
+    const data = await res.json();
+    console.log("✅ Backend Response:", data);
 
-    if (!res.ok) {
-      alert("Error creating Razorpay order.");
+    if (!data.success) {
+      alert("Error creating order: " + data.message);
       return;
     }
 
-    const data = JSON.parse(text);
-    console.log("✅ Parsed backend data:", data);
-
-    // LOG ACTUAL AMOUNT
     console.log("💰 Backend amount (paise):", data.amount);
-    console.log("💰 Should show on Razorpay:", data.amount / 100, "INR");
+    console.log("💰 Should show in Razorpay:", data.amount / 100, "INR");
 
+    // ❗ DO NOT multiply by 100 here, backend already did it!
     const options = {
       key: data.key,
-      amount: data.amount, // already in paise
+      amount: data.amount, // amount is already in paise
       currency: data.currency,
       name: "GSI Enterprises",
       description: "Order Payment",
