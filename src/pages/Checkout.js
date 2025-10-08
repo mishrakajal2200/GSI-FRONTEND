@@ -288,21 +288,17 @@ const handlePayment = async () => {
     console.log("🌀 Raw backend response:", text);
 
     if (!res.ok) {
-      console.error("❌ Backend returned error:", text);
-      alert("Error creating Razorpay order. Please check server logs.");
+      alert("Error creating Razorpay order.");
       return;
     }
 
     const data = JSON.parse(text);
     console.log("✅ Parsed backend data:", data);
 
-    if (!data.key || !data.orderId || !data.amount) {
-      console.error("❌ Invalid backend response:", data);
-      alert("Razorpay order data missing.");
-      return;
-    }
+    // LOG ACTUAL AMOUNT
+    console.log("💰 Backend amount (paise):", data.amount);
+    console.log("💰 Should show on Razorpay:", data.amount / 100, "INR");
 
-    // ✅ Use the backend amount directly (already in paise)
     const options = {
       key: data.key,
       amount: data.amount, // already in paise
@@ -322,6 +318,8 @@ const handlePayment = async () => {
       theme: { color: "#6366F1" },
     };
 
+    console.log("🚀 Razorpay Options:", options);
+
     const rzp = new window.Razorpay(options);
     rzp.open();
   } catch (error) {
@@ -329,6 +327,7 @@ const handlePayment = async () => {
     alert("Something went wrong. Try again later.");
   }
 };
+
 
 
 
