@@ -273,9 +273,67 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 //     alert("Something went wrong. Try again later.");
 //   }
 // };
+// const handlePayment = async () => {
+//   try {
+//     console.log("🟡 Total price before sending:", totalPrice);
+
+//     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({ amount: totalPrice }), // amount in rupees only!
+//     });
+
+//     const data = await res.json();
+//     console.log("✅ Backend Response:", data);
+
+//     if (!data.success) {
+//       alert("Error creating order: " + data.message);
+//       return;
+//     }
+
+//     console.log("💰 Backend amount (paise):", data.amount);
+//     console.log("💰 Should show in Razorpay:", data.amount / 100, "INR");
+
+//     // ❗ DO NOT multiply by 100 here, backend already did it!
+//     const options = {
+//       key: data.key,
+//       amount: data.amount, // amount is already in paise
+//       currency: data.currency,
+//       name: "GSI Enterprises",
+//       description: "Order Payment",
+//       order_id: data.orderId,
+//       handler: function (response) {
+//         console.log("🎉 Payment Success:", response);
+//         alert("Payment Successful!");
+//       },
+//       prefill: {
+//         name: shippingInfo.fullName,
+//         email: shippingInfo.email || "example@gmail.com",
+//         contact: shippingInfo.phone,
+//       },
+//       theme: { color: "#6366F1" },
+//     };
+
+//     console.log("🚀 Razorpay Options:", options);
+
+//     const rzp = new window.Razorpay(options);
+//     rzp.open();
+//   } catch (error) {
+//     console.error("💥 Payment Error:", error);
+//     alert("Something went wrong. Try again later.");
+//   }
+// };
 const handlePayment = async () => {
   try {
-    console.log("🟡 Total price before sending:", totalPrice);
+    console.log("🟡 Total price before sending:", totalPrice, typeof totalPrice);
+
+    // If totalPrice might be in paise accidentally, ensure it's in rupees:
+    const amountToSend = totalPrice > 1000 ? totalPrice / 100 : totalPrice;
+
+    console.log("🟢 Amount sent to backend (in ₹):", amountToSend);
 
     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
       method: "POST",
@@ -283,7 +341,7 @@ const handlePayment = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ amount: totalPrice }), // amount in rupees only!
+      body: JSON.stringify({ amount: amountToSend }), // Send rupees only
     });
 
     const data = await res.json();
@@ -297,10 +355,9 @@ const handlePayment = async () => {
     console.log("💰 Backend amount (paise):", data.amount);
     console.log("💰 Should show in Razorpay:", data.amount / 100, "INR");
 
-    // ❗ DO NOT multiply by 100 here, backend already did it!
     const options = {
       key: data.key,
-      amount: data.amount, // amount is already in paise
+      amount: data.amount, // Already in paise
       currency: data.currency,
       name: "GSI Enterprises",
       description: "Order Payment",
