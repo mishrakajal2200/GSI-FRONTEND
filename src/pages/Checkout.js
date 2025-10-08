@@ -305,7 +305,7 @@ const handlePayment = async () => {
     }
 
     // 🔹 Convert rupees to paise for Razorpay
-    const amountInPaise = data.amount * 100;
+    const amountInPaise = data.amount;
 
     const options = {
       key: data.key,
