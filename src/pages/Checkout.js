@@ -328,49 +328,57 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 // };
 const handlePayment = async () => {
   try {
+    console.log("🟡 Total price before sending:", totalPrice);
+
     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ amount: totalPrice }), // 799
+      body: JSON.stringify({ amount: totalPrice }), // amount in rupees
     });
 
     const data = await res.json();
-    console.log("Backend Response:", data);
+    console.log("✅ Backend Response:", data);
 
     if (!data.success) {
       alert("Error creating order: " + data.message);
       return;
     }
 
+    // Show price summary correctly in INR
+    console.log("💰 Price Summary (INR): ₹", data.displayAmount);
+
     const options = {
       key: data.key,
-      amount: data.amount, // 799 (not multiplied)
+      amount: data.amount, // amount in paise
       currency: data.currency,
       name: "GSI Enterprises",
       description: "Order Payment",
       order_id: data.orderId,
       handler: function (response) {
-        console.log("Payment Success:", response);
+        console.log("🎉 Payment Success:", response);
         alert("Payment Successful!");
       },
       prefill: {
         name: shippingInfo.fullName,
-        email: shippingInfo.email,
+        email: shippingInfo.email || "example@gmail.com",
         contact: shippingInfo.phone,
       },
       theme: { color: "#6366F1" },
     };
 
+    console.log("🚀 Razorpay Options:", options);
+
     const rzp = new window.Razorpay(options);
     rzp.open();
   } catch (error) {
-    console.error("Payment Error:", error);
+    console.error("💥 Payment Error:", error);
     alert("Something went wrong. Try again later.");
   }
 };
+
 
 
 
