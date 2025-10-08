@@ -218,15 +218,71 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 //     alert("Something went wrong. Try again later.");
 //   }
 // };
+// const handlePayment = async () => {
+//   try {
+//     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({ amount: totalPrice }), // ✅ keep this as rupees
+//     });
+
+//     const text = await res.text();
+//     console.log("🌀 Raw backend response:", text);
+
+//     if (!res.ok) {
+//       console.error("❌ Backend returned error:", text);
+//       alert("Error creating Razorpay order. Please check server logs.");
+//       return;
+//     }
+
+//     const data = JSON.parse(text);
+//     console.log("✅ Parsed backend data:", data);
+
+//     if (!data.key) {
+//       console.error("❌ No key received from backend");
+//       alert("Razorpay key missing from backend response.");
+//       return;
+//     }
+
+//     const options = {
+//       key: data.key, // ✅ Important: pass key here
+//       amount: data.amount,
+//       currency: data.currency,
+//       name: "GSI Enterprises",
+//       description: "Order Payment",
+//       order_id: data.orderId,
+//       handler: function (response) {
+//         console.log("🎉 Payment Success:", response);
+//         alert("Payment Successful!");
+//       },
+//       prefill: {
+//         name: shippingInfo.fullName,
+//         email: "example@gmail.com", // optional
+//         contact: shippingInfo.phone,
+//       },
+//       theme: { color: "#6366F1" },
+//     };
+
+//     const rzp = new window.Razorpay(options);
+//     rzp.open();
+//   } catch (error) {
+//     console.error("💥 Payment Error:", error);
+//     alert("Something went wrong. Try again later.");
+//   }
+// };
 const handlePayment = async () => {
   try {
+    // ✅ Send amount in rupees to backend
     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ amount: totalPrice }), // ✅ keep this as rupees
+      body: JSON.stringify({ amount: totalPrice }), // totalPrice in rupees
     });
 
     const text = await res.text();
@@ -241,15 +297,16 @@ const handlePayment = async () => {
     const data = JSON.parse(text);
     console.log("✅ Parsed backend data:", data);
 
-    if (!data.key) {
-      console.error("❌ No key received from backend");
-      alert("Razorpay key missing from backend response.");
+    if (!data.key || !data.orderId || !data.amount) {
+      console.error("❌ Invalid backend response:", data);
+      alert("Razorpay order data missing.");
       return;
     }
 
+    // ✅ Razorpay options
     const options = {
-      key: data.key, // ✅ Important: pass key here
-      amount: data.amount,
+      key: data.key,
+      amount: Number(data.amount), // amount in paise, integer
       currency: data.currency,
       name: "GSI Enterprises",
       description: "Order Payment",
@@ -257,10 +314,11 @@ const handlePayment = async () => {
       handler: function (response) {
         console.log("🎉 Payment Success:", response);
         alert("Payment Successful!");
+        // ✅ Here you can call backend to verify payment
       },
       prefill: {
         name: shippingInfo.fullName,
-        email: "example@gmail.com", // optional
+        email: shippingInfo.email || "example@gmail.com",
         contact: shippingInfo.phone,
       },
       theme: { color: "#6366F1" },
