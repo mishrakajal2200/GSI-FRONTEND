@@ -275,17 +275,13 @@ const token = localStorage.getItem("token"); // or get from Redux, etc.
 // };
 const handlePayment = async () => {
   try {
-    // ✅ Make sure you're sending amount in RUPEES (not already multiplied)
-    console.log("💰 totalPrice (frontend, rupees):", totalPrice);
-
     const res = await fetch("https://gsienterprises.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      // ✅ send rupee value only (e.g., 799)
-      body: JSON.stringify({ amount: Number(totalPrice) }),
+      body: JSON.stringify({ amount: totalPrice }), // totalPrice in rupees
     });
 
     const text = await res.text();
@@ -306,7 +302,7 @@ const handlePayment = async () => {
       return;
     }
 
-    // ✅ Razorpay expects amount in paise (backend already did *100)
+    // ✅ Use the backend amount directly (already in paise)
     const options = {
       key: data.key,
       amount: data.amount, // already in paise
